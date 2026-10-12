@@ -18,9 +18,9 @@
   --surface:#FFFFFF; --surface-2:#F0F3FA; --ink:#17224D; --muted:#56628C; --line:#C6CFE6;
   --accent:#FFE24A; --on-accent:#17224D; --hl:rgba(255,226,74,.85);
   --data:#2747D6; --good:#157A4B; --bad:#C8303B;
-  --pitch:#2E8B57; --pitch-2:#2F7F96; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.68);
+  --pitch:#2E8B57; --pitch-2:#23744A; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.68);
   --tape:#FBF6E4; --tape-ink:#17224D;
-  --n1:#FFF4A8; --n2:#D2F4DE; --n3:#D5E8FF; --note-ink:#17224D;
+  --n1:#FFF4A8; --n2:#FFDCD3; --n3:#D5E8FF; --note-ink:#17224D;
   --cup:#C5CEE6; --cup-shine:#FFFFFF;
   --shadow:3px 4px 0 rgba(23,34,77,.13);
   --marker:"Caveat Brush","Segoe Print","Bradley Hand",cursive;
@@ -32,26 +32,26 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#17211E; --grid:rgba(255,255,255,.035);
-    --surface:#1D2925; --surface-2:#263631; --ink:#F2F0E6; --muted:#A8B5AD; --line:#3E5048;
+    --bg:#161A26; --grid:rgba(255,255,255,.035);
+    --surface:#1F2432; --surface-2:#2A3042; --ink:#F2F0E6; --muted:#A9AFC4; --line:#414860;
     --accent:#FFD95A; --on-accent:#1B1E12; --hl:rgba(255,217,90,.3);
     --data:#9DB8FF; --good:#8FE3A8; --bad:#FF9A9A;
-    --pitch:#1F6A45; --pitch-2:#235F73; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.6);
+    --pitch:#1F6A45; --pitch-2:#18563A; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.6);
     --tape:#EDE7D2; --tape-ink:#1B2140;
-    --n1:#3B3619; --n2:#1D3A2B; --n3:#1D3148; --note-ink:#F2F0E6;
+    --n1:#3B3619; --n2:#40292A; --n3:#1D3148; --note-ink:#F2F0E6;
     --cup:#DDE3F5; --cup-shine:#FFFFFF;
     --shadow:3px 4px 0 rgba(0,0,0,.35);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#17211E; --grid:rgba(255,255,255,.035);
-  --surface:#1D2925; --surface-2:#263631; --ink:#F2F0E6; --muted:#A8B5AD; --line:#3E5048;
+  --bg:#161A26; --grid:rgba(255,255,255,.035);
+  --surface:#1F2432; --surface-2:#2A3042; --ink:#F2F0E6; --muted:#A9AFC4; --line:#414860;
   --accent:#FFD95A; --on-accent:#1B1E12; --hl:rgba(255,217,90,.3);
   --data:#9DB8FF; --good:#8FE3A8; --bad:#FF9A9A;
-  --pitch:#1F6A45; --pitch-2:#235F73; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.6);
+  --pitch:#1F6A45; --pitch-2:#18563A; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.6);
   --tape:#EDE7D2; --tape-ink:#1B2140;
-  --n1:#3B3619; --n2:#1D3A2B; --n3:#1D3148; --note-ink:#F2F0E6;
+  --n1:#3B3619; --n2:#40292A; --n3:#1D3148; --note-ink:#F2F0E6;
   --cup:#DDE3F5; --cup-shine:#FFFFFF;
   --shadow:3px 4px 0 rgba(0,0,0,.35);
   color-scheme:dark;
@@ -264,10 +264,26 @@ td.r,th.r{text-align:right}
 .prose li{margin-bottom:6px}
 .prose details{margin-top:12px}
 .srcs{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.9rem;margin-top:10px}
+.past{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:14px}
+.sheet{background:var(--surface-2);border-radius:var(--wob-lg);padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.sheet-head{display:flex;justify-content:space-between;align-items:baseline;gap:4px 12px;flex-wrap:wrap}
+.sheet h3{font-size:1.8rem;line-height:1}
+.sheet .when{font-family:var(--hand);color:var(--muted);font-size:.9rem}
+.sheet .score{font-family:var(--marker);font-size:1.5rem;line-height:1}
+.sheet dl{margin:0;display:grid;gap:5px}
+.sheet dl div{display:grid;grid-template-columns:5.4rem minmax(0,1fr);gap:8px;border-top:1.5px dashed var(--line);padding-top:5px;align-items:baseline}
+.sheet dt{font-family:var(--hand);font-weight:700;color:var(--muted);font-size:.9rem}
+.sheet dd{margin:0;display:flex;flex-wrap:wrap;gap:0 14px;font-size:.97rem}
+.sheet dd span{white-space:nowrap}
+.sheet dd b{font-family:var(--marker);font-weight:400;font-size:1.2rem}
+.sheet dd i{font-style:normal;font-family:var(--marker);font-size:1.15rem}
+.sheet .ok{color:var(--good)} .sheet .no{color:var(--bad)}
+.btn.small{font-size:.92rem;padding:5px 13px 3px}
+.past-empty{font-family:var(--hand);font-size:1.02rem;max-width:60ch;margin-top:10px}
 footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68ch}
 
 @media (max-width:860px){
-  .hero-top,.stage,.duo{grid-template-columns:minmax(0,1fr)}
+  .hero-top,.stage,.duo,.past{grid-template-columns:minmax(0,1fr)}
   .steps{grid-template-columns:minmax(0,1fr);gap:20px}
   .stage .p1,.stage .p2,.stage .card{grid-column:1;grid-row:auto}
   .card{position:relative;top:auto}
@@ -427,6 +443,12 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
       <summary>Sources</summary>
       <div class="srcs" id="sources"></div>
     </details>
+  </section>
+
+  <section class="panel sk">
+    <h2>Earlier best elevens</h2>
+    <p class="sub">Every First XI from this season's earlier matchdays, with who delivered.</p>
+    <div id="past"></div>
   </section>
 
   <footer id="foot"></footer>
@@ -848,7 +870,27 @@ window.UCL_ROUNDS = [
     $("foot").textContent = "Updated before every Champions League matchday. " + r.label + " data collected " + r.collected + ". Lineups can change until an hour before kick-off.";
   }
 
-  function renderAll(){ renderTabs(); renderHero(); tick(); renderPitches(); renderCard(); renderRows(); renderLower(); }
+  function renderPast(){
+    var older = ROUNDS.slice(1), names = { FWD: "Forwards", MID: "Midfielders", DEF: "Defenders", GK: "Keeper" };
+    if(!older.length){
+      $("past").innerHTML = '<p class="past-empty">'+esc(ROUNDS[0].label)+' is the first forecast of the season, so there is nothing to look back on yet. From the next matchday on, every earlier First XI is kept here with its ✓ and ✕ marks.</p>';
+      return;
+    }
+    $("past").innerHTML = '<div class="past">' + older.map(function(x){
+      var fin = isFinal(x);
+      return '<article class="sheet"><div class="sheet-head"><div><h3>'+esc(x.label)+'</h3><span class="when">'+esc(x.dates)+'</span></div>'
+        + '<span class="score">'+(fin ? hits(x.xi1)+'/11 shone' : 'awaiting results')+'</span></div><dl>'
+        + LINES.map(function(l){
+            return '<div><dt>'+names[l]+'</dt><dd>' + x.xi1.filter(function(p){ return p.line===l; }).map(function(p){
+              var hv = hit(p);
+              return '<span>'+esc(p.short)+' <b>'+p.shine+'</b>'+(hv===true ? ' <i class="ok">✓</i>' : hv===false ? ' <i class="no">✕</i>' : '')+'</span>';
+            }).join("") + '</dd></div>';
+          }).join("")
+        + '</dl><div><button type="button" class="btn small" data-round="'+esc(x.id)+'" data-top="1">Open '+esc(x.label)+'</button></div></article>';
+    }).join("") + '</div>';
+  }
+
+  function renderAll(){ renderTabs(); renderHero(); tick(); renderPitches(); renderCard(); renderRows(); renderLower(); renderPast(); }
   function select(id, fromRow){
     state.sel = id; renderPitches(); renderCard(); renderRows();
     if(window.matchMedia("(max-width:860px)").matches || fromRow) $("card").scrollIntoView({ block: "nearest", behavior: "smooth" });
@@ -856,7 +898,7 @@ window.UCL_ROUNDS = [
 
   document.addEventListener("click", function(e){
     var t = e.target.closest("[data-round]");
-    if(t){ state.round = t.dataset.round; state.sel = cur().xi1.filter(function(p){ return p.line==="FWD"; })[0].id; try{ history.replaceState(null,"","#"+state.round); }catch(x){} renderAll(); return; }
+    if(t){ state.round = t.dataset.round; state.sel = cur().xi1.filter(function(p){ return p.line==="FWD"; })[0].id; try{ history.replaceState(null,"","#"+state.round); }catch(x){} renderAll(); if(t.dataset.top) window.scrollTo({ top: 0, behavior: "smooth" }); return; }
     var s = e.target.closest(".shirt");
     if(s){ select(s.dataset.id, false); return; }
     var row = e.target.closest("button.rrow");
