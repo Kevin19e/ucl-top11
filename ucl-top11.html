@@ -7,7 +7,7 @@
   --bg:#E9EDF6; --surface:#FFFFFF; --surface-2:#F2F4FB; --ink:#0C1433; --muted:#55608A; --line:#D5DBEA;
   --accent:#FFD21F; --on-accent:#0C1433;
   --data:#2747D6; --data-soft:#C9D3FA;
-  --good:#0E7A4B; --bad:#C42B3A;
+  --good:#0E7A4B; --bad:#C42B3A; --cup:#C5CEE6; --cup-shine:#FFFFFF;
   --pitch-a:#1E7B4C; --pitch-b:#1A6E44; --pitch2-a:#245F78; --pitch2-b:#1F556C;
   --pitch-line:rgba(255,255,255,.5); --pitch-ink:#FFFFFF; --pitch-chip:rgba(6,20,40,.62);
   --shadow:0 10px 30px rgba(12,20,51,.10);
@@ -20,7 +20,7 @@
     --bg:#080D1F; --surface:#111936; --surface-2:#18224A; --ink:#EEF2FF; --muted:#9AA7D1; --line:#27325E;
     --accent:#FFD21F; --on-accent:#0C1433;
     --data:#8EA5FF; --data-soft:#2C3A7A;
-    --good:#4FD69A; --bad:#FF7A86;
+    --good:#4FD69A; --bad:#FF7A86; --cup:#DDE3F5; --cup-shine:#FFFFFF;
     --pitch-a:#17633D; --pitch-b:#145836; --pitch2-a:#1B4A5E; --pitch2-b:#174253;
     --pitch-line:rgba(255,255,255,.42); --pitch-ink:#FFFFFF; --pitch-chip:rgba(4,10,26,.66);
     --shadow:0 10px 30px rgba(0,0,0,.45);
@@ -31,7 +31,7 @@
   --bg:#080D1F; --surface:#111936; --surface-2:#18224A; --ink:#EEF2FF; --muted:#9AA7D1; --line:#27325E;
   --accent:#FFD21F; --on-accent:#0C1433;
   --data:#8EA5FF; --data-soft:#2C3A7A;
-  --good:#4FD69A; --bad:#FF7A86;
+  --good:#4FD69A; --bad:#FF7A86; --cup:#DDE3F5; --cup-shine:#FFFFFF;
   --pitch-a:#17633D; --pitch-b:#145836; --pitch2-a:#1B4A5E; --pitch2-b:#174253;
   --pitch-line:rgba(255,255,255,.42); --pitch-ink:#FFFFFF; --pitch-chip:rgba(4,10,26,.66);
   --shadow:0 10px 30px rgba(0,0,0,.45);
@@ -54,7 +54,11 @@ h2{font-family:var(--display);font-weight:400;font-size:1.7rem;letter-spacing:.0
 .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
 .bar-in{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .brand{font-family:var(--display);font-size:1.25rem;letter-spacing:.02em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
-.brand i{display:inline-block;width:14px;height:20px;background:var(--accent);border-radius:2px;transform:rotate(8deg);border:1px solid var(--on-accent)}
+.brand svg{width:26px;height:30px;flex:none}
+.brand .cup-fill{fill:var(--cup);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+.brand .cup-ear{fill:none;stroke:var(--ink);stroke-width:4.6;stroke-linecap:round}
+.brand .cup-ear-in{fill:none;stroke:var(--cup);stroke-width:2;stroke-linecap:round}
+.brand .cup-shine{fill:none;stroke:var(--cup-shine);stroke-width:1.6;stroke-linecap:round;opacity:.9}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
 .tab{font-family:var(--label);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.85rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
 .tab[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -227,7 +231,15 @@ footer{color:var(--muted);font-size:.86rem;max-width:68ch}
 
 <header class="bar">
   <div class="bar-in">
-    <div class="brand"><i aria-hidden="true"></i>UCL Top 11</div>
+    <div class="brand"><svg viewBox="0 0 32 36" aria-hidden="true">
+      <path class="cup-ear" d="M9.5 7C2.5 5.5 1 14.5 6.5 18.5c2 1.4 4 .6 5-1"/><path class="cup-ear-in" d="M9.5 7C2.5 5.5 1 14.5 6.5 18.5c2 1.4 4 .6 5-1"/>
+      <path class="cup-ear" d="M22.5 7c7-1.5 8.500 7.500 3 11.500-2 1.400-4 .600-5-1"/><path class="cup-ear-in" d="M22.5 7c7-1.500 8.500 7.500 3 11.500-2 1.400-4 .600-5-1"/>
+      <path class="cup-fill" d="M9 4.500h14c0 9.500-2.500 14.500-5 16.500v5h-4v-5c-2.500-2-5-7-5-16.500Z"/>
+      <rect class="cup-fill" x="7.800" y="2.500" width="16.400" height="3" rx="1.200"/>
+      <path class="cup-fill" d="M11.500 26h9l2 5h-13Z"/>
+      <rect class="cup-fill" x="7" y="31" width="18" height="3" rx="1"/>
+      <path class="cup-shine" d="M12.300 8c.2 4 1 7 2.300 9"/>
+    </svg>UCL Top 11</div>
     <nav class="tabs" id="tabs" aria-label="Matchdays"></nav>
   </div>
 </header>
