@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="A first and second XI by position for each Champions League matchday: who is most likely to score, assist or keep a clean sheet.">
+<title>UCL Top 11</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap">
+<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<style>
+/* Layout: two floodlit pitches hold a first and a second XI in a 4-3-3 as shirts (shirt number = chance to shine),
+   a player card sits beside them, then a dot-and-range ranking by line, track record and fixtures stack below. */
+:root{
+  --bg:#E9EDF6; --surface:#FFFFFF; --surface-2:#F2F4FB; --ink:#0C1433; --muted:#55608A; --line:#D5DBEA;
+  --accent:#FFD21F; --on-accent:#0C1433;
+  --data:#2747D6; --data-soft:#C9D3FA;
+  --good:#0E7A4B; --bad:#C42B3A;
+  --pitch-a:#1E7B4C; --pitch-b:#1A6E44; --pitch2-a:#245F78; --pitch2-b:#1F556C;
+  --pitch-line:rgba(255,255,255,.5); --pitch-ink:#FFFFFF; --pitch-chip:rgba(6,20,40,.62);
+  --shadow:0 10px 30px rgba(12,20,51,.10);
+  --display:"Anton","Impact","Haettenschweiler","Arial Narrow Bold",sans-serif;
+  --body:"Barlow","Segoe UI",system-ui,sans-serif;
+  --label:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#080D1F; --surface:#111936; --surface-2:#18224A; --ink:#EEF2FF; --muted:#9AA7D1; --line:#27325E;
+    --accent:#FFD21F; --on-accent:#0C1433;
+    --data:#8EA5FF; --data-soft:#2C3A7A;
+    --good:#4FD69A; --bad:#FF7A86;
+    --pitch-a:#17633D; --pitch-b:#145836; --pitch2-a:#1B4A5E; --pitch2-b:#174253;
+    --pitch-line:rgba(255,255,255,.42); --pitch-ink:#FFFFFF; --pitch-chip:rgba(4,10,26,.66);
+    --shadow:0 10px 30px rgba(0,0,0,.45);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#080D1F; --surface:#111936; --surface-2:#18224A; --ink:#EEF2FF; --muted:#9AA7D1; --line:#27325E;
+  --accent:#FFD21F; --on-accent:#0C1433;
+  --data:#8EA5FF; --data-soft:#2C3A7A;
+  --good:#4FD69A; --bad:#FF7A86;
+  --pitch-a:#17633D; --pitch-b:#145836; --pitch2-a:#1B4A5E; --pitch2-b:#174253;
+  --pitch-line:rgba(255,255,255,.42); --pitch-ink:#FFFFFF; --pitch-chip:rgba(4,10,26,.66);
+  --shadow:0 10px 30px rgba(0,0,0,.45);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--data)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:16px;padding-block:0 56px;display:flex;flex-direction:column;gap:28px}
+.eyebrow{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.09em;font-size:.8rem;color:var(--muted)}
+h1,h2,h3{margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:400;font-size:1.7rem;letter-spacing:.01em;text-transform:uppercase;line-height:1.05}
+.sub{color:var(--muted);margin:4px 0 0;max-width:65ch}
+.num{font-variant-numeric:tabular-nums}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-size:1.25rem;letter-spacing:.02em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.brand i{display:inline-block;width:14px;height:20px;background:var(--accent);border-radius:2px;transform:rotate(8deg);border:1px solid var(--on-accent)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.tab{font-family:var(--label);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.85rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.tab[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab.soon{border-style:dashed;background:transparent;color:var(--muted);cursor:default}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px;align-items:end;padding-top:28px}
+.hero h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(2.4rem,7vw,4.6rem);line-height:1.08;letter-spacing:.005em;margin-top:10px}
+.hero h1 mark{background:var(--accent);color:var(--on-accent);padding:0 .12em;border-radius:4px;line-height:1;display:inline-block}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--label);font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:.82rem;padding:4px 10px;border-radius:6px;background:var(--surface);border:1px solid var(--line)}
+.chip.warn{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.rules{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:4px;max-width:60ch}
+.rules li{display:grid;grid-template-columns:9.5rem minmax(0,1fr);gap:10px;font-size:.95rem}
+.rules b{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.82rem;color:var(--muted);padding-top:2px}
+.board{background:var(--ink);color:var(--bg);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.board .eyebrow{color:inherit;opacity:.72}
+.clock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.clock div{background:color-mix(in srgb,var(--bg) 12%,transparent);border-radius:8px;padding:8px 4px;text-align:center}
+.clock b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(1.6rem,5vw,2.3rem);line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.clock span{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;opacity:.8}
+.board p{margin:0;font-size:.92rem;opacity:.9}
+.board p b{color:var(--accent)}
+
+/* pitches + card */
+.stage{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start}
+.stage .p1{grid-column:1;grid-row:1}
+.stage .p2{grid-column:1;grid-row:2}
+.stage .card{grid-column:2;grid-row:1 / span 2}
+.pitch{position:relative;border-radius:18px;overflow:hidden;color:var(--pitch-ink);box-shadow:var(--shadow);
+  background:repeating-linear-gradient(180deg,var(--pitch-a) 0 12.5%,var(--pitch-b) 12.5% 25%)}
+.pitch.p2{background:repeating-linear-gradient(180deg,var(--pitch2-a) 0 12.5%,var(--pitch2-b) 12.5% 25%)}
+.pitch svg.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.pitch-in{position:relative;display:flex;flex-direction:column;gap:12px;padding:16px 8px 18px}
+.pitch-cap{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding-inline:10px;flex-wrap:wrap}
+.pitch-cap h2{font-size:1.5rem}
+.pitch-cap span{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;opacity:.92}
+.rowsp{display:flex;flex-direction:column;gap:8px}
+.prow{display:flex;justify-content:space-evenly;gap:2px}
+.shirt{flex:0 1 118px;min-width:0;background:none;border:0;padding:5px 2px;border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--pitch-ink);position:relative}
+.shirt svg{width:clamp(42px,12vw,64px);height:auto;filter:drop-shadow(0 4px 5px rgba(0,0,0,.35));transition:transform .18s ease}
+.p2 .shirt svg{width:clamp(38px,10.5vw,54px)}
+.shirt:hover svg{transform:translateY(-4px) rotate(-3deg)}
+.shirt[aria-pressed="true"]{background:rgba(255,255,255,.17)}
+.shirt[aria-pressed="true"] svg{transform:translateY(-3px) scale(1.06)}
+.shirt .nm{font-family:var(--label);font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:clamp(.66rem,2.3vw,.84rem);background:var(--pitch-chip);padding:1px 7px;border-radius:4px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shirt .rk{font-family:var(--label);font-weight:600;font-size:.7rem;letter-spacing:.06em;opacity:.88;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.badge{position:absolute;top:0;right:calc(50% - 40px);min-width:20px;height:20px;border-radius:999px;display:grid;place-items:center;font-family:var(--label);font-weight:700;font-size:.74rem;padding:0 5px;border:2px solid rgba(0,0,0,.35)}
+.badge.cap{background:var(--accent);color:var(--on-accent)}
+.badge.hit{background:#FFFFFF;color:#0E7A4B}
+.badge.miss{background:#FFFFFF;color:#C42B3A}
+.pitch-foot{align-self:center;padding:4px 12px;border-radius:8px;background:var(--pitch-chip);font-size:.84rem;text-align:center;max-width:calc(100% - 20px)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px)}
+.card-top{display:flex;gap:14px;align-items:center}
+.card-top svg{width:84px;height:auto;flex:none;filter:drop-shadow(0 3px 4px rgba(0,0,0,.22))}
+.card-top h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.7rem;line-height:1}
+.card-top p{margin:4px 0 0;color:var(--muted);font-size:.95rem}
+.trio{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:8px}
+.stat{background:var(--surface-2);border-radius:10px;padding:10px;min-width:0}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:1.7rem;line-height:1;font-variant-numeric:tabular-nums}
+.stat.big{background:var(--ink);color:var(--bg)}
+.stat.big b{font-size:2.5rem;color:var(--accent)}
+.stat span{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:.72rem;color:var(--muted);display:block;margin-top:3px;line-height:1.15}
+.stat.big span{color:inherit;opacity:.8}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0}
+.facts div{min-width:0}
+.facts dt{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.72rem;color:var(--muted)}
+.facts dd{margin:0;font-weight:600;font-size:.95rem}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:.82rem;font-weight:500;padding:3px 9px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2)}
+.ud{display:grid;gap:8px;margin:0}
+.ud p{margin:0;font-size:.94rem}
+.ud b{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.76rem;display:block}
+.ud .up b{color:var(--good)} .ud .dn b{color:var(--bad)}
+.card-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{font-family:var(--label);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.88rem;padding:9px 14px;border-radius:10px;border:2px solid var(--ink);background:var(--accent);color:var(--on-accent)}
+.btn.on{background:var(--ink);color:var(--bg)}
+.verdict{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.86rem;padding:6px 10px;border-radius:8px;border:2px solid currentColor;transform:rotate(-2deg)}
+.verdict.hit{color:var(--good)} .verdict.miss{color:var(--bad)}
+.hint{color:var(--muted);font-size:.84rem;margin:0}
+
+/* ranking */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px}
+.panel-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;flex-wrap:wrap}
+.seg button{font-family:var(--label);font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:.82rem;padding:7px 12px;border:0;background:var(--surface);border-left:1px solid var(--line);margin-left:-1px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.rows{display:flex;flex-direction:column}
+.rrow,.axis{display:grid;grid-template-columns:26px minmax(0,14rem) minmax(0,1fr) 3.4rem;gap:10px;align-items:center}
+.rrow{width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:9px 4px;border-radius:0}
+button.rrow:hover,.rrow[aria-pressed="true"]{background:var(--surface-2)}
+.rrow .rk{font-family:var(--display);font-size:1.05rem;color:var(--muted);text-align:center}
+.rrow .who{min-width:0}
+.rrow .who b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rrow .who small{color:var(--muted);font-size:.82rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill{font-family:var(--label);font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:.68rem;padding:1px 6px;border-radius:4px;border:1px solid var(--line);margin-right:6px;color:var(--muted)}
+.pill.x1{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.pill.x2{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.track{position:relative;height:22px;background:
+  linear-gradient(90deg,var(--line) 0 1px,transparent 1px) 0 0/33.333% 100%,
+  linear-gradient(270deg,var(--line) 0 1px,transparent 1px) 100% 0/100% 100% no-repeat}
+.track .fill{position:absolute;left:0;top:8px;height:6px;border-radius:0 4px 4px 0;background:var(--data-soft)}
+.track .rng{position:absolute;top:10px;height:2px;background:var(--ink)}
+.track .rng::before,.track .rng::after{content:"";position:absolute;top:-4px;width:2px;height:10px;background:var(--ink)}
+.track .rng::before{left:0} .track .rng::after{right:0}
+.track .dot{position:absolute;top:4px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--data);border:2px solid var(--surface)}
+.rrow .val{font-family:var(--display);font-size:1.2rem;text-align:right;font-variant-numeric:tabular-nums}
+.axis{padding:0 4px 4px;font-family:var(--label);font-weight:600;font-size:.74rem;letter-spacing:.05em;color:var(--muted)}
+.axis .ticks{position:relative;height:1.1em}
+.axis .ticks span{position:absolute;transform:translateX(-50%)}
+.axis .ticks span:first-child{transform:none}
+.axis .ticks span:last-child{transform:translateX(-100%)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;color:var(--muted);font-size:.84rem;align-items:center}
+.legend i{display:inline-block;vertical-align:middle;margin-right:6px}
+.legend .ld{width:12px;height:12px;border-radius:50%;background:var(--data)}
+.legend .lr{width:22px;height:2px;background:var(--ink)}
+.tip{position:fixed;z-index:40;pointer-events:none;background:var(--ink);color:var(--bg);padding:8px 10px;border-radius:8px;font-size:.84rem;line-height:1.35;max-width:250px;box-shadow:var(--shadow)}
+details.tbl{margin-top:12px}
+details summary{cursor:pointer;font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.86rem}
+.scroll{overflow-x:auto;margin-top:10px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;font-variant-numeric:tabular-nums}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.76rem;color:var(--muted)}
+td.r,th.r{text-align:right}
+
+/* lower */
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.list li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line);align-items:baseline}
+.list li:first-child{border-top:0}
+.list li span{min-width:0}
+.list small{color:var(--muted);display:block;font-size:.84rem}
+.list .why{color:var(--muted);font-size:.88rem;text-align:right}
+.fx h3{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.9rem;color:var(--muted);margin-bottom:4px}
+.fx ul{list-style:none;margin:0;padding:0}
+.fx li{display:grid;grid-template-columns:3.2rem minmax(0,1fr);gap:8px;padding:6px 0;border-top:1px solid var(--line);font-size:.95rem}
+.fx li time{font-family:var(--label);font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.fx li b{background:var(--accent);color:var(--on-accent);padding:0 4px;border-radius:3px;font-weight:600}
+.record{display:flex;flex-direction:column}
+.rec{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:18px;padding:10px 0;border-top:1px solid var(--line);align-items:center}
+.rec:first-child{border-top:0}
+.rec .sc{text-align:right}
+.rec .sc b{font-family:var(--display);font-weight:400;font-size:1.4rem;display:block;line-height:1}
+.rec .sc span{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.7rem;color:var(--muted)}
+.prose p{margin:0 0 10px;max-width:68ch}
+.prose ul{margin:0 0 10px;padding-left:1.1rem;max-width:68ch}
+.prose li{margin-bottom:6px}
+.srcs{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.9rem}
+footer{color:var(--muted);font-size:.86rem;max-width:68ch}
+
+@media (max-width:860px){
+  .hero,.stage,.duo{grid-template-columns:minmax(0,1fr)}
+  .stage .p1,.stage .p2,.stage .card{grid-column:1;grid-row:auto}
+  .card{position:static}
+}
+@media (max-width:560px){
+  .tabs{margin-left:0}
+  .rrow,.axis{grid-template-columns:22px minmax(0,1fr) 3.2rem;row-gap:4px}
+  .rrow .track,.axis .ticks{grid-column:1/-1;grid-row:2}
+  .axis .lab{display:none}
+  .axis{grid-template-rows:0 auto}
+  .stat.big b{font-size:2rem}
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rules li{grid-template-columns:minmax(0,1fr);gap:0}
+  .badge{right:calc(50% - 32px)}
+}
+@media (prefers-reduced-motion:reduce){ .shirt svg{transition:none} }
+</style>
+
+<header class="bar">
+  <div class="bar-in">
+    <div class="brand"><i aria-hidden="true"></i>UCL Top 11</div>
+    <nav class="tabs" id="tabs" aria-label="Matchdays"></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <div class="eyebrow" id="heroEyebrow"></div>
+      <h1>Who <mark>shines</mark> this week?</h1>
+      <ul class="rules">
+        <li><b>Goalkeeper</b><span>keeps a clean sheet</span></li>
+        <li><b>Defenders</b><span>keep a clean sheet, or score or assist</span></li>
+        <li><b>Midfielders, forwards</b><span>score or assist</span></li>
+      </ul>
+      <div class="chips" id="heroChips"></div>
+    </div>
+    <aside class="board">
+      <div class="eyebrow" id="clockLabel">First kick-off in</div>
+      <div class="clock" id="clock"></div>
+      <p id="boardNote"></p>
+    </aside>
+  </section>
+
+  <section class="stage" aria-label="The two elevens">
+    <div class="pitch p1">
+      <svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <g fill="none" stroke="var(--pitch-line)" stroke-width="1">
+          <rect x="3" y="2" width="94" height="96" vector-effect="non-scaling-stroke"/>
+          <rect x="27" y="2" width="46" height="12" vector-effect="non-scaling-stroke"/>
+          <rect x="27" y="86" width="46" height="12" vector-effect="non-scaling-stroke"/>
+          <line x1="3" y1="50" x2="97" y2="50" vector-effect="non-scaling-stroke"/>
+          <ellipse cx="50" cy="50" rx="13" ry="7" vector-effect="non-scaling-stroke"/>
+        </g>
+      </svg>
+      <div class="pitch-in">
+        <div class="pitch-cap"><h2>First XI</h2><span>Shirt number = chance to shine</span></div>
+        <div class="rowsp" id="xi1"></div>
+        <div class="pitch-foot" id="foot1"></div>
+      </div>
+    </div>
+    <article class="card" id="card" aria-live="polite"></article>
+    <div class="pitch p2">
+      <svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <g fill="none" stroke="var(--pitch-line)" stroke-width="1">
+          <rect x="3" y="2" width="94" height="96" vector-effect="non-scaling-stroke"/>
+          <rect x="27" y="2" width="46" height="12" vector-effect="non-scaling-stroke"/>
+          <rect x="27" y="86" width="46" height="12" vector-effect="non-scaling-stroke"/>
+          <line x1="3" y1="50" x2="97" y2="50" vector-effect="non-scaling-stroke"/>
+          <ellipse cx="50" cy="50" rx="13" ry="7" vector-effect="non-scaling-stroke"/>
+        </g>
+      </svg>
+      <div class="pitch-in">
+        <div class="pitch-cap"><h2>Second XI</h2><span>Next in line behind them</span></div>
+        <div class="rowsp" id="xi2"></div>
+        <div class="pitch-foot" id="foot2"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>The pecking order</h2>
+        <p class="sub" id="rankSub"></p>
+      </div>
+      <div class="seg" role="group" aria-label="Position">
+        <button type="button" id="lFWD" data-line="FWD" aria-pressed="true">Forwards</button>
+        <button type="button" id="lMID" data-line="MID" aria-pressed="false">Midfielders</button>
+        <button type="button" id="lDEF" data-line="DEF" aria-pressed="false">Defenders</button>
+        <button type="button" id="lGK" data-line="GK" aria-pressed="false">Keepers</button>
+      </div>
+    </div>
+    <div class="axis" aria-hidden="true"><span></span><span class="lab"></span><div class="ticks"><span style="left:0">0%</span><span style="left:33.333%">25%</span><span style="left:66.667%">50%</span><span style="left:100%">75%</span></div><span></span></div>
+    <div class="rows" id="rows"></div>
+    <div class="legend"><span><i class="ld"></i>Model estimate</span><span><i class="lr"></i>Likely range</span><span><span class="pill x1">1st XI</span><span class="pill x2">2nd XI</span><span class="pill">Next</span></span></div>
+    <details class="tbl">
+      <summary>Show both elevens as a table</summary>
+      <div class="scroll" id="table"></div>
+    </details>
+  </section>
+
+  <section class="duo">
+    <div class="panel">
+      <h2>Not available</h2>
+      <p class="sub">Big names the model left out because of injury or suspension.</p>
+      <ul class="list" id="out" style="margin-top:10px"></ul>
+    </div>
+    <div class="panel">
+      <h2>Track record</h2>
+      <p class="sub">After each matchday every pick is marked as delivered or blank, next to how many the model expected.</p>
+      <div class="record" id="record" style="margin-top:10px"></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Fixtures</h2>
+    <p class="sub">Kick-off times are Brussels time. Highlighted clubs have a player in one of the two elevens.</p>
+    <div class="duo" id="fixtures" style="margin-top:14px"></div>
+  </section>
+
+  <section class="panel prose">
+    <h2 style="margin-bottom:10px">How the numbers are made</h2>
+    <p>Each player's expected goals and expected assists per 90 minutes come from this season's league games plus last season's at half weight. Small samples are pulled toward the average for the position, so three hot games do not crown anyone.</p>
+    <p>That rate is scaled by how many goals the team is expected to score in this match, multiplied by the minutes the player is likely to get, and topped up for penalty takers. A Poisson model turns the result into a chance of at least one goal or assist.</p>
+    <p>A clean sheet chance comes from how many goals the opponent is expected to score, multiplied by the chance the player starts. For defenders the two chances are combined into one number. No attacking number is allowed above 75%.</p>
+    <p>Each eleven is a 4-3-3: one keeper, two full-backs, two centre-backs, three midfielders and three forwards, with at most two defenders from one club. Wingers count as forwards and number tens as midfielders. The second XI is the best eleven left once the first is picked.</p>
+    <p>The range is a rough plus or minus 20% on the underlying rates, wider for players with a role or selection doubt. These are statistical estimates, not guarantees or betting advice.</p>
+    <details>
+      <summary>Limits for this matchday</summary>
+      <ul id="caveats" style="margin-top:10px"></ul>
+    </details>
+    <details style="margin-top:8px">
+      <summary>Sources</summary>
+      <div class="srcs" id="sources" style="margin-top:10px"></div>
+    </details>
+  </section>
+
+  <footer id="foot"></footer>
+</main>
+<div class="tip" id="tip" hidden></div>
+
+<script id="rounds-data">
+/* ROUND DATA. Newest round first.
+   Weekly update: (1) for every player of the round that just finished fill
+   `result: {g: goals, a: assists, cs: true|false}` (cs only matters for GK and DEF) and set the round's
+   status to "final"; (2) add the new round object at the top of the array.
+   `shine` is the shirt number: GK = clean sheet %, DEF = clean sheet or goal/assist %, MID/FWD = goal or assist %.
+   Inside xi1 / xi2 list players left to right within each line. Numbers come from ucl_md2_model.py.
+   After editing, republish this file to the same artifact URL. */
+window.UCL_ROUNDS = [
+  {
+    id: "md2",
+    label: "Matchday 2",
+    dates: "13–14 October 2026",
+    firstKickoff: "2026-10-13T16:45:00Z",
+    collected: "12 October 2026",
+    lineups: "predicted",
+    status: "upcoming",
+    next: { label: "Matchday 3", dates: "20–21 October" },
+    xi1: [
+      { id: "haaland", name: "Erling Haaland", short: "Haaland", team: "Man City", opp: "Paris SG", ha: "H", line: "FWD", pos: "ST",
+        start: "Predicted starter", mins: 73, shine: 48, lo: 41, hi: 54, metric: "Goal or assist", stats: [["Goal", "43%"], ["Assist", "9%"]],
+        kit: ["#6CABDD", "#1C2C5B", "#1C2C5B"],
+        reasons: ["6 league goals from 5.1 xG", "Near-certain starter", "Toughest opponent here"],
+        upside: "He almost always starts and takes the penalties.",
+        risk: "City v Paris is priced close to even, so City's expected goals are modest.", result: null },
+      { id: "kane", name: "Harry Kane", short: "Kane", team: "Bayern", opp: "Viking", ha: "A", line: "FWD", pos: "ST",
+        start: "Predicted starter", mins: 67, shine: 56, lo: 48, hi: 62, metric: "Goal or assist", stats: [["Goal", "47%"], ["Assist", "16%"]],
+        kit: ["#DC052D", "#FFFFFF", "#FFFFFF"],
+        reasons: ["Penalty taker", "Bayern heavy favourites", "Rotation risk"],
+        upside: "Penalties plus the most lopsided fixture of the round.",
+        risk: "Rotation three days after a league game, and Viking's artificial pitch and strong home record.", result: null },
+      { id: "yamal", name: "Lamine Yamal", short: "Yamal", team: "Barcelona", opp: "Galatasaray", ha: "A", line: "FWD", pos: "RW",
+        start: "Predicted starter", mins: 68, shine: 50, lo: 43, hi: 56, metric: "Goal or assist", stats: [["Goal", "34%"], ["Assist", "24%"]],
+        kit: ["#A50044", "#004D98", "#FFD21F"],
+        reasons: ["Top xG+xA volume in La Liga", "Likely on penalties", "Minutes managed"],
+        upside: "Leads Barcelona in both shots (44) and key passes (30), and should take penalties with Raphinha out.",
+        risk: "Flick has said he is managing his minutes.", result: null },
+      { id: "wirtz", name: "Florian Wirtz", short: "Wirtz", team: "Liverpool", opp: "LASK", ha: "A", line: "MID", pos: "AM",
+        start: "Predicted starter", mins: 68, shine: 34, lo: 25, hi: 42, metric: "Goal or assist", stats: [["Goal", "22%"], ["Assist", "15%"]],
+        kit: ["#C8102E", "#F6EB61", "#FFFFFF"],
+        reasons: ["Liverpool's main creator this week", "Weak opponent", "Quiet league start"],
+        upside: "With Isak, Gakpo and Szoboszlai unlikely to play, the attack runs through him.",
+        risk: "No goals and one assist in 472 league minutes, and he may be asked to play as a false nine.", result: null },
+      { id: "undav", name: "Deniz Undav", short: "Undav", team: "Stuttgart", opp: "Slovan Bratislava", ha: "A", line: "MID", pos: "AM",
+        start: "Predicted starter", mins: 65, shine: 45, lo: 34, hi: 54, metric: "Goal or assist", stats: [["Goal", "34%"], ["Assist", "16%"]],
+        kit: ["#FFFFFF", "#E32219", "#E32219"],
+        reasons: ["19 league goals last season", "Slovan lost 6-1 on Matchday 1", "Deeper role this season"],
+        upside: "Two assists on Matchday 1, now against the weakest defence Stuttgart will face.",
+        risk: "The widest range on the page. No league goals or assists yet this season, so the estimate leans on last year.", result: null },
+      { id: "cherki", name: "Rayan Cherki", short: "Cherki", team: "Man City", opp: "Paris SG", ha: "H", line: "MID", pos: "AM",
+        start: "Predicted starter", mins: 62, shine: 33, lo: 27, hi: 38, metric: "Goal or assist", stats: [["Goal", "16%"], ["Assist", "20%"]],
+        kit: ["#6CABDD", "#1C2C5B", "#1C2C5B"],
+        reasons: ["4 goals, 2 assists in 403 league minutes", "12 league assists last season", "Tight game"],
+        upside: "City's most productive creator so far this season.",
+        risk: "A close game against Paris, and Foden competes for the same minutes.", result: null },
+      { id: "calafiori", name: "Riccardo Calafiori", short: "Calafiori", team: "Arsenal", opp: "Lille", ha: "H", line: "DEF", pos: "LB",
+        start: "Predicted starter", mins: 70, shine: 57, lo: 51, hi: 63, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "47%"], ["Goal or assist", "18%"]],
+        kit: ["#EF0107", "#FFFFFF", "#FFFFFF"],
+        reasons: ["Best clean sheet odds of the round", "1 goal, 2 assists in 6 league games", "Start not certain"],
+        upside: "An attacking full-back in the side most likely to keep a clean sheet.",
+        risk: "Lewis-Skelly is an alternative at left-back, so his start is less secure than Gabriel's.", result: null },
+      { id: "gabriel", name: "Gabriel", short: "Gabriel", team: "Arsenal", opp: "Lille", ha: "H", line: "DEF", pos: "CB",
+        start: "Predicted starter", mins: 81, shine: 60, lo: 54, hi: 66, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "53%"], ["Goal or assist", "15%"]],
+        kit: ["#EF0107", "#FFFFFF", "#FFFFFF"],
+        reasons: ["Best clean sheet odds of the round", "Set-piece threat", "Has played every league minute"],
+        upside: "1.0 xG from set pieces in six league games without a goal yet, on top of the clean sheet.",
+        risk: "Saliba is out and the back line around him is reshuffled.", result: null },
+      { id: "vandijk", name: "Virgil van Dijk", short: "Van Dijk", team: "Liverpool", opp: "LASK", ha: "A", line: "DEF", pos: "CB",
+        start: "Predicted starter", mins: 81, shine: 48, lo: 42, hi: 56, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "43%"], ["Goal or assist", "10%"]],
+        kit: ["#C8102E", "#F6EB61", "#FFFFFF"],
+        reasons: ["Has played every league minute", "6 league goals last season", "Rotated defence around him"],
+        upside: "LASK are expected to score less than a goal, and he is a threat at corners.",
+        risk: "Liverpool have conceded 7 in 6 league games and are expected to rotate the rest of the back four.", result: null },
+      { id: "dimarco", name: "Federico Dimarco", short: "Dimarco", team: "Inter", opp: "Club Brugge", ha: "H", line: "DEF", pos: "LWB",
+        start: "Predicted starter", mins: 70, shine: 56, lo: 48, hi: 63, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "33%"], ["Goal or assist", "34%"]],
+        kit: ["#0B3D91", "#111111", "#FFFFFF"],
+        reasons: ["16 league assists last season", "Set pieces", "Inter home favourites"],
+        upside: "The most creative defender in the field: 2.0 expected assists in 397 league minutes this season.",
+        risk: "He plays wing-back on the left for Inter, and Inter rotated at the weekend.", result: null },
+      { id: "raya", name: "David Raya", short: "Raya", team: "Arsenal", opp: "Lille", ha: "H", line: "GK", pos: "GK",
+        start: "Predicted starter", mins: 87, shine: 57, lo: 51, hi: 63, metric: "Clean sheet", stats: [["Lille expected goals", "0.5"], ["Chance he starts", "97%"]],
+        kit: ["#1B1F2B", "#EF0107", "#FFFFFF"],
+        reasons: ["Arsenal strong home favourites", "5 conceded in 6 league games", "Lille missing two starters"],
+        upside: "Arsenal kept a clean sheet at Napoli on Matchday 1, and Lille travel without the suspended Ethan Mbappé.",
+        risk: "Saliba is out and two more defenders are doubtful, so the back line is patched up.", result: null }
+    ],
+    xi2: [
+      { id: "mbappe", name: "Kylian Mbappé", short: "Mbappé", team: "Real Madrid", opp: "Roma", ha: "A", line: "FWD", pos: "ST",
+        start: "Predicted starter", mins: 70, shine: 44, lo: 37, hi: 50, metric: "Goal or assist", stats: [["Goal", "37%"], ["Assist", "11%"]],
+        kit: ["#FFFFFF", "#C9A227", "#1B1B3A"],
+        reasons: ["9.2 xG in 8 league games", "Penalty taker", "Roma defend well"],
+        upside: "The best raw xG rate in the whole dataset.",
+        risk: "Away at a side that has conceded 3 in 6 league games, and Madrid are managing a knee knock.", result: null },
+      { id: "lautaro", name: "Lautaro Martínez", short: "Lautaro", team: "Inter", opp: "Club Brugge", ha: "H", line: "FWD", pos: "ST",
+        start: "Predicted starter", mins: 67, shine: 48, lo: 40, hi: 54, metric: "Goal or assist", stats: [["Goal", "40%"], ["Assist", "14%"]],
+        kit: ["#0B3D91", "#111111", "#FFFFFF"],
+        reasons: ["1.37 xG per 90 this season", "Home favourite", "Not on penalties"],
+        upside: "Elite shot volume in a home game Inter should control.",
+        risk: "Çalhanoğlu takes Inter's penalties, and Inter rotated at the weekend so the XI is less predictable.", result: null },
+      { id: "olise", name: "Michael Olise", short: "Olise", team: "Bayern", opp: "Viking", ha: "A", line: "FWD", pos: "RW",
+        start: "Predicted starter", mins: 65, shine: 46, lo: 39, hi: 52, metric: "Goal or assist", stats: [["Goal", "26%"], ["Assist", "27%"]],
+        kit: ["#DC052D", "#FFFFFF", "#FFFFFF"],
+        reasons: ["Goal and assist threat", "Weak opponent", "Rotation risk"],
+        upside: "Contributes both ways: 15 goals and 19 assists in last season's league.",
+        risk: "Same rotation question as Kane.", result: null },
+      { id: "paz", name: "Nico Paz", short: "Nico Paz", team: "Como", opp: "Feyenoord", ha: "A", line: "MID", pos: "AM",
+        start: "Predicted starter", mins: 68, shine: 32, lo: 27, hi: 37, metric: "Goal or assist", stats: [["Goal", "22%"], ["Assist", "13%"]],
+        kit: ["#1D4E9E", "#FFFFFF", "#FFFFFF"],
+        reasons: ["2 assists on Matchday 1", "31 shots in 6 league games", "Likely on penalties"],
+        upside: "Como's whole attack goes through him, and Feyenoord are missing seven players.",
+        risk: "Only one league goal from 2.3 xG so far.", result: null },
+      { id: "saibari", name: "Ismael Saibari", short: "Saibari", team: "Bayern", opp: "Viking", ha: "A", line: "MID", pos: "AM",
+        start: "Predicted starter", mins: 56, shine: 32, lo: 23, hi: 39, metric: "Goal or assist", stats: [["Goal", "19%"], ["Assist", "15%"]],
+        kit: ["#DC052D", "#FFFFFF", "#FFFFFF"],
+        reasons: ["In for the injured Musiala", "2 goals, 2 assists in 253 league minutes", "Small sample"],
+        upside: "The number ten in the round's biggest favourite.",
+        risk: "Only 253 league minutes of data, and he is the likeliest attacker to be rotated.", result: null },
+      { id: "odegaard", name: "Martin Ødegaard", short: "Ødegaard", team: "Arsenal", opp: "Lille", ha: "H", line: "MID", pos: "AM",
+        start: "Predicted starter", mins: 62, shine: 32, lo: 26, hi: 36, metric: "Goal or assist", stats: [["Goal", "16%"], ["Assist", "18%"]],
+        kit: ["#EF0107", "#FFFFFF", "#FFFFFF"],
+        reasons: ["2 league goals, 2.0 expected assists", "Arsenal strong favourites"],
+        upside: "Creating plenty: his expected assists are well ahead of his zero league assists.",
+        risk: "Saka appears to take the penalties.", result: null },
+      { id: "davies", name: "Alphonso Davies", short: "Davies", team: "Bayern", opp: "Viking", ha: "A", line: "DEF", pos: "LB",
+        start: "Predicted starter", mins: 70, shine: 49, lo: 42, hi: 55, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "38%"], ["Goal or assist", "18%"]],
+        kit: ["#DC052D", "#FFFFFF", "#FFFFFF"],
+        reasons: ["2 assists in 360 league minutes", "Bayern heavy favourites", "Rotation risk"],
+        upside: "1.9 expected assists already this season from left-back.",
+        risk: "Bayern conceded twice at the weekend, and full-backs are the first to be rotated.", result: null },
+      { id: "upamecano", name: "Dayot Upamecano", short: "Upamecano", team: "Bayern", opp: "Viking", ha: "A", line: "DEF", pos: "CB",
+        start: "Predicted starter", mins: 77, shine: 46, lo: 39, hi: 52, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "40%"], ["Goal or assist", "9%"]],
+        kit: ["#DC052D", "#FFFFFF", "#FFFFFF"],
+        reasons: ["Bayern heavy favourites", "1 league goal from 1.0 xG"],
+        upside: "Viking are expected to score less than a goal.",
+        risk: "Viking have a strong home record on an artificial pitch.", result: null },
+      { id: "konsa", name: "Ezri Konsa", short: "Konsa", team: "Arsenal", opp: "Lille", ha: "H", line: "DEF", pos: "CB",
+        start: "Predicted starter", mins: 73, shine: 50, lo: 45, hi: 55, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "47%"], ["Goal or assist", "5%"]],
+        kit: ["#EF0107", "#FFFFFF", "#FFFFFF"],
+        reasons: ["Best clean sheet odds of the round", "Little goal threat"],
+        upside: "Rides the same clean sheet chance as Gabriel.",
+        risk: "Almost no attacking output, so it is clean sheet or nothing.", result: null },
+      { id: "timber", name: "Jurriën Timber", short: "Timber", team: "Arsenal", opp: "Lille", ha: "H", line: "DEF", pos: "RB",
+        start: "Predicted starter", mins: 70, shine: 55, lo: 49, hi: 61, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "47%"], ["Goal or assist", "15%"]],
+        kit: ["#EF0107", "#FFFFFF", "#FFFFFF"],
+        reasons: ["Best clean sheet odds of the round", "3 goals, 5 assists last season", "Few minutes this season"],
+        upside: "A full-back who gets into the box, in the best defence of the round.",
+        risk: "Only 128 league minutes this season, so his numbers lean on last year.", result: null },
+      { id: "alisson", name: "Alisson", short: "Alisson", team: "Liverpool", opp: "LASK", ha: "A", line: "GK", pos: "GK",
+        start: "Predicted starter", mins: 86, shine: 45, lo: 39, hi: 52, metric: "Clean sheet", stats: [["LASK expected goals", "0.75"], ["Chance he starts", "95%"]],
+        kit: ["#1B1F2B", "#C8102E", "#FFFFFF"],
+        reasons: ["Liverpool clear favourites", "Rotated defence in front of him"],
+        upside: "LASK are among the weakest attacks in the competition.",
+        risk: "Liverpool have conceded 7 in 6 league games and are expected to change three of the back four.", result: null }
+    ],
+    nextUp: {
+      FWD: [
+        { name: "Ermedin Demirović", team: "Stuttgart", opp: "Slovan Bratislava", ha: "A", shine: 43, lo: 36, hi: 49 },
+        { name: "Marcus Thuram", team: "Inter", opp: "Club Brugge", ha: "H", shine: 42, lo: 35, hi: 48 },
+        { name: "Bukayo Saka", team: "Arsenal", opp: "Lille", ha: "H", shine: 41, lo: 34, hi: 47 },
+        { name: "Luis Díaz", team: "Bayern", opp: "Viking", ha: "A", shine: 38, lo: 32, hi: 44 },
+        { name: "Christopher Nkunku", team: "Leipzig", opp: "PSV", ha: "H", shine: 38, lo: 32, hi: 44 }
+      ],
+      MID: [
+        { name: "Isco", team: "Real Betis", opp: "Porto", ha: "H", shine: 30, lo: 22, hi: 38 },
+        { name: "Dani Olmo", team: "Barcelona", opp: "Galatasaray", ha: "A", shine: 30, lo: 25, hi: 35 },
+        { name: "Bruno Fernandes", team: "Man United", opp: "Atlético", ha: "A", shine: 29, lo: 24, hi: 34 },
+        { name: "Hakan Çalhanoğlu", team: "Inter", opp: "Club Brugge", ha: "H", shine: 27, lo: 22, hi: 31 },
+        { name: "Álex Baena", team: "Atlético", opp: "Man United", ha: "H", shine: 26, lo: 21, hi: 30 }
+      ],
+      DEF: [
+        { name: "Konrad Laimer", team: "Bayern", opp: "Viking", ha: "A", shine: 49, lo: 42, hi: 55 },
+        { name: "Andy Diouf", team: "Inter", opp: "Club Brugge", ha: "H", shine: 46, lo: 39, hi: 53 },
+        { name: "Jeremie Frimpong", team: "Liverpool", opp: "LASK", ha: "A", shine: 46, lo: 39, hi: 52 },
+        { name: "Josha Vagnoman", team: "Stuttgart", opp: "Slovan Bratislava", ha: "A", shine: 45, lo: 38, hi: 53 },
+        { name: "Álex Grimaldo", team: "Atlético", opp: "Man United", ha: "H", shine: 45, lo: 37, hi: 53 }
+      ],
+      GK: [
+        { name: "Joan García", team: "Barcelona", opp: "Galatasaray", ha: "A", shine: 37, lo: 30, hi: 44 },
+        { name: "Josep Martínez", team: "Inter", opp: "Club Brugge", ha: "H", shine: 37, lo: 31, hi: 44 },
+        { name: "Zion Suzuki", team: "Aston Villa", opp: "Fenerbahçe", ha: "H", shine: 33, lo: 27, hi: 40 },
+        { name: "Jonas Urbig", team: "Bayern", opp: "Viking", ha: "A", shine: 33, lo: 28, hi: 38 },
+        { name: "Jan Oblak", team: "Atlético", opp: "Man United", ha: "H", shine: 32, lo: 25, hi: 39 }
+      ]
+    },
+    out: [
+      { name: "Raphinha", team: "Barcelona", why: "Thigh, not in the squad" },
+      { name: "Jamal Musiala", team: "Bayern", why: "Muscle injury" },
+      { name: "William Saliba", team: "Arsenal", why: "Back injury" },
+      { name: "Alexander Isak", team: "Liverpool", why: "Thigh, not expected to play" },
+      { name: "Cody Gakpo", team: "Liverpool", why: "Ankle, not expected to play" },
+      { name: "Dominik Szoboszlai", team: "Liverpool", why: "Hamstring, not expected to play" },
+      { name: "Ethan Mbappé", team: "Lille", why: "Suspended" }
+    ],
+    fixtures: [
+      { day: "Tuesday 13 October", games: [
+        ["18:45", "Lens", "Sporting CP"], ["18:45", "Sabah", "Slavia Praha"],
+        ["21:00", "Arsenal", "Lille"], ["21:00", "Atlético", "Man United"],
+        ["21:00", "Inter", "Club Brugge"], ["21:00", "Galatasaray", "Barcelona"],
+        ["21:00", "Leipzig", "PSV"], ["21:00", "Viking", "Bayern"], ["21:00", "Villarreal", "Napoli"] ] },
+      { day: "Wednesday 14 October", games: [
+        ["18:45", "Feyenoord", "Como"], ["18:45", "LASK", "Liverpool"],
+        ["21:00", "Man City", "Paris SG"], ["21:00", "Roma", "Real Madrid"],
+        ["21:00", "Aston Villa", "Fenerbahçe"], ["21:00", "Real Betis", "Porto"],
+        ["21:00", "Bodø/Glimt", "Dortmund"], ["21:00", "Shakhtar", "AEK Athens"],
+        ["21:00", "Slovan Bratislava", "Stuttgart"] ] }
+    ],
+    caveats: [
+      "Only players from the five big leagues are modelled. Understat has no xG data for the other 16 clubs, so players from Sporting, Galatasaray, Slavia and the rest cannot appear, including their keepers and defenders.",
+      "Rates come from domestic league data. Champions League xG and head-to-head records were not collected.",
+      "Each team's expected goals for and against are estimates read from bookmaker prices on 12 October. Clean sheet chances depend entirely on them.",
+      "A defender's clean sheet and goal or assist chances are combined as if they were independent, which slightly overstates the total.",
+      "Bayern's keeper is uncertain (Neuer is doubtful, Urbig is expected), which is why neither makes an eleven.",
+      "Dimarco and Calafiori both play on the left for their clubs. They are simply the two highest-rated full-backs.",
+      "Penalty duty is partly inferred, and is unknown for Liverpool and Stuttgart.",
+      "Many picks are too close to separate: Haaland and Lautaro, Olise and Undav, and the three second XI midfielders are all within a point or two."
+    ],
+    sources: [
+      ["UEFA.com fixtures", "https://www.uefa.com/uefachampionsleague/news/02a8-2174c9e9019d-f909a77bd77a-1000--2026-27-champions-league-all-the-league-phase-fixtures/"],
+      ["UEFA.com predicted line-ups", "https://www.uefa.com/uefachampionsleague/news/02aa-21cf3c78cf12-1c26cfd9b696-1000--champions-league-predicted-line-ups-matchday-2-team-news-/"],
+      ["NBC Sports schedule", "https://www.nbcsports.com/soccer/news/uefa-champions-league-2026-27-league-phase-schedule-scores-how-to-watch-live"],
+      ["Understat (xG and xA)", "https://understat.com/"],
+      ["RG.org odds round-up", "https://rg.org/en-ca/news/soccer/man-city-vs-psg-atletico-vs-man-utd-champions-league-matchday-2-odds"],
+      ["ESPN on Raphinha", "https://www.espn.com/soccer/story/_/id/50139412/barcelona-hansi-flick-confirms-raphinha-oct-20-psg-champions-league"],
+      ["This Is Anfield on Liverpool injuries", "https://www.thisisanfield.com/2026/10/iraola-liverpool-injury-update-lask-isak-szoboszlai-gakpo/"]
+    ]
+  }
+];
+</script>
+<script>
+(function(){
+  var ROUNDS = window.UCL_ROUNDS || [];
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); };
+  var MAX = 75, LINES = ["FWD","MID","DEF","GK"];
+  var LINE_NAME = { FWD: "forwards", MID: "midfielders", DEF: "defenders", GK: "keepers" };
+  var state = { round: null, sel: null, line: "FWD" };
+
+  function store(k, v){ try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k, v); }catch(e){} return null; }
+  function cur(){ for(var i=0;i<ROUNDS.length;i++) if(ROUNDS[i].id===state.round) return ROUNDS[i]; return ROUNDS[0]; }
+  function all(r){ return r.xi1.concat(r.xi2); }
+  function find(r, id){ return all(r).filter(function(p){ return p.id===id; })[0]; }
+  function captain(r){ return store("ucl-captain-"+r.id); }
+  function isFinal(r){ return r.status === "final"; }
+  function hit(p){
+    var x = p.result; if(!x) return null;
+    var ga = (x.g||0) + (x.a||0) > 0;
+    if(p.line === "GK") return !!x.cs;
+    if(p.line === "DEF") return !!x.cs || ga;
+    return ga;
+  }
+  function expected(xi){ return xi.reduce(function(s,p){ return s + p.shine; }, 0) / 100; }
+  function hits(xi){ return xi.filter(function(p){ return hit(p) === true; }).length; }
+  function vs(p){ return esc(p.team)+' '+(p.ha==="H"?"v":"at")+' '+esc(p.opp); }
+
+  function jersey(kit, num){
+    var b = kit[0], t = kit[1], ink = kit[2];
+    return '<svg viewBox="0 0 64 60" aria-hidden="true">'
+      + '<path d="M20 4 8 10 2 23l10 5 4-6v34h32V22l4 6 10-5-6-13-12-6c-4 5-20 5-24 0Z" fill="'+b+'" stroke="rgba(0,0,0,.4)" stroke-width="1.2" stroke-linejoin="round"/>'
+      + '<path d="M2 23l10 5 1.6-2.6-10-5.2Z" fill="'+t+'"/><path d="M62 23l-10 5-1.6-2.6 10-5.2Z" fill="'+t+'"/>'
+      + '<path d="M20 4c4 5 20 5 24 0" fill="none" stroke="'+t+'" stroke-width="2.6"/>'
+      + '<text x="32" y="44" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="23" fill="'+ink+'">'+num+'</text></svg>';
+  }
+
+  function renderTabs(){
+    var h = ROUNDS.slice().reverse().map(function(r){
+      return '<button type="button" class="tab" data-round="'+esc(r.id)+'" aria-pressed="'+(r.id===state.round)+'">'+esc(r.label.replace("Matchday ","MD"))+'</button>';
+    }).join("");
+    var n = ROUNDS[0] && ROUNDS[0].next;
+    if(n) h += '<span class="tab soon" title="The forecast is published the day before">'+esc(n.label.replace("Matchday ","MD"))+' · '+esc(n.dates)+'</span>';
+    $("tabs").innerHTML = h;
+  }
+
+  function renderHero(){
+    var r = cur();
+    $("heroEyebrow").textContent = "Champions League · " + r.label + " · " + r.dates;
+    $("heroChips").innerHTML =
+      '<span class="chip '+(r.lineups==="confirmed"?"":"warn")+'">Lineups: '+esc(r.lineups)+'</span>'
+      + '<span class="chip">Data from '+esc(r.collected)+'</span>'
+      + '<span class="chip">Times in Brussels time</span>';
+  }
+
+  function tick(){
+    var r = cur(), t = new Date(r.firstKickoff).getTime() - Date.now();
+    var e1 = expected(r.xi1).toFixed(1), e2 = expected(r.xi2).toFixed(1);
+    if(isFinal(r)){
+      $("clockLabel").textContent = "Full time";
+      $("clock").innerHTML = '<div style="grid-column:span 2"><b>'+hits(r.xi1)+' / 11</b><span>first XI shone</span></div><div style="grid-column:span 2"><b>'+hits(r.xi2)+' / 11</b><span>second XI shone</span></div>';
+      $("boardNote").innerHTML = 'The model expected about <b>'+e1+'</b> and <b>'+e2+'</b>.';
+      return;
+    }
+    if(t <= 0){
+      $("clockLabel").textContent = "Matchday under way";
+      $("clock").innerHTML = '<div style="grid-column:1/-1"><b>LIVE</b><span>results are marked after the final whistle</span></div>';
+    } else {
+      var s = Math.floor(t/1000), d = Math.floor(s/86400), h = Math.floor(s%86400/3600), m = Math.floor(s%3600/60), x = s%60;
+      var pad = function(n){ return (n<10?"0":"")+n; };
+      $("clockLabel").textContent = "First kick-off in";
+      $("clock").innerHTML = [[d,"days"],[h,"hours"],[m,"min"],[x,"sec"]].map(function(u){ return '<div><b>'+pad(u[0])+'</b><span>'+u[1]+'</span></div>'; }).join("");
+    }
+    $("boardNote").innerHTML = 'The model expects about <b>'+e1+' of the first XI</b> and <b>'+e2+' of the second XI</b> to shine.';
+  }
+
+  function renderPitch(elId, xi, footId, footText){
+    var r = cur(), cap = captain(r), html = "";
+    LINES.forEach(function(line){
+      var ps = xi.filter(function(p){ return p.line===line; });
+      html += '<div class="prow">' + ps.map(function(p){
+        var hv = hit(p), badge = "";
+        if(hv === true) badge = '<span class="badge hit" title="Shone">✓</span>';
+        else if(hv === false) badge = '<span class="badge miss" title="Blank">✕</span>';
+        else if(cap === p.id) badge = '<span class="badge cap" title="Your captain">C</span>';
+        return '<button type="button" class="shirt" data-id="'+esc(p.id)+'" aria-pressed="'+(state.sel===p.id)+'" aria-label="'+esc(p.name)+', '+esc(p.pos)+', '+p.shine+' percent">'
+          + jersey(p.kit, p.shine) + badge
+          + '<span class="nm">'+esc(p.short)+'</span><span class="rk">'+esc(p.pos)+' · '+esc(p.team)+'</span></button>';
+      }).join("") + '</div>';
+    });
+    $(elId).innerHTML = html;
+    $(footId).textContent = isFinal(r) ? "✓ shone · ✕ blank" : footText;
+  }
+  function renderPitches(){
+    var r = cur();
+    renderPitch("xi1", r.xi1, "foot1", "Expected to shine: about " + expected(r.xi1).toFixed(1) + " of 11. Tap a shirt to open the player.");
+    renderPitch("xi2", r.xi2, "foot2", "Expected to shine: about " + expected(r.xi2).toFixed(1) + " of 11.");
+  }
+
+  function renderCard(){
+    var r = cur(), p = find(r, state.sel) || r.xi1[0];
+    var cap = captain(r), hv = hit(p), isCap = cap === p.id, which = r.xi1.indexOf(p) >= 0 ? "First XI" : "Second XI";
+    var verdict = "";
+    if(hv === true){
+      var bits = [];
+      if(p.result.cs && p.line !== "MID" && p.line !== "FWD") bits.push("clean sheet");
+      if(p.result.g) bits.push(p.result.g + " G");
+      if(p.result.a) bits.push(p.result.a + " A");
+      verdict = '<span class="verdict hit">Shone · '+esc(bits.join(", "))+'</span>';
+    } else if(hv === false) verdict = '<span class="verdict miss">Blank</span>';
+    var action = isFinal(r)
+      ? (isCap ? '<span class="tag">Your captain</span>' : '')
+      : '<button type="button" class="btn '+(isCap?"on":"")+'" id="capBtn">'+(isCap?"Your captain ✓":"Make him my captain")+'</button>';
+    $("card").innerHTML =
+      '<div class="card-top">'+jersey(p.kit, p.shine)
+      + '<div><div class="eyebrow">'+which+' · '+esc(p.pos)+'</div><h3>'+esc(p.name)+'</h3>'
+      + '<p>'+vs(p)+' · '+(p.ha==="H"?"home":"away")+'</p></div></div>'
+      + '<div class="trio">'
+      + '<div class="stat big"><b>'+p.shine+'%</b><span>'+esc(p.metric)+'</span></div>'
+      + p.stats.map(function(s){ return '<div class="stat"><b>'+esc(s[1])+'</b><span>'+esc(s[0])+'</span></div>'; }).join("")
+      + '</div>'
+      + '<dl class="facts">'
+      + '<div><dt>Likely range</dt><dd class="num">'+p.lo+'–'+p.hi+'%</dd></div>'
+      + '<div><dt>Expected minutes</dt><dd class="num">'+p.mins+'</dd></div>'
+      + '<div><dt>Status</dt><dd>'+esc(p.start)+'</dd></div></dl>'
+      + '<div class="tags">'+p.reasons.map(function(t){ return '<span class="tag">'+esc(t)+'</span>'; }).join("")+'</div>'
+      + '<div class="ud"><p class="up"><b>Biggest upside</b>'+esc(p.upside)+'</p><p class="dn"><b>Biggest risk</b>'+esc(p.risk)+'</p></div>'
+      + '<div class="card-actions">'+action+verdict+'</div>'
+      + (isFinal(r) ? '' : '<p class="hint">Your captain is saved on this device and gets checked after the final whistle.</p>');
+    var b = $("capBtn");
+    if(b) b.onclick = function(){ store("ucl-captain-"+r.id, isCap ? null : p.id); renderPitches(); renderCard(); };
+  }
+
+  function lineRows(r, line){
+    var rows = [];
+    r.xi1.forEach(function(p){ if(p.line===line) rows.push({ p: p, tag: "x1" }); });
+    r.xi2.forEach(function(p){ if(p.line===line) rows.push({ p: p, tag: "x2" }); });
+    ((r.nextUp||{})[line]||[]).forEach(function(p){ rows.push({ p: p, tag: "" }); });
+    return rows.sort(function(a,b){ return b.p.shine - a.p.shine; });
+  }
+  function renderRows(){
+    var r = cur(), line = state.line, rows = lineRows(r, line);
+    $("rows").innerHTML = rows.map(function(x, i){
+      var p = x.p, w = Math.min(100, p.shine/MAX*100);
+      var pill = x.tag==="x1" ? '<span class="pill x1">1st XI</span>' : x.tag==="x2" ? '<span class="pill x2">2nd XI</span>' : '<span class="pill">Next</span>';
+      var inner = '<span class="rk">'+(i+1)+'</span>'
+        + '<span class="who"><b>'+esc(p.name)+'</b><small>'+pill+vs(p)+'</small></span>'
+        + '<span class="track"><span class="fill" style="width:'+w+'%"></span><span class="rng" style="left:'+(p.lo/MAX*100)+'%;width:'+((p.hi-p.lo)/MAX*100)+'%"></span><span class="dot" style="left:'+w+'%"></span></span>'
+        + '<span class="val">'+p.shine+'%</span>';
+      return p.id
+        ? '<button type="button" class="rrow" data-id="'+esc(p.id)+'" data-i="'+i+'" aria-pressed="'+(state.sel===p.id)+'">'+inner+'</button>'
+        : '<div class="rrow" data-i="'+i+'">'+inner+'</div>';
+    }).join("");
+    var what = { FWD: "chance to score or assist", MID: "chance to score or assist", DEF: "chance of a clean sheet or a goal or assist", GK: "chance of a clean sheet" };
+    $("rankSub").textContent = "The top " + LINE_NAME[line] + " by " + what[line] + "."
+      + (line==="DEF" ? " A back four needs two full-backs and two centre-backs, with at most two from one club, so a higher number can miss out." : "");
+    LINES.forEach(function(l){ $("l"+l).setAttribute("aria-pressed", String(l===line)); });
+    var trow = function(p, xi){ return '<tr><td>'+xi+'</td><td>'+esc(p.pos)+'</td><td>'+esc(p.name)+'</td><td>'+esc(p.team)+'</td><td>'+esc(p.opp)+' ('+p.ha+')</td><td class="r">'+p.mins+'</td><td class="r"><b>'+p.shine+'%</b></td><td class="r">'+p.lo+'–'+p.hi+'%</td><td>'+esc(p.metric)+'</td><td>'+esc(p.stats.map(function(s){ return s[0]+' '+s[1]; }).join(", "))+'</td></tr>'; };
+    $("table").innerHTML = '<table><thead><tr><th>XI</th><th>Pos</th><th>Player</th><th>Team</th><th>Opponent</th><th class="r">Min</th><th class="r">Chance</th><th class="r">Range</th><th>Counts as shining</th><th>Detail</th></tr></thead><tbody>'
+      + r.xi1.slice().reverse().map(function(p){ return trow(p, "1st"); }).join("")
+      + r.xi2.slice().reverse().map(function(p){ return trow(p, "2nd"); }).join("")
+      + '</tbody></table>';
+  }
+
+  function renderLower(){
+    var r = cur();
+    $("out").innerHTML = (r.out||[]).map(function(o){ return '<li><span><b>'+esc(o.name)+'</b><small>'+esc(o.team)+'</small></span><span class="why">'+esc(o.why)+'</span></li>'; }).join("");
+    var teams = {}; all(r).forEach(function(p){ teams[p.team] = 1; });
+    $("fixtures").innerHTML = (r.fixtures||[]).map(function(d){
+      return '<div class="fx"><h3>'+esc(d.day)+'</h3><ul>'+d.games.map(function(g){
+        var nm = function(t){ return teams[t] ? '<b>'+esc(t)+'</b>' : esc(t); };
+        return '<li><time>'+esc(g[0])+'</time><span>'+nm(g[1])+' v '+nm(g[2])+'</span></li>';
+      }).join("")+'</ul></div>';
+    }).join("");
+    var done = ROUNDS.filter(isFinal), top = ROUNDS[0];
+    $("record").innerHTML = done.length
+      ? done.map(function(x){ return '<div class="rec"><span><b>'+esc(x.label)+'</b><br><span class="sub">'+esc(x.dates)+'</span></span>'
+          + '<span class="sc"><b class="num">'+hits(x.xi1)+' / 11</b><span>1st XI · exp. '+expected(x.xi1).toFixed(1)+'</span></span>'
+          + '<span class="sc"><b class="num">'+hits(x.xi2)+' / 11</b><span>2nd XI · exp. '+expected(x.xi2).toFixed(1)+'</span></span></div>'; }).join("")
+      : '<div class="rec"><span>No completed matchday yet. '+esc(top.label)+' will be the first one scored.</span>'
+          + '<span class="sc"><b class="num">– / 11</b><span>1st XI · exp. '+expected(top.xi1).toFixed(1)+'</span></span>'
+          + '<span class="sc"><b class="num">– / 11</b><span>2nd XI · exp. '+expected(top.xi2).toFixed(1)+'</span></span></div>';
+    $("caveats").innerHTML = (r.caveats||[]).map(function(c){ return '<li>'+esc(c)+'</li>'; }).join("");
+    $("sources").innerHTML = (r.sources||[]).map(function(s){ return '<a href="'+esc(s[1])+'" target="_blank" rel="noopener">'+esc(s[0])+'</a>'; }).join("");
+    $("foot").textContent = "Updated before every Champions League matchday. " + r.label + " data collected " + r.collected + ". Lineups can change until an hour before kick-off.";
+  }
+
+  function renderAll(){ renderTabs(); renderHero(); tick(); renderPitches(); renderCard(); renderRows(); renderLower(); }
+  function select(id, fromRow){
+    state.sel = id; renderPitches(); renderCard(); renderRows();
+    if(window.matchMedia("(max-width:860px)").matches || fromRow) $("card").scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }
+
+  document.addEventListener("click", function(e){
+    var t = e.target.closest("[data-round]");
+    if(t){ state.round = t.dataset.round; state.sel = cur().xi1.filter(function(p){ return p.line==="FWD"; })[0].id; try{ history.replaceState(null,"","#"+state.round); }catch(x){} renderAll(); return; }
+    var s = e.target.closest(".shirt");
+    if(s){ select(s.dataset.id, false); return; }
+    var row = e.target.closest("button.rrow");
+    if(row){ select(row.dataset.id, true); return; }
+    var l = e.target.closest("[data-line]");
+    if(l){ state.line = l.dataset.line; renderRows(); }
+  });
+
+  var tip = $("tip");
+  $("rows").addEventListener("pointermove", function(e){
+    var row = e.target.closest(".rrow");
+    if(!row || e.pointerType === "touch"){ tip.hidden = true; return; }
+    var p = lineRows(cur(), state.line)[Number(row.dataset.i)].p;
+    var extra = p.stats ? '<br>' + esc(p.stats.map(function(s){ return s[0]+' '+s[1]; }).join(" · ")) + '<br>About '+p.mins+' minutes expected' : '';
+    tip.innerHTML = '<b>'+esc(p.name)+'</b><br>'+p.shine+'% (likely '+p.lo+'–'+p.hi+'%)'+extra;
+    tip.hidden = false;
+    var x = Math.min(e.clientX + 14, window.innerWidth - tip.offsetWidth - 8), y = e.clientY + 16;
+    if(y + tip.offsetHeight > window.innerHeight - 8) y = e.clientY - tip.offsetHeight - 10;
+    tip.style.left = x + "px"; tip.style.top = y + "px";
+  });
+  $("rows").addEventListener("pointerleave", function(){ tip.hidden = true; });
+
+  if(!ROUNDS.length){ document.querySelector("main").innerHTML = '<p style="padding-top:40px">No forecast has been published yet.</p>'; return; }
+  var h = (location.hash||"").slice(1);
+  state.round = ROUNDS.some(function(r){ return r.id===h; }) ? h : ROUNDS[0].id;
+  state.sel = "kane";
+  if(!find(cur(), state.sel)) state.sel = cur().xi1[0].id;
+  renderAll();
+  setInterval(tick, 1000);
+})();
+</script>
+</body>
+</html>
