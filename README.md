@@ -27,8 +27,11 @@ The model for each round is in `ucl_mdN_model.py`. Run it with `python ucl_md2_m
 
 The site is refreshed before every matchday. After each round, every pick is marked as delivered or blank and the track record on the site is updated.
 
+The bottom of the site keeps the best eleven of every earlier matchday, drawn on a pitch.
+
 | Round | Dates | Status |
 |---|---|---|
+| Matchday 1 | 8–10 September 2026 | Played before the first forecast. Shown as UEFA's Team of the Week, not a model pick. |
 | Matchday 2 | 13–14 October 2026 | Forecast published 12 October 2026 |
 
 ## Files

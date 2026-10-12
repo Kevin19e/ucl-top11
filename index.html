@@ -264,20 +264,23 @@ td.r,th.r{text-align:right}
 .prose li{margin-bottom:6px}
 .prose details{margin-top:12px}
 .srcs{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.9rem;margin-top:10px}
-.past{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:14px}
-.sheet{background:var(--surface-2);border-radius:var(--wob-lg);padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.past{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:26px 22px;margin-top:14px}
+.sheet{display:flex;flex-direction:column;gap:10px;min-width:0;max-width:640px}
 .sheet-head{display:flex;justify-content:space-between;align-items:baseline;gap:4px 12px;flex-wrap:wrap}
-.sheet h3{font-size:1.8rem;line-height:1}
+.sheet h3{font-size:1.9rem;line-height:1}
 .sheet .when{font-family:var(--hand);color:var(--muted);font-size:.9rem}
-.sheet .score{font-family:var(--marker);font-size:1.5rem;line-height:1}
-.sheet dl{margin:0;display:grid;gap:5px}
-.sheet dl div{display:grid;grid-template-columns:5.4rem minmax(0,1fr);gap:8px;border-top:1.5px dashed var(--line);padding-top:5px;align-items:baseline}
-.sheet dt{font-family:var(--hand);font-weight:700;color:var(--muted);font-size:.9rem}
-.sheet dd{margin:0;display:flex;flex-wrap:wrap;gap:0 14px;font-size:.97rem}
-.sheet dd span{white-space:nowrap}
-.sheet dd b{font-family:var(--marker);font-weight:400;font-size:1.2rem}
-.sheet dd i{font-style:normal;font-family:var(--marker);font-size:1.15rem}
-.sheet .ok{color:var(--good)} .sheet .no{color:var(--bad)}
+.sheet .score{font-family:var(--marker);font-size:1.45rem;line-height:1}
+.pitch.mini .pitch-in{padding:16px 6px 14px;gap:10px}
+.pitch.mini .shirt{cursor:default;padding:4px 1px 2px}
+.pitch.mini .shirt svg{width:clamp(36px,10vw,50px)}
+.pitch.mini .shirt .nm{font-size:clamp(.7rem,2.3vw,.86rem);padding:1px 6px 0}
+.pitch.mini .shirt .rk{white-space:normal;text-align:center;font-size:.74rem;line-height:1.15}
+.pitch.mini .shirt .tm{opacity:.8}
+.pitch.mini .badge{width:21px;height:21px;font-size:.95rem;right:calc(50% - 36px)}
+.sheet-note{font-size:.9rem;color:var(--muted);max-width:60ch}
+.sheet details ul{margin:8px 0 0;padding-left:1.1rem;font-size:.92rem}
+.sheet details li{margin-bottom:4px}
+.past-key{font-family:var(--hand);font-size:.98rem;color:var(--muted);margin-top:6px;max-width:68ch}
 .btn.small{font-size:.92rem;padding:5px 13px 3px}
 .past-empty{font-family:var(--hand);font-size:1.02rem;max-width:60ch;margin-top:10px}
 footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68ch}
@@ -447,7 +450,8 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
 
   <section class="panel sk">
     <h2>Earlier best elevens</h2>
-    <p class="sub">Every First XI from this season's earlier matchdays, with who delivered.</p>
+    <p class="sub">The best eleven of every earlier matchday this season.</p>
+    <p class="past-key">A number on the shirt is the model's chance before the games, marked ✓ or ✕ afterwards. A star means he was named in the team of the week after the games.</p>
     <div id="past"></div>
   </section>
 
@@ -462,7 +466,9 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
    status to "final"; (2) add the new round object at the top of the array.
    `shine` is the shirt number: GK = clean sheet %, DEF = clean sheet or goal/assist %, MID/FWD = goal or assist %.
    Inside xi1 / xi2 list players left to right within each line. Numbers come from ucl_md2_model.py.
-   After editing, republish this file to the same artifact URL. */
+   After editing, republish this file to the same artifact URL.
+   Earlier rounds are never removed: the "Earlier best elevens" section at the bottom draws every round
+   except the newest, followed by window.UCL_BEFORE (defined after this array). */
 window.UCL_ROUNDS = [
   {
     id: "md2",
@@ -682,6 +688,30 @@ window.UCL_ROUNDS = [
     ]
   }
 ];
+
+/* Matchdays played before the model's first forecast. NOT a forecast: this is UEFA's own Team of the Week,
+   chosen by its Technical Observer Group after the games. Listed left to right within each line. Leave as is. */
+window.UCL_BEFORE = [
+  { id: "md1", label: "Matchday 1", dates: "8–10 September 2026",
+    credit: "UEFA Team of the Week",
+    foot: "named after the games, not a forecast",
+    note: "Picked by UEFA's technical observers after the games. The model's own forecasts start at Matchday 2.",
+    sourceName: "UEFA.com: Team of the Week, Matchday 1",
+    source: "https://www.uefa.com/uefachampionsleague/news/02a9-21910bd2f5c3-46a96a9b3ada-1000--champions-league-team-of-the-week-matchday-1/",
+    xi: [
+      { name: "Raphinha", short: "Raphinha", team: "Barcelona", line: "FWD", did: "2 goals", match: "Barcelona 5-1 Feyenoord", kit: ["#A50044", "#004D98", "#FFD21F"] },
+      { name: "Ermedin Demirović", short: "Demirović", team: "Stuttgart", line: "FWD", did: "hat-trick", match: "Stuttgart 3-1 Viking", kit: ["#FFFFFF", "#E32219", "#E32219"] },
+      { name: "Ferran Torres", short: "F. Torres", team: "Paris SG", line: "FWD", did: "hat-trick", match: "Paris SG 6-1 Slovan Bratislava", kit: ["#004170", "#DA291C", "#FFFFFF"] },
+      { name: "Michael Olise", short: "Olise", team: "Bayern", line: "FWD", did: "2 goals, 1 assist", match: "Bayern 5-0 Bodø/Glimt", kit: ["#DC052D", "#FFFFFF", "#FFFFFF"] },
+      { name: "Martin Ødegaard", short: "Ødegaard", team: "Arsenal", line: "MID", did: "winning goal", match: "Napoli 0-1 Arsenal", kit: ["#EF0107", "#FFFFFF", "#FFFFFF"] },
+      { name: "Martin Baturina", short: "Baturina", team: "Como", line: "MID", did: "1 goal, 1 assist", match: "Como 4-1 Leipzig", kit: ["#1D4E9E", "#FFFFFF", "#FFFFFF"] },
+      { name: "Archie Brown", short: "Brown", team: "Fenerbahçe", line: "DEF", did: "equaliser", match: "Fenerbahçe 1-1 Roma", kit: ["#002D72", "#FFED00", "#FFED00"] },
+      { name: "Pau Torres", short: "Pau Torres", team: "Aston Villa", line: "DEF", did: "2 assists", match: "Club Brugge 2-3 Aston Villa", kit: ["#670E36", "#95BFE5", "#FFFFFF"] },
+      { name: "Marc Bartra", short: "Bartra", team: "Real Betis", line: "DEF", did: "2 headed goals", match: "Lille 2-3 Real Betis", kit: ["#0BB363", "#FFFFFF", "#FFFFFF"] },
+      { name: "Sergiño Dest", short: "Dest", team: "PSV", line: "DEF", did: "equaliser", match: "PSV 1-1 Shakhtar", kit: ["#E30613", "#FFFFFF", "#FFFFFF"] },
+      { name: "Thibaut Courtois", short: "Courtois", team: "Real Madrid", line: "GK", did: "7 saves", match: "Real Madrid 2-1 Inter", kit: ["#1B1F2B", "#C9A227", "#FFFFFF"] }
+    ] }
+];
 </script>
 <script>
 (function(){
@@ -718,7 +748,10 @@ window.UCL_ROUNDS = [
       + '<path d="M61.900 23l-10 4.800-1.600-2.700 10.100-5.300Z" fill="'+t+'" stroke="'+pen+'" stroke-width="1"/>'
       + '<path d="M20.500 4.200c4.100 5.200 19.100 5 23.300.1" fill="none" stroke="'+t+'" stroke-width="2.600" stroke-linecap="round"/>'
       + '<path d="M43.500 17l1.600 13M45.900 24.500l.9 14M43.800 36l.5 12" fill="none" stroke="rgba(0,0,0,.16)" stroke-width="1.600" stroke-linecap="round"/>'
-      + '<text x="31" y="46" text-anchor="middle" font-family="Caveat Brush, Segoe Print, cursive" font-size="28" fill="'+ink+'">'+num+'</text></svg>';
+      + (num === "*"
+          ? '<path d="M31 26.5l2.350 6.260 6.680.3-5.230 4.180 1.780 6.450L31 40l-5.580 3.690 1.780-6.450-5.230-4.180 6.680-.3Z" fill="'+ink+'" stroke="'+pen+'" stroke-width=".8" stroke-linejoin="round"/>'
+          : '<text x="31" y="46" text-anchor="middle" font-family="Caveat Brush, Segoe Print, cursive" font-size="28" fill="'+ink+'">'+num+'</text>')
+      + '</svg>';
   }
 
   function renderTabs(){
@@ -870,24 +903,45 @@ window.UCL_ROUNDS = [
     $("foot").textContent = "Updated before every Champions League matchday. " + r.label + " data collected " + r.collected + ". Lineups can change until an hour before kick-off.";
   }
 
+  var LINES_SVG = '<svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="var(--chalk-soft)" stroke-width="2" stroke-linecap="round">'
+    + '<rect x="3.500" y="2.500" width="93" height="95" vector-effect="non-scaling-stroke"/><rect x="27" y="2.500" width="46" height="11" vector-effect="non-scaling-stroke"/>'
+    + '<rect x="27" y="86.500" width="46" height="11" vector-effect="non-scaling-stroke"/><line x1="3.500" y1="50" x2="96.500" y2="50" vector-effect="non-scaling-stroke"/>'
+    + '<ellipse cx="50" cy="50" rx="13" ry="7" vector-effect="non-scaling-stroke"/></g></svg>';
+  function miniPitch(xi, shirtOf, foot){
+    var rows = LINES.map(function(l){
+      var ps = xi.filter(function(p){ return p.line===l; });
+      return ps.length ? '<div class="prow">'+ps.map(shirtOf).join("")+'</div>' : '';
+    }).join("");
+    return '<div class="pitch mini sk">'+LINES_SVG+'<div class="pitch-in"><div class="rowsp">'+rows+'</div>'
+      + (foot ? '<div class="pitch-foot">'+esc(foot)+'</div>' : '')+'</div></div>';
+  }
+  /* Bottom of the page: one drawn pitch per earlier matchday. Forecast rounds come from ROUNDS (all but the
+     newest); matchdays played before the first forecast come from UCL_BEFORE. */
   function renderPast(){
-    var older = ROUNDS.slice(1), names = { FWD: "Forwards", MID: "Midfielders", DEF: "Defenders", GK: "Keeper" };
-    if(!older.length){
-      $("past").innerHTML = '<p class="past-empty">'+esc(ROUNDS[0].label)+' is the first forecast of the season, so there is nothing to look back on yet. From the next matchday on, every earlier First XI is kept here with its ✓ and ✕ marks.</p>';
+    var older = ROUNDS.slice(1), before = window.UCL_BEFORE || [];
+    if(!older.length && !before.length){
+      $("past").innerHTML = '<p class="past-empty">'+esc(ROUNDS[0].label)+' is the first matchday of the season, so there is nothing to look back on yet.</p>';
       return;
     }
-    $("past").innerHTML = '<div class="past">' + older.map(function(x){
+    var html = older.map(function(x){
       var fin = isFinal(x);
       return '<article class="sheet"><div class="sheet-head"><div><h3>'+esc(x.label)+'</h3><span class="when">'+esc(x.dates)+'</span></div>'
-        + '<span class="score">'+(fin ? hits(x.xi1)+'/11 shone' : 'awaiting results')+'</span></div><dl>'
-        + LINES.map(function(l){
-            return '<div><dt>'+names[l]+'</dt><dd>' + x.xi1.filter(function(p){ return p.line===l; }).map(function(p){
-              var hv = hit(p);
-              return '<span>'+esc(p.short)+' <b>'+p.shine+'</b>'+(hv===true ? ' <i class="ok">✓</i>' : hv===false ? ' <i class="no">✕</i>' : '')+'</span>';
-            }).join("") + '</dd></div>';
-          }).join("")
-        + '</dl><div><button type="button" class="btn small" data-round="'+esc(x.id)+'" data-top="1">Open '+esc(x.label)+'</button></div></article>';
-    }).join("") + '</div>';
+        + '<span class="score">'+(fin ? hits(x.xi1)+'/11 shone' : 'awaiting results')+'</span></div>'
+        + miniPitch(x.xi1, function(p){
+            var hv = hit(p), badge = hv===true ? '<span class="badge hit">✓</span>' : hv===false ? '<span class="badge miss">✕</span>' : '';
+            return '<div class="shirt">'+jersey(p.kit, p.shine)+badge+'<span class="nm">'+esc(p.short)+'</span><span class="rk">'+esc(p.pos)+' · '+esc(p.team)+'</span></div>';
+          }, "the model expected about "+expected(x.xi1).toFixed(1)+" of these 11 to shine")
+        + '<div><button type="button" class="btn small" data-round="'+esc(x.id)+'" data-top="1">Open '+esc(x.label)+'</button></div></article>';
+    }).join("") + before.map(function(x){
+      return '<article class="sheet"><div class="sheet-head"><div><h3>'+esc(x.label)+'</h3><span class="when">'+esc(x.dates)+'</span></div>'
+        + '<span class="score">'+esc(x.credit)+'</span></div>'
+        + miniPitch(x.xi, function(p){
+            return '<div class="shirt">'+jersey(p.kit, "*")+'<span class="nm">'+esc(p.short)+'</span><span class="rk">'+esc(p.did)+'</span><span class="rk tm">'+esc(p.team)+'</span></div>';
+          }, x.foot)
+        + '<p class="sheet-note">'+esc(x.note)+' <a href="'+esc(x.source)+'" target="_blank" rel="noopener">'+esc(x.sourceName)+'</a></p>'
+        + '<details><summary>Who did what</summary><ul>'+x.xi.map(function(p){ return '<li><b>'+esc(p.name)+'</b> ('+esc(p.team)+'): '+esc(p.did)+'. '+esc(p.match)+'</li>'; }).join("")+'</ul></details></article>';
+    }).join("");
+    $("past").innerHTML = '<div class="past">'+html+'</div>';
   }
 
   function renderAll(){ renderTabs(); renderHero(); tick(); renderPitches(); renderCard(); renderRows(); renderLower(); renderPast(); }
