@@ -17,7 +17,7 @@
   --bg:#F3F5F9; --grid:rgba(39,71,214,.075);
   --surface:#FFFFFF; --surface-2:#F0F3FA; --ink:#17224D; --muted:#56628C; --line:#C6CFE6;
   --accent:#FFE24A; --on-accent:#17224D; --hl:rgba(255,226,74,.85);
-  --data:#2747D6; --good:#157A4B; --bad:#C8303B;
+  --data:#2747D6; --good:#157A4B; --bad:#C8303B; --cmp-b:#7C93EA;
   --pitch:#2E8B57; --pitch-2:#23744A; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.68);
   --tape:#FBF6E4; --tape-ink:#17224D;
   --n1:#FFF4A8; --n2:#FFDCD3; --n3:#D5E8FF; --note-ink:#17224D;
@@ -35,7 +35,7 @@
     --bg:#161A26; --grid:rgba(255,255,255,.035);
     --surface:#1F2432; --surface-2:#2A3042; --ink:#F2F0E6; --muted:#A9AFC4; --line:#414860;
     --accent:#FFD95A; --on-accent:#1B1E12; --hl:rgba(255,217,90,.3);
-    --data:#9DB8FF; --good:#8FE3A8; --bad:#FF9A9A;
+    --data:#9DB8FF; --good:#8FE3A8; --bad:#FF9A9A; --cmp-b:#7F98EE;
     --pitch:#1F6A45; --pitch-2:#18563A; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.6);
     --tape:#EDE7D2; --tape-ink:#1B2140;
     --n1:#3B3619; --n2:#40292A; --n3:#1D3148; --note-ink:#F2F0E6;
@@ -48,7 +48,7 @@
   --bg:#161A26; --grid:rgba(255,255,255,.035);
   --surface:#1F2432; --surface-2:#2A3042; --ink:#F2F0E6; --muted:#A9AFC4; --line:#414860;
   --accent:#FFD95A; --on-accent:#1B1E12; --hl:rgba(255,217,90,.3);
-  --data:#9DB8FF; --good:#8FE3A8; --bad:#FF9A9A;
+  --data:#9DB8FF; --good:#8FE3A8; --bad:#FF9A9A; --cmp-b:#7F98EE;
   --pitch:#1F6A45; --pitch-2:#18563A; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.6);
   --tape:#EDE7D2; --tape-ink:#1B2140;
   --n1:#3B3619; --n2:#40292A; --n3:#1D3148; --note-ink:#F2F0E6;
@@ -194,6 +194,40 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
 .seg button{font-family:var(--hand);font-weight:700;font-size:.95rem;line-height:1.2;padding:4px 13px 2px;border:2px solid var(--ink);border-radius:var(--wob);background:var(--surface)}
 .seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
 
+/* head to head */
+#compare{scroll-margin-top:84px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.cmp-pick{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:center;margin-top:14px}
+.cmp-pick select{width:100%;min-width:0;font-family:var(--hand);font-weight:700;font-size:1rem;line-height:1.2;padding:8px 10px 5px;border:2px solid var(--ink);border-radius:var(--wob);background:var(--surface);color:var(--ink)}
+.cmp-pick .vs,.cmp-vs{font-family:var(--marker);font-size:1.9rem;line-height:1;color:var(--muted)}
+.cmp-top{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:center;margin-top:20px}
+.cmp-side{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;min-width:0}
+.cmp-side svg{width:clamp(56px,16vw,86px);height:auto}
+.cmp-side.a svg{transform:rotate(-5deg)} .cmp-side.b svg{transform:rotate(5deg)}
+.cmp-side h3{font-size:clamp(1.45rem,4.8vw,2.1rem);line-height:1}
+.cmp-side p{color:var(--muted);font-size:.9rem}
+.cmp-side .key{display:block;width:38px;height:11px;margin-top:4px;border:1.5px solid var(--ink)}
+.cmp-side.a .key{background:var(--accent);border-radius:9px 3px 3px 7px/6px 4px 5px 9px}
+.cmp-side.b .key{background:var(--cmp-b);border-radius:3px 9px 7px 3px/4px 6px 9px 5px}
+.cmp-rows{display:grid;gap:12px;margin-top:18px}
+.cmp-label{font-family:var(--hand);font-weight:700;text-align:center;font-size:.98rem;line-height:1.3}
+.cmp-label small{font-weight:400;color:var(--muted);font-size:.84rem;white-space:nowrap}
+.cmp-bars{display:grid;grid-template-columns:4rem minmax(0,1fr) minmax(0,1fr) 4rem;align-items:center}
+.cv{font-family:var(--marker);font-size:1.55rem;line-height:1}
+.cv b{font-weight:400;display:inline-block;padding:1px 6px 0}
+.cv.a{text-align:right;padding-right:4px} .cv.b{text-align:left;padding-left:4px}
+.cv.win b{border:2px solid var(--data);border-radius:var(--blob);transform:rotate(-3deg)}
+.cv.na{color:var(--muted)}
+.cb{display:flex;height:20px;align-items:center;background:linear-gradient(var(--line),var(--line)) 0 50%/100% 1.5px no-repeat}
+.cb.a{justify-content:flex-end;border-right:2px solid var(--ink)}
+.cb i{display:block;height:15px;border:1.5px solid var(--ink)}
+.cb.a i{background:var(--accent);border-right:0;border-radius:9px 0 0 7px/6px 0 0 9px}
+.cb.b i{background:var(--cmp-b);border-left:0;border-radius:0 9px 7px 0/0 6px 9px 0}
+.cmp-verdict{font-family:var(--hand);font-weight:700;font-size:1.08rem;line-height:1.4;margin-top:18px;max-width:68ch;padding:8px 14px 6px;background:var(--surface-2);border-radius:var(--wob-lg)}
+.cmp-foot{color:var(--muted);font-size:.84rem;margin-top:8px}
+.cmp-notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:16px}
+.cmp-notes h4{margin:0 0 4px;font-family:var(--marker);font-weight:400;font-size:1.4rem;line-height:1}
+
 /* pecking order chart */
 .rows{display:flex;flex-direction:column}
 .rrow,.axis{display:grid;grid-template-columns:26px minmax(0,14rem) minmax(0,1fr) 3.8rem;gap:10px;align-items:center}
@@ -300,6 +334,9 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
   .axis{grid-template-rows:0 auto}
   .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
   .bigpct b{font-size:2.7rem}
+  .cmp-notes{grid-template-columns:minmax(0,1fr)}
+  .cmp-bars{grid-template-columns:3.4rem minmax(0,1fr) minmax(0,1fr) 3.4rem}
+  .cv{font-size:1.35rem}
   .badge{right:calc(50% - 36px)}
 }
 @media (prefers-reduced-motion:reduce){ .shirt svg,.btn{transition:none} }
@@ -346,7 +383,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
     <ol class="steps">
       <li class="step"><span class="n">1</span><div><h3>Two teams</h3><p>The First XI is the best pick in every position. The Second XI is who comes next.</p></div></li>
       <li class="step"><span class="n">2</span><div><h3>The shirt number is his chance</h3><p>A <b class="exn">56</b> means a <span class="exn">56</span>% chance to shine. For forwards and midfielders that is a goal or an assist. For defenders a clean sheet counts too. For the keeper, only the clean sheet.</p></div><span class="ex" id="exShirt" aria-hidden="true"></span></li>
-      <li class="step"><span class="n">3</span><div><h3>Tap a shirt</h3><p>See why he is in and what could go wrong, and pick your captain. After full time every shirt gets a ✓ or a ✕.</p></div></li>
+      <li class="step"><span class="n">3</span><div><h3>Tap a shirt</h3><p>See why he is in and what could go wrong, pick your captain, or put two players head to head. After full time every shirt gets a ✓ or a ✕.</p></div></li>
     </ol>
     <p class="doodle" aria-hidden="true">here they are <svg viewBox="0 0 54 36"><path d="M4 6C20 1 40 8 43 30"/><path d="M34 23l9 8 7-11"/></svg></p>
   </section>
@@ -385,6 +422,17 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
         <div class="pitch-foot" id="foot2"></div>
       </div>
     </div>
+  </section>
+
+  <section class="panel sk" id="compare">
+    <h2>Head to head</h2>
+    <p class="sub">Pick any two players from the two elevens and see them side by side.</p>
+    <div class="cmp-pick">
+      <label class="vh" for="cmpA">First player</label><select id="cmpA"></select>
+      <span class="vs" aria-hidden="true">v</span>
+      <label class="vh" for="cmpB">Second player</label><select id="cmpB"></select>
+    </div>
+    <div id="cmp" aria-live="polite"></div>
   </section>
 
   <section class="panel sk">
@@ -720,7 +768,7 @@ window.UCL_BEFORE = [
   var esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); };
   var MAX = 75, LINES = ["FWD","MID","DEF","GK"];
   var LINE_NAME = { FWD: "forwards", MID: "midfielders", DEF: "defenders", GK: "keepers" };
-  var state = { round: null, sel: null, line: "FWD" };
+  var state = { round: null, sel: null, line: "FWD", cmpA: null, cmpB: null };
 
   function store(k, v){ try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k, v); }catch(e){} return null; }
   function cur(){ for(var i=0;i<ROUNDS.length;i++) if(ROUNDS[i].id===state.round) return ROUNDS[i]; return ROUNDS[0]; }
@@ -843,10 +891,82 @@ window.UCL_BEFORE = [
       + '<div><dt>status</dt><dd>'+esc(p.start)+'</dd></div></dl>'
       + '<div class="tags">'+p.reasons.map(function(t){ return '<span class="tag">'+esc(t)+'</span>'; }).join("")+'</div>'
       + '<div class="ud"><p class="up"><b>+ biggest upside</b>'+esc(p.upside)+'</p><p class="dn"><b>! biggest risk</b>'+esc(p.risk)+'</p></div>'
-      + '<div class="card-actions">'+action+verdict+'</div>'
+      + '<div class="card-actions">'+action+'<button type="button" class="btn on" id="cmpBtn">Compare him</button>'+verdict+'</div>'
       + (isFinal(r) ? '' : '<p class="hint">Your captain is saved on this device and gets checked after the final whistle.</p>');
     var b = $("capBtn");
     if(b) b.onclick = function(){ store("ucl-captain-"+r.id, isCap ? null : p.id); renderPitches(); renderCard(); };
+    $("cmpBtn").onclick = function(){
+      if(state.cmpB === p.id) state.cmpB = state.cmpA;
+      state.cmpA = p.id;
+      renderComparePick(); renderCompare();
+      $("compare").scrollIntoView({ block: "start", behavior: "smooth" });
+    };
+  }
+
+  /* Head to head: any two of the 22 picked players, side by side. */
+  function statOf(p, label){ var s = (p.stats||[]).filter(function(x){ return x[0]===label; })[0]; return s ? parseFloat(s[1]) : null; }
+  function isAtt(p){ return p.line==="FWD" || p.line==="MID"; }
+  function metrics(p){
+    return {
+      shine: p.shine,
+      ga: isAtt(p) ? p.shine : (p.line==="DEF" ? statOf(p, "Goal or assist") : null),
+      goal: isAtt(p) ? statOf(p, "Goal") : null,
+      assist: isAtt(p) ? statOf(p, "Assist") : null,
+      cs: p.line==="GK" ? p.shine : (p.line==="DEF" ? statOf(p, "Clean sheet") : null),
+      mins: p.mins
+    };
+  }
+  function renderComparePick(){
+    var r = cur();
+    if(!find(r, state.cmpA) || !find(r, state.cmpB) || state.cmpA === state.cmpB){
+      var f = r.xi1.filter(function(p){ return p.line==="FWD"; }).sort(function(a,b){ return b.shine-a.shine; });
+      state.cmpA = (f[0] || r.xi1[0]).id; state.cmpB = (f[1] || r.xi1[1]).id;
+    }
+    var opts = function(sel){
+      return [["First XI", r.xi1], ["Second XI", r.xi2]].map(function(g){
+        return '<optgroup label="'+g[0]+'">' + g[1].map(function(p){
+          return '<option value="'+esc(p.id)+'"'+(p.id===sel ? ' selected' : '')+'>'+esc(p.name)+' · '+esc(p.pos)+' · '+p.shine+'%</option>';
+        }).join("") + '</optgroup>';
+      }).join("");
+    };
+    $("cmpA").innerHTML = opts(state.cmpA); $("cmpB").innerHTML = opts(state.cmpB);
+  }
+  function cmpVerdict(A, B){
+    var text;
+    if(A.shine === B.shine) text = "Dead level: both have a "+A.shine+"% chance to shine.";
+    else {
+      var L = A.shine > B.shine ? A : B, O = L === A ? B : A, overlap = A.lo <= B.hi && B.lo <= A.hi;
+      text = overlap
+        ? L.short+" is ahead, "+L.shine+"% to "+O.shine+"%, but their likely ranges overlap, so the model cannot really separate them."
+        : L.short+" has the clear edge, "+L.shine+"% to "+O.shine+"%, and their likely ranges do not overlap.";
+    }
+    if(A.line !== B.line && !(isAtt(A) && isAtt(B))){
+      var d = A.line==="DEF" || B.line==="DEF", g = A.line==="GK" || B.line==="GK";
+      text += " They are not judged the same way:"
+        + (d ? " a defender also shines with a clean sheet, so his number runs higher than an attacker's" : "")
+        + (d && g ? ", and" : "")
+        + (g ? " a keeper is judged on the clean sheet alone" : "") + ".";
+    }
+    return text;
+  }
+  function renderCompare(){
+    var r = cur(), A = find(r, state.cmpA), B = find(r, state.cmpB), ma = metrics(A), mb = metrics(B), dash = false;
+    var defs = [["shine","chance to shine",MAX,"%"],["ga","goal or assist",MAX,"%"],["goal","goal",MAX,"%"],["assist","assist",MAX,"%"],["cs","clean sheet",MAX,"%"],["mins","expected minutes",90,""]];
+    var side = function(p, k){ return '<div class="cmp-side '+k+'">'+jersey(p.kit, p.shine)+'<h3>'+esc(p.name)+'</h3><p>'+esc(p.pos)+' · '+vs(p)+'</p><span class="key" aria-hidden="true"></span></div>'; };
+    var rows = defs.filter(function(d){ return !(ma[d[0]]==null && mb[d[0]]==null) && !(d[0]==="ga" && isAtt(A) && isAtt(B)); }).map(function(d){
+      var a = ma[d[0]], b = mb[d[0]], both = a!=null && b!=null;
+      if(a==null || b==null) dash = true;
+      var val = function(v, k, win){ return '<span class="cv '+k+(win ? ' win' : '')+(v==null ? ' na' : '')+'"><b>'+(v==null ? '–' : v+d[3])+'</b></span>'; };
+      var bar = function(v, k){ return '<span class="cb '+k+'">'+(v==null ? '' : '<i style="width:'+Math.min(100, v/d[2]*100)+'%"></i>')+'</span>'; };
+      return '<div class="cmp-row"><div class="cmp-label">'+d[1]+(d[0]==="shine" ? ' <small>(likely '+A.lo+'–'+A.hi+'% v '+B.lo+'–'+B.hi+'%)</small>' : '')+'</div>'
+        + '<div class="cmp-bars">'+val(a,"a",both && a>b)+bar(a,"a")+bar(b,"b")+val(b,"b",both && b>a)+'</div></div>';
+    }).join("");
+    var note = function(p){ return '<div class="ud"><h4>'+esc(p.short)+'</h4><p class="up"><b>+ biggest upside</b>'+esc(p.upside)+'</p><p class="dn"><b>! biggest risk</b>'+esc(p.risk)+'</p></div>'; };
+    $("cmp").innerHTML = '<div class="cmp-top">'+side(A,"a")+'<span class="cmp-vs" aria-hidden="true">v</span>'+side(B,"b")+'</div>'
+      + '<div class="cmp-rows">'+rows+'</div>'
+      + '<p class="cmp-verdict">'+esc(cmpVerdict(A, B))+'</p>'
+      + (dash ? '<p class="cmp-foot">A dash means that number is not part of how he is judged, or is not published for his position.</p>' : '')
+      + '<div class="cmp-notes">'+note(A)+note(B)+'</div>';
   }
 
   function lineRows(r, line){
@@ -944,7 +1064,7 @@ window.UCL_BEFORE = [
     $("past").innerHTML = '<div class="past">'+html+'</div>';
   }
 
-  function renderAll(){ renderTabs(); renderHero(); tick(); renderPitches(); renderCard(); renderRows(); renderLower(); renderPast(); }
+  function renderAll(){ renderTabs(); renderHero(); tick(); renderPitches(); renderCard(); renderComparePick(); renderCompare(); renderRows(); renderLower(); renderPast(); }
   function select(id, fromRow){
     state.sel = id; renderPitches(); renderCard(); renderRows();
     if(window.matchMedia("(max-width:860px)").matches || fromRow) $("card").scrollIntoView({ block: "nearest", behavior: "smooth" });
@@ -952,7 +1072,7 @@ window.UCL_BEFORE = [
 
   document.addEventListener("click", function(e){
     var t = e.target.closest("[data-round]");
-    if(t){ state.round = t.dataset.round; state.sel = cur().xi1.filter(function(p){ return p.line==="FWD"; })[0].id; try{ history.replaceState(null,"","#"+state.round); }catch(x){} renderAll(); if(t.dataset.top) window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+    if(t){ state.round = t.dataset.round; state.cmpA = state.cmpB = null; state.sel = cur().xi1.filter(function(p){ return p.line==="FWD"; })[0].id; try{ history.replaceState(null,"","#"+state.round); }catch(x){} renderAll(); if(t.dataset.top) window.scrollTo({ top: 0, behavior: "smooth" }); return; }
     var s = e.target.closest(".shirt");
     if(s){ select(s.dataset.id, false); return; }
     var row = e.target.closest("button.rrow");
@@ -974,6 +1094,14 @@ window.UCL_BEFORE = [
     tip.style.left = x + "px"; tip.style.top = y + "px";
   });
   $("rows").addEventListener("pointerleave", function(){ tip.hidden = true; });
+  ["cmpA","cmpB"].forEach(function(id){
+    $(id).addEventListener("change", function(){
+      var other = id==="cmpA" ? "cmpB" : "cmpA", old = state[id];
+      state[id] = this.value;
+      if(state[other] === this.value){ state[other] = old; renderComparePick(); }
+      renderCompare();
+    });
+  });
 
   if(!ROUNDS.length){ document.querySelector("main").innerHTML = '<p style="padding-top:40px">No forecast has been published yet.</p>'; return; }
   var h = (location.hash||"").slice(1);
