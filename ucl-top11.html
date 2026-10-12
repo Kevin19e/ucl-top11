@@ -1,233 +1,289 @@
 <title>UCL Top 11</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Kalam:wght@400;700&family=Barlow:wght@400;500;600&display=swap">
 <style>
-/* Layout: two floodlit pitches hold a first and a second XI in a 4-3-3 as shirts (shirt number = chance to shine),
-   a player card sits beside them, then a dot-and-range ranking by line, track record and fixtures stack below. */
+/* Layout: a coach's notebook. Squared paper (chalkboard in dark), three taped notes explain the page, then two
+   hand-drawn pitches hold the elevens as shirts (shirt number = chance to shine) beside a scout card. */
 :root{
-  --bg:#E9EDF6; --surface:#FFFFFF; --surface-2:#F2F4FB; --ink:#0C1433; --muted:#55608A; --line:#D5DBEA;
-  --accent:#FFD21F; --on-accent:#0C1433;
-  --data:#2747D6; --data-soft:#C9D3FA;
-  --good:#0E7A4B; --bad:#C42B3A; --cup:#C5CEE6; --cup-shine:#FFFFFF;
-  --pitch-a:#1E7B4C; --pitch-b:#1A6E44; --pitch2-a:#245F78; --pitch2-b:#1F556C;
-  --pitch-line:rgba(255,255,255,.5); --pitch-ink:#FFFFFF; --pitch-chip:rgba(6,20,40,.62);
-  --shadow:0 10px 30px rgba(12,20,51,.10);
-  --display:"Anton","Impact","Haettenschweiler","Arial Narrow Bold",sans-serif;
+  --bg:#F3F5F9; --grid:rgba(39,71,214,.075);
+  --surface:#FFFFFF; --surface-2:#F0F3FA; --ink:#17224D; --muted:#56628C; --line:#C6CFE6;
+  --accent:#FFE24A; --on-accent:#17224D; --hl:rgba(255,226,74,.85);
+  --data:#2747D6; --good:#157A4B; --bad:#C8303B;
+  --pitch:#2E8B57; --pitch-2:#2F7F96; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.68);
+  --tape:#FBF6E4; --tape-ink:#17224D;
+  --n1:#FFF4A8; --n2:#D2F4DE; --n3:#D5E8FF; --note-ink:#17224D;
+  --cup:#C5CEE6; --cup-shine:#FFFFFF;
+  --shadow:3px 4px 0 rgba(23,34,77,.13);
+  --marker:"Caveat Brush","Segoe Print","Bradley Hand",cursive;
+  --hand:"Kalam","Segoe Print","Comic Sans MS",cursive;
   --body:"Barlow","Segoe UI",system-ui,sans-serif;
-  --label:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --wob:255px 18px 225px 18px/18px 225px 18px 255px;
+  --wob-lg:26px 12px 22px 14px/14px 24px 12px 26px;
+  --blob:50% 46% 52% 48%/48% 52% 46% 50%;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#080D1F; --surface:#111936; --surface-2:#18224A; --ink:#EEF2FF; --muted:#9AA7D1; --line:#27325E;
-    --accent:#FFD21F; --on-accent:#0C1433;
-    --data:#8EA5FF; --data-soft:#2C3A7A;
-    --good:#4FD69A; --bad:#FF7A86; --cup:#DDE3F5; --cup-shine:#FFFFFF;
-    --pitch-a:#17633D; --pitch-b:#145836; --pitch2-a:#1B4A5E; --pitch2-b:#174253;
-    --pitch-line:rgba(255,255,255,.42); --pitch-ink:#FFFFFF; --pitch-chip:rgba(4,10,26,.66);
-    --shadow:0 10px 30px rgba(0,0,0,.45);
+    --bg:#17211E; --grid:rgba(255,255,255,.035);
+    --surface:#1D2925; --surface-2:#263631; --ink:#F2F0E6; --muted:#A8B5AD; --line:#3E5048;
+    --accent:#FFD95A; --on-accent:#1B1E12; --hl:rgba(255,217,90,.3);
+    --data:#9DB8FF; --good:#8FE3A8; --bad:#FF9A9A;
+    --pitch:#1F6A45; --pitch-2:#235F73; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.6);
+    --tape:#EDE7D2; --tape-ink:#1B2140;
+    --n1:#3B3619; --n2:#1D3A2B; --n3:#1D3148; --note-ink:#F2F0E6;
+    --cup:#DDE3F5; --cup-shine:#FFFFFF;
+    --shadow:3px 4px 0 rgba(0,0,0,.35);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#080D1F; --surface:#111936; --surface-2:#18224A; --ink:#EEF2FF; --muted:#9AA7D1; --line:#27325E;
-  --accent:#FFD21F; --on-accent:#0C1433;
-  --data:#8EA5FF; --data-soft:#2C3A7A;
-  --good:#4FD69A; --bad:#FF7A86; --cup:#DDE3F5; --cup-shine:#FFFFFF;
-  --pitch-a:#17633D; --pitch-b:#145836; --pitch2-a:#1B4A5E; --pitch2-b:#174253;
-  --pitch-line:rgba(255,255,255,.42); --pitch-ink:#FFFFFF; --pitch-chip:rgba(4,10,26,.66);
-  --shadow:0 10px 30px rgba(0,0,0,.45);
+  --bg:#17211E; --grid:rgba(255,255,255,.035);
+  --surface:#1D2925; --surface-2:#263631; --ink:#F2F0E6; --muted:#A8B5AD; --line:#3E5048;
+  --accent:#FFD95A; --on-accent:#1B1E12; --hl:rgba(255,217,90,.3);
+  --data:#9DB8FF; --good:#8FE3A8; --bad:#FF9A9A;
+  --pitch:#1F6A45; --pitch-2:#235F73; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.6);
+  --tape:#EDE7D2; --tape-ink:#1B2140;
+  --n1:#3B3619; --n2:#1D3A2B; --n3:#1D3148; --note-ink:#F2F0E6;
+  --cup:#DDE3F5; --cup-shine:#FFFFFF;
+  --shadow:3px 4px 0 rgba(0,0,0,.35);
   color-scheme:dark;
 }
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;margin:0}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;
+  background-color:var(--bg);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px}
 button{font:inherit;color:inherit;cursor:pointer}
 a{color:var(--data)}
-:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.wrap{max-width:1120px;margin:0 auto;padding-inline:16px;padding-block:0 56px;display:flex;flex-direction:column;gap:28px}
-.eyebrow{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.09em;font-size:.8rem;color:var(--muted)}
-h1,h2,h3{margin:0;text-wrap:balance}
-h2{font-family:var(--display);font-weight:400;font-size:1.7rem;letter-spacing:.01em;text-transform:uppercase;line-height:1.05}
-.sub{color:var(--muted);margin:4px 0 0;max-width:65ch}
+:focus-visible{outline:3px solid var(--data);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:16px;padding-block:0 56px;display:flex;flex-direction:column;gap:32px}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{text-wrap:balance;font-family:var(--marker);font-weight:400}
+h2{font-size:2.1rem;line-height:1}
+h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:1px;background:linear-gradient(transparent 4px,var(--accent) 4px 9px,transparent 9px);filter:url(#rough);transform:rotate(-.8deg)}
+.eyebrow{font-family:var(--hand);font-weight:700;font-size:.95rem;color:var(--muted)}
+.sub{color:var(--muted);margin-top:2px;max-width:65ch}
 .num{font-variant-numeric:tabular-nums}
 
+/* anything drawn "by pen": a wobbly outline laid over the box */
+.sk{position:relative}
+.sk::before{content:"";position:absolute;inset:1px;border:2px solid var(--ink);border-radius:inherit;filter:url(#rough);pointer-events:none}
+
 /* top bar */
-.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
-.bar-in{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{font-family:var(--display);font-size:1.25rem;letter-spacing:.02em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
-.brand svg{width:26px;height:30px;flex:none}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg)}
+.bar::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:12px;background:linear-gradient(transparent 5px,var(--ink) 5px 7px,transparent 7px);filter:url(#rough);pointer-events:none}
+.bar-in{max-width:1120px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-family:var(--marker);font-size:1.7rem;line-height:1;display:flex;align-items:center;gap:8px}
+.brand svg{width:26px;height:30px;flex:none;transform:rotate(-5deg)}
 .brand .cup-fill{fill:var(--cup);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
 .brand .cup-ear{fill:none;stroke:var(--ink);stroke-width:4.6;stroke-linecap:round}
 .brand .cup-ear-in{fill:none;stroke:var(--cup);stroke-width:2;stroke-linecap:round}
 .brand .cup-shine{fill:none;stroke:var(--cup-shine);stroke-width:1.6;stroke-linecap:round;opacity:.9}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
-.tab{font-family:var(--label);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.85rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
-.tab[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.tab.soon{border-style:dashed;background:transparent;color:var(--muted);cursor:default}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.tab{font-family:var(--hand);font-weight:700;font-size:.95rem;line-height:1.2;padding:4px 14px 2px;border:2px solid var(--ink);border-radius:var(--wob);background:var(--surface)}
+.tab[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.tab.soon{border-style:dashed;border-color:var(--muted);background:transparent;color:var(--muted);cursor:default}
 
-/* hero */
-.hero{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px;align-items:end;padding-top:28px}
-.hero h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(2.4rem,7vw,4.6rem);line-height:1.08;letter-spacing:.005em;margin-top:10px}
-.hero h1 mark{background:var(--accent);color:var(--on-accent);padding:0 .12em;border-radius:4px;line-height:1;display:inline-block}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
-.chip{font-family:var(--label);font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:.82rem;padding:4px 10px;border-radius:6px;background:var(--surface);border:1px solid var(--line)}
-.chip.warn{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
-.rules{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:4px;max-width:60ch}
-.rules li{display:grid;grid-template-columns:9.5rem minmax(0,1fr);gap:10px;font-size:.95rem}
-.rules b{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.82rem;color:var(--muted);padding-top:2px}
-.board{background:var(--ink);color:var(--bg);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
-.board .eyebrow{color:inherit;opacity:.72}
-.clock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.clock div{background:color-mix(in srgb,var(--bg) 12%,transparent);border-radius:8px;padding:8px 4px;text-align:center}
-.clock b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(1.6rem,5vw,2.3rem);line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
-.clock span{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem;opacity:.8}
-.board p{margin:0;font-size:.92rem;opacity:.9}
-.board p b{color:var(--accent)}
+/* opening */
+.hero{display:flex;flex-direction:column;gap:22px;padding-top:30px}
+.hero-top{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:end}
+.hero h1{font-size:clamp(3.1rem,9.5vw,5.6rem);line-height:.92;margin-top:6px}
+.hero h1 mark{display:inline-block;background:var(--accent);color:var(--on-accent);padding:0 .16em .04em;border-radius:var(--wob);transform:rotate(-2deg)}
+.lede{font-size:1.1rem;max-width:56ch;margin-top:14px}
+.kick{background:var(--surface);border-radius:var(--wob-lg);padding:14px 16px 12px;box-shadow:var(--shadow);transform:rotate(.7deg);display:flex;flex-direction:column;gap:6px}
+.kick-label{font-family:var(--hand);font-weight:700;color:var(--muted)}
+.clock{display:flex;flex-wrap:wrap;gap:4px 14px;font-family:var(--hand);font-weight:700;align-items:baseline}
+.clock span{display:inline-flex;align-items:baseline;gap:4px}
+.clock b{font-family:var(--marker);font-weight:400;font-size:2.4rem;line-height:1;min-width:1.15em;text-align:center}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.chip{font-family:var(--hand);font-size:.84rem;line-height:1.3;padding:2px 9px 0;border:1.5px solid var(--muted);border-radius:var(--wob);color:var(--muted)}
+.chip.warn{background:var(--accent);color:var(--on-accent);border-color:var(--ink);font-weight:700}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.step{position:relative;display:flex;gap:12px;align-items:flex-start;background:var(--n1);color:var(--note-ink);padding:18px 16px 14px;border-radius:3px 3px 16px 3px/3px 3px 24px 3px;box-shadow:var(--shadow);transform:rotate(-1.1deg);min-width:0}
+.step:nth-child(2){background:var(--n2);transform:rotate(.8deg)}
+.step:nth-child(3){background:var(--n3);transform:rotate(-.5deg)}
+.step::before{content:"";position:absolute;top:-9px;left:50%;width:66px;height:18px;margin-left:-33px;background:var(--tape);opacity:.9;transform:rotate(-3deg);box-shadow:0 1px 0 rgba(0,0,0,.16)}
+.step:nth-child(2)::before{transform:rotate(2deg)}
+.step .n{flex:none;width:2.1rem;height:2.1rem;display:grid;place-items:center;font-family:var(--marker);font-size:1.5rem;line-height:1;border:2px solid currentColor;border-radius:var(--blob);transform:rotate(-7deg)}
+.step div{min-width:0;flex:1}
+.step h3{font-size:1.55rem;line-height:1.02}
+.step p{font-family:var(--hand);font-size:.98rem;line-height:1.35;margin-top:5px}
+.step .ex{flex:none;width:50px;transform:rotate(6deg);margin-top:2px}
+.step .ex svg{width:100%;height:auto;display:block}
+.doodle{font-family:var(--hand);font-weight:700;color:var(--muted);display:flex;align-items:flex-start;gap:6px;justify-content:center;margin-top:-6px}
+.doodle svg{width:54px;height:36px;flex:none;margin-top:4px}
+.doodle path{fill:none;stroke:var(--muted);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 
-/* pitches + card */
-.stage{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start}
+/* pitches + scout card */
+.stage{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:22px;align-items:start}
 .stage .p1{grid-column:1;grid-row:1}
 .stage .p2{grid-column:1;grid-row:2}
 .stage .card{grid-column:2;grid-row:1 / span 2}
-.pitch{position:relative;border-radius:18px;overflow:hidden;color:var(--pitch-ink);box-shadow:var(--shadow);
-  background:repeating-linear-gradient(180deg,var(--pitch-a) 0 12.5%,var(--pitch-b) 12.5% 25%)}
-.pitch.p2{background:repeating-linear-gradient(180deg,var(--pitch2-a) 0 12.5%,var(--pitch2-b) 12.5% 25%)}
-.pitch svg.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.pitch{position:relative;border-radius:var(--wob-lg);color:var(--chalk);box-shadow:var(--shadow);
+  background:repeating-linear-gradient(112deg,rgba(255,255,255,.06) 0 2px,transparent 2px 8px),var(--pitch)}
+.pitch.p2{background:repeating-linear-gradient(68deg,rgba(255,255,255,.06) 0 2px,transparent 2px 8px),var(--pitch-2)}
+.pitch svg.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:url(#rough)}
 .pitch-in{position:relative;display:flex;flex-direction:column;gap:12px;padding:16px 8px 18px}
-.pitch-cap{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding-inline:10px;flex-wrap:wrap}
-.pitch-cap h2{font-size:1.5rem}
-.pitch-cap span{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;opacity:.92}
-.rowsp{display:flex;flex-direction:column;gap:8px}
+.pitch-cap{display:flex;justify-content:space-between;align-items:baseline;gap:4px 10px;padding-inline:12px;flex-wrap:wrap}
+.pitch-cap h2{font-size:2.2rem}
+.pitch-cap h2::after{display:none}
+.pitch-cap span{font-family:var(--hand);font-weight:700;font-size:.92rem;line-height:1.3;background:var(--tape);color:var(--tape-ink);padding:2px 10px 0;border-radius:3px 6px 4px 7px/6px 3px 7px 4px;transform:rotate(1.2deg);box-shadow:1px 1.5px 0 rgba(0,0,0,.25)}
+.rowsp{display:flex;flex-direction:column;gap:6px}
 .prow{display:flex;justify-content:space-evenly;gap:2px}
-.shirt{flex:0 1 118px;min-width:0;background:none;border:0;padding:5px 2px;border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--pitch-ink);position:relative}
-.shirt svg{width:clamp(42px,12vw,64px);height:auto;filter:drop-shadow(0 4px 5px rgba(0,0,0,.35));transition:transform .18s ease}
-.p2 .shirt svg{width:clamp(38px,10.5vw,54px)}
-.shirt:hover svg{transform:translateY(-4px) rotate(-3deg)}
-.shirt[aria-pressed="true"]{background:rgba(255,255,255,.17)}
-.shirt[aria-pressed="true"] svg{transform:translateY(-3px) scale(1.06)}
-.shirt .nm{font-family:var(--label);font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:clamp(.66rem,2.3vw,.84rem);background:var(--pitch-chip);padding:1px 7px;border-radius:4px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.shirt .rk{font-family:var(--label);font-weight:600;font-size:.7rem;letter-spacing:.06em;opacity:.88;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
-.badge{position:absolute;top:0;right:calc(50% - 40px);min-width:20px;height:20px;border-radius:999px;display:grid;place-items:center;font-family:var(--label);font-weight:700;font-size:.74rem;padding:0 5px;border:2px solid rgba(0,0,0,.35)}
+.shirt{flex:0 1 120px;min-width:0;background:none;border:0;padding:6px 2px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--chalk);position:relative}
+.shirt svg{width:clamp(44px,12.5vw,66px);height:auto;transition:transform .18s ease;transform:rotate(-3deg)}
+.prow .shirt:nth-child(even) svg{transform:rotate(2.5deg)}
+.p2 .shirt svg{width:clamp(40px,11vw,56px)}
+.shirt:hover svg{transform:rotate(4deg) translateY(-3px)}
+.shirt[aria-pressed="true"]::after{content:"";position:absolute;inset:0 6px 16px;border:3px solid var(--accent);border-radius:var(--blob);transform:rotate(-5deg);pointer-events:none}
+.shirt .nm{font-family:var(--hand);font-weight:700;font-size:clamp(.76rem,2.6vw,.95rem);line-height:1.25;background:var(--tape);color:var(--tape-ink);padding:1px 8px 0;border-radius:3px 6px 4px 7px/6px 3px 7px 4px;transform:rotate(-2deg);box-shadow:1px 1.5px 0 rgba(0,0,0,.28);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow .shirt:nth-child(even) .nm{transform:rotate(1.6deg)}
+.shirt .rk{font-family:var(--hand);font-size:.78rem;line-height:1.2;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.badge{position:absolute;top:-2px;right:calc(50% - 44px);width:24px;height:24px;display:grid;place-items:center;font-family:var(--marker);font-size:1.05rem;line-height:1;border:2px solid #141B3A;border-radius:var(--blob);transform:rotate(9deg)}
 .badge.cap{background:var(--accent);color:var(--on-accent)}
-.badge.hit{background:#FFFFFF;color:#0E7A4B}
-.badge.miss{background:#FFFFFF;color:#C42B3A}
-.pitch-foot{align-self:center;padding:4px 12px;border-radius:8px;background:var(--pitch-chip);font-size:.84rem;text-align:center;max-width:calc(100% - 20px)}
+.badge.hit{background:#FFFFFF;color:#157A4B}
+.badge.miss{background:#FFFFFF;color:#C8303B}
+.pitch-foot{align-self:center;font-family:var(--hand);font-size:.92rem;text-align:center;padding:2px 12px 0;background:var(--tape);color:var(--tape-ink);border-radius:3px 6px 4px 7px/6px 3px 7px 4px;transform:rotate(-.6deg);max-width:calc(100% - 20px)}
 
-.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px)}
+.card{background:var(--surface);border-radius:var(--wob-lg);padding:20px 18px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px)}
 .card-top{display:flex;gap:14px;align-items:center}
-.card-top svg{width:84px;height:auto;flex:none;filter:drop-shadow(0 3px 4px rgba(0,0,0,.22))}
-.card-top h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.7rem;line-height:1}
-.card-top p{margin:4px 0 0;color:var(--muted);font-size:.95rem}
-.trio{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:8px}
-.stat{background:var(--surface-2);border-radius:10px;padding:10px;min-width:0}
-.stat b{display:block;font-family:var(--display);font-weight:400;font-size:1.7rem;line-height:1;font-variant-numeric:tabular-nums}
-.stat.big{background:var(--ink);color:var(--bg)}
-.stat.big b{font-size:2.5rem;color:var(--accent)}
-.stat span{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:.72rem;color:var(--muted);display:block;margin-top:3px;line-height:1.15}
-.stat.big span{color:inherit;opacity:.8}
+.card-top svg{width:86px;height:auto;flex:none;transform:rotate(-4deg)}
+.card-top h3{font-size:2.3rem;line-height:.95}
+.card-top p{color:var(--muted);font-size:.95rem;margin-top:2px}
+.trio{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 18px;align-items:center}
+.lead{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
+.bigpct{position:relative;display:inline-block;padding:10px 22px 6px}
+.bigpct b{font-family:var(--marker);font-weight:400;font-size:3.2rem;line-height:1;position:relative}
+.bigpct svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.bigpct path{fill:none;stroke:var(--data);stroke-width:2.5;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.what{font-family:var(--hand);font-weight:700;font-size:.92rem;line-height:1.2;max-width:11rem}
+.minis{display:grid;gap:2px;min-width:0}
+.minis div{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:1.5px dashed var(--line);font-family:var(--hand);padding-top:2px}
+.minis b{font-family:var(--marker);font-weight:400;font-size:1.6rem;line-height:1.1}
 .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0}
 .facts div{min-width:0}
-.facts dt{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.72rem;color:var(--muted)}
+.facts dt{font-family:var(--hand);font-size:.84rem;color:var(--muted)}
 .facts dd{margin:0;font-weight:600;font-size:.95rem}
 .tags{display:flex;flex-wrap:wrap;gap:6px}
-.tag{font-size:.82rem;font-weight:500;padding:3px 9px;border-radius:999px;border:1px solid var(--line);background:var(--surface-2)}
-.ud{display:grid;gap:8px;margin:0}
-.ud p{margin:0;font-size:.94rem}
-.ud b{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.76rem;display:block}
+.tag{font-family:var(--hand);font-size:.9rem;line-height:1.3;padding:2px 10px 0;border:1.5px solid var(--ink);border-radius:var(--wob)}
+.ud{display:grid;gap:8px}
+.ud p{font-size:.95rem}
+.ud b{font-family:var(--hand);font-weight:700;font-size:.98rem;display:block}
 .ud .up b{color:var(--good)} .ud .dn b{color:var(--bad)}
-.card-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.btn{font-family:var(--label);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.88rem;padding:9px 14px;border-radius:10px;border:2px solid var(--ink);background:var(--accent);color:var(--on-accent)}
-.btn.on{background:var(--ink);color:var(--bg)}
-.verdict{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.86rem;padding:6px 10px;border-radius:8px;border:2px solid currentColor;transform:rotate(-2deg)}
+.card-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font-family:var(--hand);font-weight:700;font-size:1rem;line-height:1.2;padding:8px 16px 5px;border:2px solid var(--ink);border-radius:var(--wob);background:var(--accent);color:var(--on-accent);box-shadow:2px 3px 0 var(--ink)}
+.btn:active{transform:translate(2px,3px);box-shadow:none}
+.btn.on{background:var(--surface);color:var(--ink)}
+.verdict{font-family:var(--marker);font-size:1.25rem;line-height:1;padding:6px 12px 4px;border:2.5px solid currentColor;border-radius:var(--wob);transform:rotate(-3deg)}
 .verdict.hit{color:var(--good)} .verdict.miss{color:var(--bad)}
-.hint{color:var(--muted);font-size:.84rem;margin:0}
+.hint{color:var(--muted);font-size:.84rem}
 
-/* ranking */
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px}
+/* panels */
+.panel{background:var(--surface);border-radius:var(--wob-lg);padding:20px 18px 18px;box-shadow:var(--shadow)}
 .panel-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:12px}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;flex-wrap:wrap}
-.seg button{font-family:var(--label);font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:.82rem;padding:7px 12px;border:0;background:var(--surface);border-left:1px solid var(--line);margin-left:-1px}
-.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{font-family:var(--hand);font-weight:700;font-size:.95rem;line-height:1.2;padding:4px 13px 2px;border:2px solid var(--ink);border-radius:var(--wob);background:var(--surface)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+
+/* pecking order chart */
 .rows{display:flex;flex-direction:column}
-.rrow,.axis{display:grid;grid-template-columns:26px minmax(0,14rem) minmax(0,1fr) 3.4rem;gap:10px;align-items:center}
-.rrow{width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:9px 4px;border-radius:0}
+.rrow,.axis{display:grid;grid-template-columns:26px minmax(0,14rem) minmax(0,1fr) 3.8rem;gap:10px;align-items:center}
+.rrow{width:100%;text-align:left;background:none;border:0;border-top:1.5px dashed var(--line);padding:8px 4px}
 button.rrow:hover,.rrow[aria-pressed="true"]{background:var(--surface-2)}
-.rrow .rk{font-family:var(--display);font-size:1.05rem;color:var(--muted);text-align:center}
+.rrow .rk{font-family:var(--marker);font-size:1.35rem;line-height:1;color:var(--muted);text-align:center}
 .rrow .who{min-width:0}
-.rrow .who b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rrow .who b{display:block;font-family:var(--hand);font-weight:700;font-size:1.02rem;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rrow .who small{color:var(--muted);font-size:.82rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pill{font-family:var(--label);font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:.68rem;padding:1px 6px;border-radius:4px;border:1px solid var(--line);margin-right:6px;color:var(--muted)}
-.pill.x1{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
-.pill.x2{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.track{position:relative;height:22px;background:
-  linear-gradient(90deg,var(--line) 0 1px,transparent 1px) 0 0/33.333% 100%,
-  linear-gradient(270deg,var(--line) 0 1px,transparent 1px) 100% 0/100% 100% no-repeat}
-.track .fill{position:absolute;left:0;top:8px;height:6px;border-radius:0 4px 4px 0;background:var(--data-soft)}
-.track .rng{position:absolute;top:10px;height:2px;background:var(--ink)}
-.track .rng::before,.track .rng::after{content:"";position:absolute;top:-4px;width:2px;height:10px;background:var(--ink)}
-.track .rng::before{left:0} .track .rng::after{right:0}
-.track .dot{position:absolute;top:4px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--data);border:2px solid var(--surface)}
-.rrow .val{font-family:var(--display);font-size:1.2rem;text-align:right;font-variant-numeric:tabular-nums}
-.axis{padding:0 4px 4px;font-family:var(--label);font-weight:600;font-size:.74rem;letter-spacing:.05em;color:var(--muted)}
-.axis .ticks{position:relative;height:1.1em}
+.pill{font-family:var(--hand);font-weight:700;font-size:.72rem;line-height:1.3;padding:0 6px;border:1.5px dashed var(--muted);border-radius:var(--wob);margin-right:6px;color:var(--muted);display:inline-block}
+.pill.x1{background:var(--accent);color:var(--on-accent);border:1.5px solid var(--ink)}
+.pill.x2{color:var(--ink);border:1.5px solid var(--ink)}
+.track{position:relative;height:26px;background:
+  linear-gradient(90deg,var(--line) 0 1.5px,transparent 1.5px) 0 50%/33.333% 16px repeat-x,
+  linear-gradient(270deg,var(--line) 0 1.5px,transparent 1.5px) 100% 50%/100% 16px no-repeat,
+  linear-gradient(var(--line),var(--line)) 0 50%/100% 1.5px no-repeat}
+.track .fill{position:absolute;left:0;top:6px;height:14px;background:var(--hl);border-radius:3px 9px 7px 3px/4px 6px 9px 5px;transform:rotate(-.5deg);transform-origin:left center}
+.track .rng{position:absolute;top:12px;height:2px;background:var(--ink)}
+.track .rng::before,.track .rng::after{content:"";position:absolute;top:-5px;width:2px;height:12px;background:var(--ink);transform:rotate(8deg)}
+.track .rng::before{left:0} .track .rng::after{right:0;transform:rotate(-6deg)}
+.track .dot{position:absolute;top:5px;width:16px;height:16px;margin-left:-8px;background:var(--data);border:2px solid var(--surface);border-radius:var(--blob)}
+.rrow .val{font-family:var(--marker);font-size:1.6rem;line-height:1;text-align:right}
+.axis{padding:0 4px 2px;font-family:var(--hand);font-size:.8rem;color:var(--muted)}
+.axis .ticks{position:relative;height:1.3em}
 .axis .ticks span{position:absolute;transform:translateX(-50%)}
 .axis .ticks span:first-child{transform:none}
 .axis .ticks span:last-child{transform:translateX(-100%)}
-.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;color:var(--muted);font-size:.84rem;align-items:center}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;color:var(--muted);font-family:var(--hand);font-size:.9rem;align-items:center}
 .legend i{display:inline-block;vertical-align:middle;margin-right:6px}
-.legend .ld{width:12px;height:12px;border-radius:50%;background:var(--data)}
+.legend .ld{width:13px;height:13px;border-radius:var(--blob);background:var(--data)}
+.legend .lh{width:26px;height:11px;border-radius:3px 7px 5px 3px;background:var(--hl)}
 .legend .lr{width:22px;height:2px;background:var(--ink)}
-.tip{position:fixed;z-index:40;pointer-events:none;background:var(--ink);color:var(--bg);padding:8px 10px;border-radius:8px;font-size:.84rem;line-height:1.35;max-width:250px;box-shadow:var(--shadow)}
+.tip{position:fixed;z-index:40;pointer-events:none;background:var(--ink);color:var(--bg);padding:8px 10px;border-radius:10px 4px 9px 5px;font-size:.84rem;line-height:1.35;max-width:250px}
 details.tbl{margin-top:12px}
-details summary{cursor:pointer;font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.86rem}
+details summary{cursor:pointer;font-family:var(--hand);font-weight:700}
 .scroll{overflow-x:auto;margin-top:10px}
 table{border-collapse:collapse;width:100%;font-size:.9rem;font-variant-numeric:tabular-nums}
-th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
-th{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.76rem;color:var(--muted)}
+th,td{padding:7px 10px;border-bottom:1.5px dashed var(--line);text-align:left;white-space:nowrap}
+th{font-family:var(--hand);font-weight:700;color:var(--muted)}
 td.r,th.r{text-align:right}
 
 /* lower */
-.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
 .list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.list li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line);align-items:baseline}
+.list li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1.5px dashed var(--line);align-items:baseline}
 .list li:first-child{border-top:0}
 .list li span{min-width:0}
+.list b{font-family:var(--hand);font-weight:700;font-size:1.02rem}
 .list small{color:var(--muted);display:block;font-size:.84rem}
 .list .why{color:var(--muted);font-size:.88rem;text-align:right}
-.fx h3{font-family:var(--label);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.9rem;color:var(--muted);margin-bottom:4px}
+.fx h3{font-family:var(--hand);font-weight:700;font-size:1.05rem;color:var(--muted);margin-bottom:2px}
 .fx ul{list-style:none;margin:0;padding:0}
-.fx li{display:grid;grid-template-columns:3.2rem minmax(0,1fr);gap:8px;padding:6px 0;border-top:1px solid var(--line);font-size:.95rem}
-.fx li time{font-family:var(--label);font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
-.fx li b{background:var(--accent);color:var(--on-accent);padding:0 4px;border-radius:3px;font-weight:600}
+.fx li{display:grid;grid-template-columns:3.4rem minmax(0,1fr);gap:8px;padding:5px 0;border-top:1.5px dashed var(--line);font-size:.97rem;align-items:baseline}
+.fx li time{font-family:var(--marker);font-size:1.2rem;line-height:1;color:var(--muted)}
+.fx li b{background:var(--hl);padding:0 5px;border-radius:.6em .2em .5em .25em/.3em .5em .25em .6em;font-weight:600}
 .record{display:flex;flex-direction:column}
-.rec{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:18px;padding:10px 0;border-top:1px solid var(--line);align-items:center}
+.rec{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:18px;padding:10px 0;border-top:1.5px dashed var(--line);align-items:center}
 .rec:first-child{border-top:0}
 .rec .sc{text-align:right}
-.rec .sc b{font-family:var(--display);font-weight:400;font-size:1.4rem;display:block;line-height:1}
-.rec .sc span{font-family:var(--label);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:.7rem;color:var(--muted)}
-.prose p{margin:0 0 10px;max-width:68ch}
-.prose ul{margin:0 0 10px;padding-left:1.1rem;max-width:68ch}
+.rec .sc b{font-family:var(--marker);font-weight:400;font-size:1.8rem;display:block;line-height:1}
+.rec .sc span{font-family:var(--hand);font-size:.8rem;color:var(--muted)}
+.how{margin:12px 0 0;padding:0;list-style:none;counter-reset:how;display:grid;gap:10px;max-width:70ch}
+.how li{counter-increment:how;display:grid;grid-template-columns:2.2rem minmax(0,1fr);gap:10px;align-items:start}
+.how li::before{content:counter(how);width:2rem;height:2rem;display:grid;place-items:center;font-family:var(--marker);font-size:1.4rem;line-height:1;border:2px solid var(--ink);border-radius:var(--blob);transform:rotate(-6deg)}
+.how b{font-family:var(--hand);font-weight:700;font-size:1.05rem}
+.prose p{margin:12px 0 0;max-width:68ch}
+.prose ul{margin:10px 0 0;padding-left:1.1rem;max-width:68ch}
 .prose li{margin-bottom:6px}
-.srcs{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.9rem}
-footer{color:var(--muted);font-size:.86rem;max-width:68ch}
+.prose details{margin-top:12px}
+.srcs{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.9rem;margin-top:10px}
+footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68ch}
 
 @media (max-width:860px){
-  .hero,.stage,.duo{grid-template-columns:minmax(0,1fr)}
+  .hero-top,.stage,.duo{grid-template-columns:minmax(0,1fr)}
+  .steps{grid-template-columns:minmax(0,1fr);gap:20px}
   .stage .p1,.stage .p2,.stage .card{grid-column:1;grid-row:auto}
-  .card{position:static}
+  .card{position:relative;top:auto}
+  .kick{transform:none}
 }
 @media (max-width:560px){
   .tabs{margin-left:0}
-  .rrow,.axis{grid-template-columns:22px minmax(0,1fr) 3.2rem;row-gap:4px}
+  .rrow,.axis{grid-template-columns:22px minmax(0,1fr) 3.4rem;row-gap:2px}
   .rrow .track,.axis .ticks{grid-column:1/-1;grid-row:2}
   .axis .lab{display:none}
   .axis{grid-template-rows:0 auto}
-  .stat.big b{font-size:2rem}
   .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .rules li{grid-template-columns:minmax(0,1fr);gap:0}
-  .badge{right:calc(50% - 32px)}
+  .bigpct b{font-size:2.7rem}
+  .badge{right:calc(50% - 36px)}
 }
-@media (prefers-reduced-motion:reduce){ .shirt svg{transition:none} }
+@media (prefers-reduced-motion:reduce){ .shirt svg,.btn{transition:none} }
 </style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+</svg>
 
 <header class="bar">
   <div class="bar-in">
@@ -246,60 +302,63 @@ footer{color:var(--muted);font-size:.86rem;max-width:68ch}
 
 <main class="wrap">
   <section class="hero">
-    <div>
-      <div class="eyebrow" id="heroEyebrow"></div>
-      <h1>Who <mark>shines</mark> this week?</h1>
-      <ul class="rules">
-        <li><b>Goalkeeper</b><span>keeps a clean sheet</span></li>
-        <li><b>Defenders</b><span>keep a clean sheet, or score or assist</span></li>
-        <li><b>Midfielders, forwards</b><span>score or assist</span></li>
-      </ul>
-      <div class="chips" id="heroChips"></div>
+    <div class="hero-top">
+      <div>
+        <p class="eyebrow" id="heroEyebrow"></p>
+        <h1>Who <mark>shines</mark> this week?</h1>
+        <p class="lede">A stats model picks the players most likely to score, assist or keep a clean sheet in this week's Champions League games. Three things to know before you scroll.</p>
+      </div>
+      <aside class="kick sk">
+        <div class="kick-label" id="clockLabel">Kick-off in</div>
+        <div class="clock" id="clock"></div>
+        <div class="chips" id="heroChips"></div>
+      </aside>
     </div>
-    <aside class="board">
-      <div class="eyebrow" id="clockLabel">First kick-off in</div>
-      <div class="clock" id="clock"></div>
-      <p id="boardNote"></p>
-    </aside>
+    <ol class="steps">
+      <li class="step"><span class="n">1</span><div><h3>Two teams</h3><p>The First XI is the best pick in every position. The Second XI is who comes next.</p></div></li>
+      <li class="step"><span class="n">2</span><div><h3>The shirt number is his chance</h3><p>A <b class="exn">56</b> means a <span class="exn">56</span>% chance to shine. For forwards and midfielders that is a goal or an assist. For defenders a clean sheet counts too. For the keeper, only the clean sheet.</p></div><span class="ex" id="exShirt" aria-hidden="true"></span></li>
+      <li class="step"><span class="n">3</span><div><h3>Tap a shirt</h3><p>See why he is in and what could go wrong, and pick your captain. After full time every shirt gets a ✓ or a ✕.</p></div></li>
+    </ol>
+    <p class="doodle" aria-hidden="true">here they are <svg viewBox="0 0 54 36"><path d="M4 6C20 1 40 8 43 30"/><path d="M34 23l9 8 7-11"/></svg></p>
   </section>
 
   <section class="stage" aria-label="The two elevens">
-    <div class="pitch p1">
+    <div class="pitch p1 sk">
       <svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        <g fill="none" stroke="var(--pitch-line)" stroke-width="1">
-          <rect x="3" y="2" width="94" height="96" vector-effect="non-scaling-stroke"/>
-          <rect x="27" y="2" width="46" height="12" vector-effect="non-scaling-stroke"/>
-          <rect x="27" y="86" width="46" height="12" vector-effect="non-scaling-stroke"/>
-          <line x1="3" y1="50" x2="97" y2="50" vector-effect="non-scaling-stroke"/>
+        <g fill="none" stroke="var(--chalk-soft)" stroke-width="2" stroke-linecap="round">
+          <rect x="3.500" y="2.500" width="93" height="95" vector-effect="non-scaling-stroke"/>
+          <rect x="27" y="2.500" width="46" height="11" vector-effect="non-scaling-stroke"/>
+          <rect x="27" y="86.500" width="46" height="11" vector-effect="non-scaling-stroke"/>
+          <line x1="3.500" y1="50" x2="96.500" y2="50" vector-effect="non-scaling-stroke"/>
           <ellipse cx="50" cy="50" rx="13" ry="7" vector-effect="non-scaling-stroke"/>
         </g>
       </svg>
       <div class="pitch-in">
-        <div class="pitch-cap"><h2>First XI</h2><span>Shirt number = chance to shine</span></div>
+        <div class="pitch-cap"><h2>First XI</h2><span>the number = his chance to shine, in %</span></div>
         <div class="rowsp" id="xi1"></div>
         <div class="pitch-foot" id="foot1"></div>
       </div>
     </div>
-    <article class="card" id="card" aria-live="polite"></article>
-    <div class="pitch p2">
+    <article class="card sk" id="card" aria-live="polite"></article>
+    <div class="pitch p2 sk">
       <svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        <g fill="none" stroke="var(--pitch-line)" stroke-width="1">
-          <rect x="3" y="2" width="94" height="96" vector-effect="non-scaling-stroke"/>
-          <rect x="27" y="2" width="46" height="12" vector-effect="non-scaling-stroke"/>
-          <rect x="27" y="86" width="46" height="12" vector-effect="non-scaling-stroke"/>
-          <line x1="3" y1="50" x2="97" y2="50" vector-effect="non-scaling-stroke"/>
+        <g fill="none" stroke="var(--chalk-soft)" stroke-width="2" stroke-linecap="round">
+          <rect x="3.500" y="2.500" width="93" height="95" vector-effect="non-scaling-stroke"/>
+          <rect x="27" y="2.500" width="46" height="11" vector-effect="non-scaling-stroke"/>
+          <rect x="27" y="86.500" width="46" height="11" vector-effect="non-scaling-stroke"/>
+          <line x1="3.500" y1="50" x2="96.500" y2="50" vector-effect="non-scaling-stroke"/>
           <ellipse cx="50" cy="50" rx="13" ry="7" vector-effect="non-scaling-stroke"/>
         </g>
       </svg>
       <div class="pitch-in">
-        <div class="pitch-cap"><h2>Second XI</h2><span>Next in line behind them</span></div>
+        <div class="pitch-cap"><h2>Second XI</h2><span>next in line behind them</span></div>
         <div class="rowsp" id="xi2"></div>
         <div class="pitch-foot" id="foot2"></div>
       </div>
     </div>
   </section>
 
-  <section class="panel">
+  <section class="panel sk">
     <div class="panel-head">
       <div>
         <h2>The pecking order</h2>
@@ -314,7 +373,7 @@ footer{color:var(--muted);font-size:.86rem;max-width:68ch}
     </div>
     <div class="axis" aria-hidden="true"><span></span><span class="lab"></span><div class="ticks"><span style="left:0">0%</span><span style="left:33.333%">25%</span><span style="left:66.667%">50%</span><span style="left:100%">75%</span></div><span></span></div>
     <div class="rows" id="rows"></div>
-    <div class="legend"><span><i class="ld"></i>Model estimate</span><span><i class="lr"></i>Likely range</span><span><span class="pill x1">1st XI</span><span class="pill x2">2nd XI</span><span class="pill">Next</span></span></div>
+    <div class="legend"><span><i class="ld"></i>the model's estimate</span><span><i class="lr"></i>likely range</span><span><span class="pill x1">1st XI</span><span class="pill x2">2nd XI</span><span class="pill">next</span></span></div>
     <details class="tbl">
       <summary>Show both elevens as a table</summary>
       <div class="scroll" id="table"></div>
@@ -322,38 +381,41 @@ footer{color:var(--muted);font-size:.86rem;max-width:68ch}
   </section>
 
   <section class="duo">
-    <div class="panel">
+    <div class="panel sk">
       <h2>Not available</h2>
       <p class="sub">Big names the model left out because of injury or suspension.</p>
       <ul class="list" id="out" style="margin-top:10px"></ul>
     </div>
-    <div class="panel">
+    <div class="panel sk">
       <h2>Track record</h2>
       <p class="sub">After each matchday every pick is marked as delivered or blank, next to how many the model expected.</p>
       <div class="record" id="record" style="margin-top:10px"></div>
     </div>
   </section>
 
-  <section class="panel">
+  <section class="panel sk">
     <h2>Fixtures</h2>
     <p class="sub">Kick-off times are Brussels time. Highlighted clubs have a player in one of the two elevens.</p>
     <div class="duo" id="fixtures" style="margin-top:14px"></div>
   </section>
 
-  <section class="panel prose">
-    <h2 style="margin-bottom:10px">How the numbers are made</h2>
-    <p>Each player's expected goals and expected assists per 90 minutes come from this season's league games plus last season's at half weight. Small samples are pulled toward the average for the position, so three hot games do not crown anyone.</p>
-    <p>That rate is scaled by how many goals the team is expected to score in this match, multiplied by the minutes the player is likely to get, and topped up for penalty takers. A Poisson model turns the result into a chance of at least one goal or assist.</p>
-    <p>A clean sheet chance comes from how many goals the opponent is expected to score, multiplied by the chance the player starts. For defenders the two chances are combined into one number. No attacking number is allowed above 75%.</p>
-    <p>Each eleven is a 4-3-3: one keeper, two full-backs, two centre-backs, three midfielders and three forwards, with at most two defenders from one club. Wingers count as forwards and number tens as midfielders. The second XI is the best eleven left once the first is picked.</p>
-    <p>The range is a rough plus or minus 20% on the underlying rates, wider for players with a role or selection doubt. These are statistical estimates, not guarantees or betting advice.</p>
+  <section class="panel sk prose">
+    <h2>How the numbers are made</h2>
+    <ol class="how">
+      <li><span><b>Form.</b> Each player's expected goals and expected assists per 90 minutes, from this season's league games plus last season's at half weight. Small samples are pulled toward the average for the position, so three hot games do not crown anyone.</span></li>
+      <li><span><b>Opponent.</b> That rate is scaled by how many goals his team is expected to score in this match.</span></li>
+      <li><span><b>Minutes.</b> Then multiplied by the minutes he is likely to play, with a top-up for penalty takers.</span></li>
+      <li><span><b>Chance.</b> A Poisson model turns the result into the chance of at least one goal or assist. A clean sheet chance comes from how many goals the opponent is expected to score. For defenders the two are combined.</span></li>
+      <li><span><b>Team sheet.</b> Each eleven is a 4-3-3: one keeper, two full-backs, two centre-backs, three midfielders and three forwards, with at most two defenders from one club. Wingers count as forwards and number tens as midfielders.</span></li>
+    </ol>
+    <p>The likely range is a rough plus or minus 20% on the underlying rates, wider for players with a role or selection doubt. No attacking number is allowed above 75%. These are statistical estimates, not guarantees or betting advice.</p>
     <details>
       <summary>Limits for this matchday</summary>
-      <ul id="caveats" style="margin-top:10px"></ul>
+      <ul id="caveats"></ul>
     </details>
-    <details style="margin-top:8px">
+    <details>
       <summary>Sources</summary>
-      <div class="srcs" id="sources" style="margin-top:10px"></div>
+      <div class="srcs" id="sources"></div>
     </details>
   </section>
 
@@ -615,21 +677,24 @@ window.UCL_ROUNDS = [
   function hits(xi){ return xi.filter(function(p){ return hit(p) === true; }).length; }
   function vs(p){ return esc(p.team)+' '+(p.ha==="H"?"v":"at")+' '+esc(p.opp); }
 
+  /* A shirt drawn freehand: uneven outline, a few shading strokes, the number written in marker. */
   function jersey(kit, num){
-    var b = kit[0], t = kit[1], ink = kit[2];
+    var b = kit[0], t = kit[1], ink = kit[2], pen = "#141B3A";
     return '<svg viewBox="0 0 64 60" aria-hidden="true">'
-      + '<path d="M20 4 8 10 2 23l10 5 4-6v34h32V22l4 6 10-5-6-13-12-6c-4 5-20 5-24 0Z" fill="'+b+'" stroke="rgba(0,0,0,.4)" stroke-width="1.2" stroke-linejoin="round"/>'
-      + '<path d="M2 23l10 5 1.6-2.6-10-5.2Z" fill="'+t+'"/><path d="M62 23l-10 5-1.6-2.6 10-5.2Z" fill="'+t+'"/>'
-      + '<path d="M20 4c4 5 20 5 24 0" fill="none" stroke="'+t+'" stroke-width="2.6"/>'
-      + '<text x="32" y="44" text-anchor="middle" font-family="Anton, Impact, sans-serif" font-size="23" fill="'+ink+'">'+num+'</text></svg>';
+      + '<path d="M20.5 4.2C16 6.6 11.6 8 8.3 10.5 5.5 14.1 3.6 18.5 2.3 22.9c3.100 2 6.300 3.500 9.800 4.800 1.500-1.700 2.700-3.700 4.100-5.400-.6 10.700.2 22.200-.4 33.300 10.700 1 21.700-.2 32.500.6-.7-11.200.3-22.700-.4-33.800 1.500 1.800 2.500 3.800 4 5.400 3.600-1.200 6.700-3.200 10-4.800-1.600-4.600-3.500-8.800-6.100-12.800-3.800-2-8-3.800-12-5.900-4.200 4.900-19.200 5.100-23.300-.1Z" fill="'+b+'" stroke="'+pen+'" stroke-width="1.9" stroke-linejoin="round"/>'
+      + '<path d="M2.300 22.900l9.800 4.800 1.600-2.700-10-5.300Z" fill="'+t+'" stroke="'+pen+'" stroke-width="1"/>'
+      + '<path d="M61.900 23l-10 4.800-1.600-2.700 10.100-5.300Z" fill="'+t+'" stroke="'+pen+'" stroke-width="1"/>'
+      + '<path d="M20.500 4.200c4.100 5.200 19.100 5 23.300.1" fill="none" stroke="'+t+'" stroke-width="2.600" stroke-linecap="round"/>'
+      + '<path d="M43.500 17l1.600 13M45.900 24.500l.9 14M43.800 36l.5 12" fill="none" stroke="rgba(0,0,0,.16)" stroke-width="1.600" stroke-linecap="round"/>'
+      + '<text x="31" y="46" text-anchor="middle" font-family="Caveat Brush, Segoe Print, cursive" font-size="28" fill="'+ink+'">'+num+'</text></svg>';
   }
 
   function renderTabs(){
     var h = ROUNDS.slice().reverse().map(function(r){
-      return '<button type="button" class="tab" data-round="'+esc(r.id)+'" aria-pressed="'+(r.id===state.round)+'">'+esc(r.label.replace("Matchday ","MD"))+'</button>';
+      return '<button type="button" class="tab" data-round="'+esc(r.id)+'" aria-pressed="'+(r.id===state.round)+'">'+esc(r.label)+'</button>';
     }).join("");
     var n = ROUNDS[0] && ROUNDS[0].next;
-    if(n) h += '<span class="tab soon" title="The forecast is published the day before">'+esc(n.label.replace("Matchday ","MD"))+' · '+esc(n.dates)+'</span>';
+    if(n) h += '<span class="tab soon" title="The forecast is published the day before">next: '+esc(n.dates)+'</span>';
     $("tabs").innerHTML = h;
   }
 
@@ -637,30 +702,30 @@ window.UCL_ROUNDS = [
     var r = cur();
     $("heroEyebrow").textContent = "Champions League · " + r.label + " · " + r.dates;
     $("heroChips").innerHTML =
-      '<span class="chip '+(r.lineups==="confirmed"?"":"warn")+'">Lineups: '+esc(r.lineups)+'</span>'
-      + '<span class="chip">Data from '+esc(r.collected)+'</span>'
-      + '<span class="chip">Times in Brussels time</span>';
+      '<span class="chip '+(r.lineups==="confirmed"?"":"warn")+'">lineups: '+esc(r.lineups)+'</span>'
+      + '<span class="chip">data from '+esc(r.collected)+'</span>'
+      + '<span class="chip">Brussels time</span>';
+    var ex = r.xi1.filter(function(p){ return p.line==="FWD"; }).sort(function(a,b){ return b.shine-a.shine; })[0] || r.xi1[0];
+    $("exShirt").innerHTML = jersey(ex.kit, ex.shine);
+    Array.prototype.forEach.call(document.querySelectorAll(".exn"), function(el){ el.textContent = ex.shine; });
   }
 
   function tick(){
     var r = cur(), t = new Date(r.firstKickoff).getTime() - Date.now();
-    var e1 = expected(r.xi1).toFixed(1), e2 = expected(r.xi2).toFixed(1);
     if(isFinal(r)){
-      $("clockLabel").textContent = "Full time";
-      $("clock").innerHTML = '<div style="grid-column:span 2"><b>'+hits(r.xi1)+' / 11</b><span>first XI shone</span></div><div style="grid-column:span 2"><b>'+hits(r.xi2)+' / 11</b><span>second XI shone</span></div>';
-      $("boardNote").innerHTML = 'The model expected about <b>'+e1+'</b> and <b>'+e2+'</b>.';
+      $("clockLabel").textContent = "Full time. Who shone:";
+      $("clock").innerHTML = '<span><b>'+hits(r.xi1)+'/11</b>First XI</span><span><b>'+hits(r.xi2)+'/11</b>Second XI</span>';
       return;
     }
     if(t <= 0){
-      $("clockLabel").textContent = "Matchday under way";
-      $("clock").innerHTML = '<div style="grid-column:1/-1"><b>LIVE</b><span>results are marked after the final whistle</span></div>';
-    } else {
-      var s = Math.floor(t/1000), d = Math.floor(s/86400), h = Math.floor(s%86400/3600), m = Math.floor(s%3600/60), x = s%60;
-      var pad = function(n){ return (n<10?"0":"")+n; };
-      $("clockLabel").textContent = "First kick-off in";
-      $("clock").innerHTML = [[d,"days"],[h,"hours"],[m,"min"],[x,"sec"]].map(function(u){ return '<div><b>'+pad(u[0])+'</b><span>'+u[1]+'</span></div>'; }).join("");
+      $("clockLabel").textContent = "The matchday is under way";
+      $("clock").innerHTML = '<span><b>Live</b>marks come after full time</span>';
+      return;
     }
-    $("boardNote").innerHTML = 'The model expects about <b>'+e1+' of the first XI</b> and <b>'+e2+' of the second XI</b> to shine.';
+    var s = Math.floor(t/1000), d = Math.floor(s/86400), h = Math.floor(s%86400/3600), m = Math.floor(s%3600/60), x = s%60;
+    var pad = function(n){ return (n<10?"0":"")+n; };
+    $("clockLabel").textContent = "Kick-off in";
+    $("clock").innerHTML = [[d,"days"],[h,"hrs"],[m,"min"],[x,"sec"]].map(function(u){ return '<span><b>'+pad(u[0])+'</b>'+u[1]+'</span>'; }).join("");
   }
 
   function renderPitch(elId, xi, footId, footText){
@@ -682,8 +747,8 @@ window.UCL_ROUNDS = [
   }
   function renderPitches(){
     var r = cur();
-    renderPitch("xi1", r.xi1, "foot1", "Expected to shine: about " + expected(r.xi1).toFixed(1) + " of 11. Tap a shirt to open the player.");
-    renderPitch("xi2", r.xi2, "foot2", "Expected to shine: about " + expected(r.xi2).toFixed(1) + " of 11.");
+    renderPitch("xi1", r.xi1, "foot1", "about " + expected(r.xi1).toFixed(1) + " of these 11 should shine");
+    renderPitch("xi2", r.xi2, "foot2", "about " + expected(r.xi2).toFixed(1) + " of these 11 should shine");
   }
 
   function renderCard(){
@@ -695,25 +760,24 @@ window.UCL_ROUNDS = [
       if(p.result.cs && p.line !== "MID" && p.line !== "FWD") bits.push("clean sheet");
       if(p.result.g) bits.push(p.result.g + " G");
       if(p.result.a) bits.push(p.result.a + " A");
-      verdict = '<span class="verdict hit">Shone · '+esc(bits.join(", "))+'</span>';
+      verdict = '<span class="verdict hit">Shone: '+esc(bits.join(", "))+'</span>';
     } else if(hv === false) verdict = '<span class="verdict miss">Blank</span>';
     var action = isFinal(r)
-      ? (isCap ? '<span class="tag">Your captain</span>' : '')
-      : '<button type="button" class="btn '+(isCap?"on":"")+'" id="capBtn">'+(isCap?"Your captain ✓":"Make him my captain")+'</button>';
+      ? (isCap ? '<span class="tag">your captain</span>' : '')
+      : '<button type="button" class="btn '+(isCap?"on":"")+'" id="capBtn">'+(isCap?"He is your captain ✓":"Make him my captain")+'</button>';
     $("card").innerHTML =
       '<div class="card-top">'+jersey(p.kit, p.shine)
       + '<div><div class="eyebrow">'+which+' · '+esc(p.pos)+'</div><h3>'+esc(p.name)+'</h3>'
       + '<p>'+vs(p)+' · '+(p.ha==="H"?"home":"away")+'</p></div></div>'
-      + '<div class="trio">'
-      + '<div class="stat big"><b>'+p.shine+'%</b><span>'+esc(p.metric)+'</span></div>'
-      + p.stats.map(function(s){ return '<div class="stat"><b>'+esc(s[1])+'</b><span>'+esc(s[0])+'</span></div>'; }).join("")
-      + '</div>'
+      + '<div class="trio"><div class="lead"><span class="bigpct"><svg viewBox="0 0 120 70" preserveAspectRatio="none" aria-hidden="true"><path d="M62 5C96 2 117 17 115 36c-2 20-28 30-58 29C27 64 4 52 6 33 8 14 33 5 70 8"/></svg><b>'+p.shine+'%</b></span>'
+      + '<span class="what">'+esc(p.metric.toLowerCase())+'</span></div>'
+      + '<div class="minis">'+p.stats.map(function(s){ return '<div><span>'+esc(s[0])+'</span><b>'+esc(s[1])+'</b></div>'; }).join("")
+      + '<div><span>likely range</span><b>'+p.lo+'–'+p.hi+'%</b></div></div></div>'
       + '<dl class="facts">'
-      + '<div><dt>Likely range</dt><dd class="num">'+p.lo+'–'+p.hi+'%</dd></div>'
-      + '<div><dt>Expected minutes</dt><dd class="num">'+p.mins+'</dd></div>'
-      + '<div><dt>Status</dt><dd>'+esc(p.start)+'</dd></div></dl>'
+      + '<div><dt>expected minutes</dt><dd class="num">'+p.mins+'</dd></div>'
+      + '<div><dt>status</dt><dd>'+esc(p.start)+'</dd></div></dl>'
       + '<div class="tags">'+p.reasons.map(function(t){ return '<span class="tag">'+esc(t)+'</span>'; }).join("")+'</div>'
-      + '<div class="ud"><p class="up"><b>Biggest upside</b>'+esc(p.upside)+'</p><p class="dn"><b>Biggest risk</b>'+esc(p.risk)+'</p></div>'
+      + '<div class="ud"><p class="up"><b>+ biggest upside</b>'+esc(p.upside)+'</p><p class="dn"><b>! biggest risk</b>'+esc(p.risk)+'</p></div>'
       + '<div class="card-actions">'+action+verdict+'</div>'
       + (isFinal(r) ? '' : '<p class="hint">Your captain is saved on this device and gets checked after the final whistle.</p>');
     var b = $("capBtn");
@@ -731,7 +795,7 @@ window.UCL_ROUNDS = [
     var r = cur(), line = state.line, rows = lineRows(r, line);
     $("rows").innerHTML = rows.map(function(x, i){
       var p = x.p, w = Math.min(100, p.shine/MAX*100);
-      var pill = x.tag==="x1" ? '<span class="pill x1">1st XI</span>' : x.tag==="x2" ? '<span class="pill x2">2nd XI</span>' : '<span class="pill">Next</span>';
+      var pill = x.tag==="x1" ? '<span class="pill x1">1st XI</span>' : x.tag==="x2" ? '<span class="pill x2">2nd XI</span>' : '<span class="pill">next</span>';
       var inner = '<span class="rk">'+(i+1)+'</span>'
         + '<span class="who"><b>'+esc(p.name)+'</b><small>'+pill+vs(p)+'</small></span>'
         + '<span class="track"><span class="fill" style="width:'+w+'%"></span><span class="rng" style="left:'+(p.lo/MAX*100)+'%;width:'+((p.hi-p.lo)/MAX*100)+'%"></span><span class="dot" style="left:'+w+'%"></span></span>'
@@ -764,11 +828,11 @@ window.UCL_ROUNDS = [
     var done = ROUNDS.filter(isFinal), top = ROUNDS[0];
     $("record").innerHTML = done.length
       ? done.map(function(x){ return '<div class="rec"><span><b>'+esc(x.label)+'</b><br><span class="sub">'+esc(x.dates)+'</span></span>'
-          + '<span class="sc"><b class="num">'+hits(x.xi1)+' / 11</b><span>1st XI · exp. '+expected(x.xi1).toFixed(1)+'</span></span>'
-          + '<span class="sc"><b class="num">'+hits(x.xi2)+' / 11</b><span>2nd XI · exp. '+expected(x.xi2).toFixed(1)+'</span></span></div>'; }).join("")
+          + '<span class="sc"><b>'+hits(x.xi1)+'/11</b><span>First XI · expected '+expected(x.xi1).toFixed(1)+'</span></span>'
+          + '<span class="sc"><b>'+hits(x.xi2)+'/11</b><span>Second XI · expected '+expected(x.xi2).toFixed(1)+'</span></span></div>'; }).join("")
       : '<div class="rec"><span>No completed matchday yet. '+esc(top.label)+' will be the first one scored.</span>'
-          + '<span class="sc"><b class="num">– / 11</b><span>1st XI · exp. '+expected(top.xi1).toFixed(1)+'</span></span>'
-          + '<span class="sc"><b class="num">– / 11</b><span>2nd XI · exp. '+expected(top.xi2).toFixed(1)+'</span></span></div>';
+          + '<span class="sc"><b>–/11</b><span>First XI · expected '+expected(top.xi1).toFixed(1)+'</span></span>'
+          + '<span class="sc"><b>–/11</b><span>Second XI · expected '+expected(top.xi2).toFixed(1)+'</span></span></div>';
     $("caveats").innerHTML = (r.caveats||[]).map(function(c){ return '<li>'+esc(c)+'</li>'; }).join("");
     $("sources").innerHTML = (r.sources||[]).map(function(s){ return '<a href="'+esc(s[1])+'" target="_blank" rel="noopener">'+esc(s[0])+'</a>'; }).join("");
     $("foot").textContent = "Updated before every Champions League matchday. " + r.label + " data collected " + r.collected + ". Lineups can change until an hour before kick-off.";
