@@ -83,6 +83,83 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
 .tab[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
 .tab.soon{border-style:dashed;border-color:var(--muted);background:transparent;color:var(--muted);cursor:default}
 
+/* the "not available" box is the red one */
+.panel.na{background:color-mix(in srgb,var(--bad) 10%,var(--surface))}
+.panel.na::before{border-color:var(--bad)}
+.panel.na h2{color:var(--bad)}
+.panel.na h2::after{background:linear-gradient(transparent 4px,var(--bad) 4px 9px,transparent 9px)}
+.panel.na .list li{border-top-color:color-mix(in srgb,var(--bad) 45%,var(--surface))}
+.panel.na .list b::before{content:"✕ ";font-family:var(--marker);color:var(--bad)}
+.panel.na .why{color:var(--ink)}
+
+/* fantasy corner: best lineup */
+#lineup{scroll-margin-top:84px}
+.fx-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px 24px;align-items:start}
+.pitch.fx .shirt{cursor:default}
+.pitch.fx .shirt .rk{white-space:normal;text-align:center;line-height:1.15}
+.fx-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.fx-stats div{background:var(--surface-2);border-radius:var(--wob-lg);padding:10px 12px 8px;min-width:0}
+.fx-stats b{display:block;font-family:var(--marker);font-weight:400;font-size:2rem;line-height:1}
+.fx-stats span{font-family:var(--hand);font-size:.9rem;color:var(--muted)}
+.fx-free{font-family:var(--hand);font-size:1.02rem;line-height:1.4;background:var(--n1);color:var(--note-ink);padding:14px 16px 12px;border-radius:3px 3px 16px 3px/3px 3px 24px 3px;box-shadow:var(--shadow);transform:rotate(-.6deg);margin-top:14px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.fx-free b{font-family:var(--marker);font-weight:400;font-size:1.5rem;line-height:1}
+.fx-side .hint{margin-top:14px}
+.locked{display:flex;flex-direction:column;gap:10px;align-items:flex-start;background:var(--surface-2);border-radius:var(--wob-lg);padding:18px}
+.locked h3{font-size:1.7rem;line-height:1}
+
+/* motion: everything rests in its final place; these only play on load, on a page switch or after a tap */
+@media (prefers-reduced-motion:no-preference){
+  @keyframes pop{0%{opacity:0;transform:translateY(16px) scale(.6) rotate(-10deg)}65%{opacity:1;transform:translateY(-4px) scale(1.07) rotate(3deg)}100%{opacity:1;transform:none}}
+  @keyframes rise{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+  @keyframes growx{from{scale:0 1}to{scale:1 1}}
+  @keyframes swipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+  @keyframes dotpop{from{scale:0}60%{scale:1.35}to{scale:1}}
+  @keyframes numpop{from{scale:.5;opacity:0}60%{scale:1.12;opacity:1}to{scale:1}}
+  @keyframes ring{from{scale:1.5;opacity:0}to{scale:1;opacity:1}}
+  @keyframes wiggle{0%,100%{rotate:0deg}25%{rotate:-9deg}75%{rotate:8deg}}
+  @keyframes bob{0%,100%{translate:0 0}50%{translate:0 -4px}}
+  @keyframes tick{from{scale:1.18}to{scale:1}}
+  @keyframes radar{from{transform:scale(0)}to{transform:scale(1)}}
+  @keyframes fadein{from{opacity:0}}
+  .anim-in .view > section,.anim-in .view > .promo{animation:rise .5s ease-out backwards}
+  .anim-in .view > :nth-child(2){animation-delay:.08s}
+  .anim-in .view > :nth-child(3){animation-delay:.16s}
+  .anim-in .view > :nth-child(4){animation-delay:.24s}
+  .anim-in .hero h1 mark{animation:swipe .55s .2s ease-out backwards}
+  .anim-in .step{animation:rise .5s ease-out backwards}
+  .anim-in .step:nth-child(1){animation-delay:.25s} .anim-in .step:nth-child(2){animation-delay:.37s} .anim-in .step:nth-child(3){animation-delay:.49s}
+  .anim-in .shirt{animation:pop .55s cubic-bezier(.3,1.4,.5,1) backwards}
+  .anim-in .prow:nth-child(1) .shirt{animation-delay:.3s} .anim-in .prow:nth-child(2) .shirt{animation-delay:.42s}
+  .anim-in .prow:nth-child(3) .shirt{animation-delay:.54s} .anim-in .prow:nth-child(4) .shirt{animation-delay:.66s}
+  .anim-in .prow .shirt:nth-child(2){animation-duration:.6s} .anim-in .prow .shirt:nth-child(3){animation-duration:.66s} .anim-in .prow .shirt:nth-child(4){animation-duration:.72s}
+  .anim-in h2::after{animation:growx .5s .3s ease-out backwards;transform-origin:left center}
+  .anim-in .track .fill{animation:growx .7s ease-out backwards}
+  .anim-in .track .dot{animation:dotpop .45s .45s ease-out backwards}
+  .anim-in .track .rng{animation:fadein .4s .6s backwards}
+  .anim-in .scatter .pt{animation:fadein .6s .2s backwards}
+  .anim-in .nxc{animation:rise .4s ease-out backwards}
+  .anim-in .nxc:nth-child(2){animation-delay:.08s} .anim-in .nxc:nth-child(3){animation-delay:.16s}
+  .cb i{animation:growx .6s ease-out backwards}
+  .cb.a i{transform-origin:right center} .cb.b i{transform-origin:left center}
+  .radar .ra,.radar .rb{animation:radar .6s cubic-bezier(.3,1.3,.5,1) backwards;transform-origin:190px 158px}
+  .radar .rb{animation-delay:.12s}
+  .bigpct b{animation:numpop .45s ease-out backwards;display:inline-block}
+  .cv.win b{animation:numpop .4s .5s ease-out backwards}
+  .shirt[aria-pressed="true"]::after{animation:ring .35s ease-out backwards}
+  .badge.cap{animation:bob 2.2s ease-in-out infinite}
+  .clock span:last-child b{animation:tick .35s ease-out;display:inline-block}
+  .brand:hover svg{animation:wiggle .6s ease-in-out}
+  .step{transition:translate .2s ease}
+  .step:hover{translate:0 -4px}
+  .btn{transition:translate .12s ease}
+  .btn:hover{translate:0 -2px}
+  .tab,.seg button{transition:background-color .15s ease,translate .12s ease}
+  .tab:not(.soon):hover,.seg button:hover{translate:0 -2px}
+  .rrow .val{transition:scale .15s ease}
+  button.rrow:hover .val{scale:1.12}
+  .verdict{animation:numpop .5s ease-out backwards}
+}
+
 /* three-lines menu and the two pages */
 .bar-in{position:relative}
 .burger{width:42px;height:38px;display:grid;place-content:center;gap:5px;border:2px solid var(--ink);border-radius:var(--wob);background:var(--surface);padding:0;flex:none}
@@ -398,7 +475,7 @@ td.r,th.r{text-align:right}
 footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68ch}
 
 @media (max-width:860px){
-  .hero-top,.stage,.duo,.past,.cmp-radar,.signup-grid{grid-template-columns:minmax(0,1fr)}
+  .hero-top,.stage,.duo,.past,.cmp-radar,.signup-grid,.fx-grid{grid-template-columns:minmax(0,1fr)}
   .steps{grid-template-columns:minmax(0,1fr);gap:20px}
   .stage .p1,.stage .p2,.stage .card{grid-column:1;grid-row:auto}
   .card{position:relative;top:auto}
@@ -547,7 +624,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
   </section>
 
   <section class="duo">
-    <div class="panel sk">
+    <div class="panel sk na">
       <h2>Not available</h2>
       <p class="sub">Big names the model left out because of injury or suspension.</p>
       <ul class="list" id="out" style="margin-top:10px"></ul>
@@ -609,6 +686,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
         <h2>Get the Fantasy brief</h2>
         <p class="sub">One short email before each matchday, built from the same numbers as this site.</p>
         <ul class="ticks">
+          <li>The best lineup for the most points (free the first time, then for paying subscribers)</li>
           <li>Captain and vice-captain picks</li>
           <li>Best value in each position, by chance per €1m</li>
           <li>Clubs with kind fixtures over the next three games</li>
@@ -624,6 +702,12 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
         <p style="font-size:.9rem">No email needed for the tools. <button type="button" class="linkbtn" data-jump="compare">Skip to the comparison</button>.</p>
       </form>
     </div>
+  </section>
+
+  <section class="panel sk" id="lineup">
+    <h2>Best lineup this week</h2>
+    <p class="sub">The eleven with the most expected Fantasy points the model can find inside the budget.</p>
+    <div id="lineupBody" style="margin-top:14px"></div>
   </section>
 
   <section class="panel sk" id="compare">
@@ -680,6 +764,24 @@ window.UCL_ROUNDS = [
       "Man City": [["MD2", "Paris SG", "H", 1], ["MD3", "AEK Athens", "H", 4], ["MD4", "Leipzig", "A", 3]],
       "Stuttgart": [["MD2", "Slovan Bratislava", "A", 4], ["MD3", "Atlético", "H", 1], ["MD4", "Galatasaray", "A", 3]],
       "Como": [["MD2", "Feyenoord", "A", 3], ["MD3", "Man United", "H", 2], ["MD4", "Lens", "A", 4]]
+    },
+    /* Best Fantasy lineup: only present in a round where it is given away free. In later rounds it is left out of
+       this public file (the page then shows the subscribers-only note) and goes into the emailed brief. */
+    fantasyXI: {
+      formation: "4-4-2", points: 46.0, withCaptain: 51.0, cost: 83.0, budget: 83.0, eligible: 41,
+      players: [
+        { name: "Harry Kane", short: "Kane", team: "Bayern", opp: "Viking", ha: "A", fpos: "FWD", price: 11.0, xp: 4.7, kit: ["#DC052D", "#FFFFFF", "#FFFFFF"] },
+        { name: "Erling Haaland", short: "Haaland", team: "Man City", opp: "Paris SG", ha: "H", fpos: "FWD", price: 11.0, xp: 4.3, kit: ["#6CABDD", "#1C2C5B", "#1C2C5B"] },
+        { name: "Luis Díaz", short: "L. Díaz", team: "Bayern", opp: "Viking", ha: "A", fpos: "MID", price: 8.0, xp: 4.0, kit: ["#DC052D", "#FFFFFF", "#FFFFFF"] },
+        { name: "Lamine Yamal", short: "Yamal", team: "Barcelona", opp: "Galatasaray", ha: "A", fpos: "MID", price: 10.0, xp: 4.9, kit: ["#A50044", "#004D98", "#FFD21F"], captain: true },
+        { name: "Bukayo Saka", short: "Saka", team: "Arsenal", opp: "Lille", ha: "H", fpos: "MID", price: 8.5, xp: 4.4, kit: ["#EF0107", "#FFFFFF", "#FFFFFF"] },
+        { name: "Michael Olise", short: "Olise", team: "Bayern", opp: "Viking", ha: "A", fpos: "MID", price: 9.0, xp: 4.5, kit: ["#DC052D", "#FFFFFF", "#FFFFFF"] },
+        { name: "Riccardo Calafiori", short: "Calafiori", team: "Arsenal", opp: "Lille", ha: "H", fpos: "DEF", price: 4.5, xp: 4.1, kit: ["#EF0107", "#FFFFFF", "#FFFFFF"] },
+        { name: "Gabriel", short: "Gabriel", team: "Arsenal", opp: "Lille", ha: "H", fpos: "DEF", price: 6.0, xp: 4.3, kit: ["#EF0107", "#FFFFFF", "#FFFFFF"] },
+        { name: "Federico Dimarco", short: "Dimarco", team: "Inter", opp: "Club Brugge", ha: "H", fpos: "DEF", price: 5.0, xp: 4.2, kit: ["#0B3D91", "#111111", "#FFFFFF"] },
+        { name: "Josha Vagnoman", short: "Vagnoman", team: "Stuttgart", opp: "Slovan Bratislava", ha: "A", fpos: "DEF", price: 4.0, xp: 3.5, kit: ["#FFFFFF", "#E32219", "#E32219"] },
+        { name: "Alisson", short: "Alisson", team: "Liverpool", opp: "LASK", ha: "A", fpos: "GK", price: 6.0, xp: 3.1, kit: ["#1B1F2B", "#C8102E", "#FFFFFF"] }
+      ]
     },
     priceNote: "Fantasy prices are UEFA Champions League Fantasy prices as published between 1 September and 13 October 2026. They can change during the season.",
     /* Every modelled outfield player: [name, team, line, xG per 90 (no penalties), xA per 90, chance %, 1 = First XI / 2 = Second XI / 0 = neither, id or 0, form]. */
@@ -1061,7 +1163,7 @@ window.UCL_BEFORE = [
       + '<path d="M43.500 17l1.600 13M45.900 24.500l.9 14M43.800 36l.5 12" fill="none" stroke="rgba(0,0,0,.16)" stroke-width="1.600" stroke-linecap="round"/>'
       + (num === "*"
           ? '<path d="M31 26.5l2.350 6.260 6.680.3-5.230 4.180 1.780 6.450L31 40l-5.580 3.690 1.780-6.450-5.230-4.180 6.680-.3Z" fill="'+ink+'" stroke="'+pen+'" stroke-width=".8" stroke-linejoin="round"/>'
-          : '<text x="31" y="46" text-anchor="middle" font-family="Caveat Brush, Segoe Print, cursive" font-size="28" fill="'+ink+'">'+num+'</text>')
+          : '<text x="31" y="'+(String(num).length > 2 ? 44 : 46)+'" text-anchor="middle" font-family="Caveat Brush, Segoe Print, cursive" font-size="'+(String(num).length > 2 ? 21 : 28)+'" fill="'+ink+'">'+num+'</text>')
       + '</svg>';
   }
 
@@ -1427,7 +1529,42 @@ window.UCL_BEFORE = [
     $("past").innerHTML = '<div class="past">'+html+'</div>';
   }
 
-  function renderAll(){ renderTabs(); renderHero(); tick(); renderPitches(); renderCard(); renderComparePick(); renderCompare(); renderRows(); renderLower(); renderPast(); }
+  function renderAll(){ renderTabs(); renderHero(); tick(); renderPitches(); renderCard(); renderComparePick(); renderCompare(); renderLineup(); renderRows(); renderLower(); renderPast(); kick(); }
+  /* Fantasy corner: the lineup with the most expected points. Shown only when the round carries it. */
+  function renderLineup(){
+    var r = cur(), fx = r.fantasyXI, el = $("lineupBody");
+    if(!fx){
+      el.innerHTML = '<div class="locked"><h3>This one goes out by email</h3><p>The best lineup for '+esc(r.label)+' is sent to paying subscribers before the deadline. The first one was free.</p>'
+        + '<button type="button" class="btn" data-jump="signup">Get the Fantasy brief</button></div>';
+      return;
+    }
+    var rows = ["FWD","MID","DEF","GK"].map(function(l){
+      var ps = fx.players.filter(function(p){ return p.fpos===l; });
+      return '<div class="prow">' + ps.map(function(p){
+        return '<div class="shirt">'+jersey(p.kit, p.xp.toFixed(1))+(p.captain ? '<span class="badge cap" title="Captain">C</span>' : '')
+          + '<span class="nm">'+esc(p.short)+'</span><span class="rk">€'+p.price.toFixed(1)+'m · '+esc(p.team)+'</span></div>';
+      }).join("") + '</div>';
+    }).join("");
+    var cap = fx.players.filter(function(p){ return p.captain; })[0];
+    el.innerHTML = '<div class="fx-grid"><div class="pitch fx sk">'+LINES_SVG+'<div class="pitch-in"><div class="pitch-cap"><h2>'+esc(fx.formation)+'</h2><span>the number = expected Fantasy points</span></div>'
+      + '<div class="rowsp">'+rows+'</div><div class="pitch-foot">captain: '+esc(cap ? cap.short : "–")+', his points count double</div></div></div>'
+      + '<div class="fx-side"><div class="fx-stats">'
+      + '<div><b>'+fx.withCaptain.toFixed(1)+'</b><span>expected points, captain doubled</span></div>'
+      + '<div><b>'+esc(fx.formation)+'</b><span>formation</span></div>'
+      + '<div><b>€'+fx.cost.toFixed(1)+'m</b><span>cost of the eleven</span></div>'
+      + '<div><b>€'+(100 - fx.cost).toFixed(1)+'m</b><span>left for four bench players</span></div></div>'
+      + '<div class="fx-free"><b>Free this week</b><span>From the next matchday the best lineup is sent by email to paying subscribers only.</span>'
+      + '<button type="button" class="btn" data-jump="signup">Get it by email</button></div>'
+      + '<p class="hint">Picked from the '+fx.eligible+' players whose Fantasy price and position could be verified, with at most three from one club. Counted: appearance, goals, assists, clean sheets and goals conceded. Not counted: ball recoveries, saves, player of the match, cards and penalties won or missed.</p>'
+      + '</div></div>';
+  }
+  /* Replays the entrance motion on an element (or the whole page). */
+  function kick(el){
+    el = el || document.documentElement;
+    el.classList.remove("anim-in"); void el.offsetWidth; el.classList.add("anim-in");
+    clearTimeout(el._k); el._k = setTimeout(function(){ el.classList.remove("anim-in"); }, 1800);
+  }
+
   /* Two pages in one file: the elevens and the Fantasy corner. The three-lines menu switches between them. */
   function setView(v, jump){
     state.view = v === "fantasy" ? "fantasy" : "main";
@@ -1439,6 +1576,7 @@ window.UCL_BEFORE = [
     closeMenu();
     try{ history.replaceState(null, "", "#" + (state.view === "fantasy" ? "fantasy" : state.round)); }catch(x){}
     if(state.view === "main") renderScatter();
+    kick();
     var target = jump && $(jump);
     if(target) target.scrollIntoView({ block: "start" }); else window.scrollTo(0, 0);
   }
@@ -1456,7 +1594,7 @@ window.UCL_BEFORE = [
   }
 
   function select(id, fromRow){
-    state.sel = id; renderPitches(); renderCard(); renderRows();
+    state.sel = id; renderPitches(); renderCard(); renderRows(); kick($("card"));
     if(window.matchMedia("(max-width:860px)").matches || fromRow) $("card").scrollIntoView({ block: "nearest", behavior: "smooth" });
   }
 
@@ -1474,7 +1612,7 @@ window.UCL_BEFORE = [
     var row = e.target.closest("button.rrow");
     if(row){ select(row.dataset.id, true); return; }
     var l = e.target.closest("[data-line]");
-    if(l){ state.line = l.dataset.line; renderRows(); }
+    if(l){ state.line = l.dataset.line; renderRows(); kick($("rows")); kick($("scatter")); }
   });
 
   var tip = $("tip");
@@ -1512,6 +1650,10 @@ window.UCL_BEFORE = [
   var rsz; window.addEventListener("resize", function(){ clearTimeout(rsz); rsz = setTimeout(renderScatter, 160); });
   $("signupForm").addEventListener("submit", function(e){ e.preventDefault(); signupSubmit(); });
   document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeMenu(); });
+  window.addEventListener("hashchange", function(){
+    var want = (location.hash||"").slice(1) === "fantasy" ? "fantasy" : "main";
+    if(want !== state.view) setView(want);
+  });
   ["cmpA","cmpB"].forEach(function(id){
     $(id).addEventListener("change", function(){
       var other = id==="cmpA" ? "cmpB" : "cmpA", old = state[id];

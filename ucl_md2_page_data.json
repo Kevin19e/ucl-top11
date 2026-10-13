@@ -1076,5 +1076,486 @@
    0,
    0.61
   ]
- ]
+ ],
+ "fantasy": {
+  "formation": "4-4-2",
+  "points": 46.0,
+  "withCaptain": 51.0,
+  "cost": 83.0,
+  "budget": 83.0,
+  "eligible": 41,
+  "captain": "Lamine Yamal",
+  "players": [
+   {
+    "name": "Lamine Yamal",
+    "team": "Barcelona",
+    "opp": "Galatasaray",
+    "ha": "A",
+    "fpos": "MID",
+    "price": 10.0,
+    "xp": 4.9
+   },
+   {
+    "name": "Harry Kane",
+    "team": "Bayern",
+    "opp": "Viking",
+    "ha": "A",
+    "fpos": "FWD",
+    "price": 11.0,
+    "xp": 4.7
+   },
+   {
+    "name": "Michael Olise",
+    "team": "Bayern",
+    "opp": "Viking",
+    "ha": "A",
+    "fpos": "MID",
+    "price": 9.0,
+    "xp": 4.5
+   },
+   {
+    "name": "Bukayo Saka",
+    "team": "Arsenal",
+    "opp": "Lille",
+    "ha": "H",
+    "fpos": "MID",
+    "price": 8.5,
+    "xp": 4.4
+   },
+   {
+    "name": "Erling Haaland",
+    "team": "Man City",
+    "opp": "Paris SG",
+    "ha": "H",
+    "fpos": "FWD",
+    "price": 11.0,
+    "xp": 4.3
+   },
+   {
+    "name": "Gabriel",
+    "team": "Arsenal",
+    "opp": "Lille",
+    "ha": "H",
+    "fpos": "DEF",
+    "price": 6.0,
+    "xp": 4.3
+   },
+   {
+    "name": "Federico Dimarco",
+    "team": "Inter",
+    "opp": "Club Brugge",
+    "ha": "H",
+    "fpos": "DEF",
+    "price": 5.0,
+    "xp": 4.2
+   },
+   {
+    "name": "Riccardo Calafiori",
+    "team": "Arsenal",
+    "opp": "Lille",
+    "ha": "H",
+    "fpos": "DEF",
+    "price": 4.5,
+    "xp": 4.1
+   },
+   {
+    "name": "Luis Diaz",
+    "team": "Bayern",
+    "opp": "Viking",
+    "ha": "A",
+    "fpos": "MID",
+    "price": 8.0,
+    "xp": 4.0
+   },
+   {
+    "name": "Josha Vagnoman",
+    "team": "Stuttgart",
+    "opp": "Slovan Bratislava",
+    "ha": "A",
+    "fpos": "DEF",
+    "price": 4.0,
+    "xp": 3.5
+   },
+   {
+    "name": "Alisson",
+    "team": "Liverpool",
+    "opp": "LASK",
+    "ha": "A",
+    "fpos": "GK",
+    "price": 6.0,
+    "xp": 3.1
+   }
+  ],
+  "all": [
+   {
+    "name": "Lamine Yamal",
+    "team": "Barcelona",
+    "opp": "Galatasaray",
+    "ha": "A",
+    "fpos": "MID",
+    "price": 10.0,
+    "xp": 4.9
+   },
+   {
+    "name": "Harry Kane",
+    "team": "Bayern",
+    "opp": "Viking",
+    "ha": "A",
+    "fpos": "FWD",
+    "price": 11.0,
+    "xp": 4.7
+   },
+   {
+    "name": "Michael Olise",
+    "team": "Bayern",
+    "opp": "Viking",
+    "ha": "A",
+    "fpos": "MID",
+    "price": 9.0,
+    "xp": 4.5
+   },
+   {
+    "name": "Bukayo Saka",
+    "team": "Arsenal",
+    "opp": "Lille",
+    "ha": "H",
+    "fpos": "MID",
+    "price": 8.5,
+    "xp": 4.4
+   },
+   {
+    "name": "Erling Haaland",
+    "team": "Man City",
+    "opp": "Paris SG",
+    "ha": "H",
+    "fpos": "FWD",
+    "price": 11.0,
+    "xp": 4.3
+   },
+   {
+    "name": "Gabriel",
+    "team": "Arsenal",
+    "opp": "Lille",
+    "ha": "H",
+    "fpos": "DEF",
+    "price": 6.0,
+    "xp": 4.3
+   },
+   {
+    "name": "Federico Dimarco",
+    "team": "Inter",
+    "opp": "Club Brugge",
+    "ha": "H",
+    "fpos": "DEF",
+    "price": 5.0,
+    "xp": 4.2
+   },
+   {
+    "name": "Lautaro Martinez",
+    "team": "Inter",
+    "opp": "Club Brugge",
+    "ha": "H",
+    "fpos": "FWD",
+    "price": 9.5,
+    "xp": 4.1
+   },
+   {
+    "name": "Riccardo Calafiori",
+    "team": "Arsenal",
+    "opp": "Lille",
+    "ha": "H",
+    "fpos": "DEF",
+    "price": 4.5,
+    "xp": 4.1
+   },
+   {
+    "name": "Kylian Mbappe",
+    "team": "Real Madrid",
+    "opp": "Roma",
+    "ha": "A",
+    "fpos": "FWD",
+    "price": 11.0,
+    "xp": 4.0
+   },
+   {
+    "name": "Luis Diaz",
+    "team": "Bayern",
+    "opp": "Viking",
+    "ha": "A",
+    "fpos": "MID",
+    "price": 8.0,
+    "xp": 4.0
+   },
+   {
+    "name": "Deniz Undav",
+    "team": "Stuttgart",
+    "opp": "Slovan Bratislava",
+    "ha": "A",
+    "fpos": "FWD",
+    "price": 7.0,
+    "xp": 3.9
+   },
+   {
+    "name": "Florian Wirtz",
+    "team": "Liverpool",
+    "opp": "LASK",
+    "ha": "A",
+    "fpos": "MID",
+    "price": 8.5,
+    "xp": 3.9
+   },
+   {
+    "name": "David Raya",
+    "team": "Arsenal",
+    "opp": "Lille",
+    "ha": "H",
+    "fpos": "GK",
+    "price": 6.0,
+    "xp": 3.7
+   },
+   {
+    "name": "Virgil van Dijk",
+    "team": "Liverpool",
+    "opp": "LASK",
+    "ha": "A",
+    "fpos": "DEF",
+    "price": 6.0,
+    "xp": 3.6
+   },
+   {
+    "name": "Nico Paz",
+    "team": "Como",
+    "opp": "Feyenoord",
+    "ha": "A",
+    "fpos": "MID",
+    "price": 7.0,
+    "xp": 3.6
+   },
+   {
+    "name": "Alex Grimaldo",
+    "team": "Atletico",
+    "opp": "Man United",
+    "ha": "H",
+    "fpos": "DEF",
+    "price": 6.0,
+    "xp": 3.6
+   },
+   {
+    "name": "Serhou Guirassy",
+    "team": "Dortmund",
+    "opp": "Bodo/Glimt",
+    "ha": "A",
+    "fpos": "FWD",
+    "price": 8.5,
+    "xp": 3.5
+   },
+   {
+    "name": "Josha Vagnoman",
+    "team": "Stuttgart",
+    "opp": "Slovan Bratislava",
+    "ha": "A",
+    "fpos": "DEF",
+    "price": 4.0,
+    "xp": 3.5
+   },
+   {
+    "name": "Alphonso Davies",
+    "team": "Bayern",
+    "opp": "Viking",
+    "ha": "A",
+    "fpos": "DEF",
+    "price": 5.0,
+    "xp": 3.4
+   },
+   {
+    "name": "Florian Thauvin",
+    "team": "Lens",
+    "opp": "Sporting CP",
+    "ha": "H",
+    "fpos": "MID",
+    "price": 6.5,
+    "xp": 3.4
+   },
+   {
+    "name": "Dayot Upamecano",
+    "team": "Bayern",
+    "opp": "Viking",
+    "ha": "A",
+    "fpos": "DEF",
+    "price": 5.5,
+    "xp": 3.4
+   },
+   {
+    "name": "Ismael Saibari",
+    "team": "Bayern",
+    "opp": "Viking",
+    "ha": "A",
+    "fpos": "MID",
+    "price": 6.5,
+    "xp": 3.3
+   },
+   {
+    "name": "Bruno Fernandes",
+    "team": "Man United",
+    "opp": "Atletico",
+    "ha": "A",
+    "fpos": "MID",
+    "price": 9.0,
+    "xp": 3.3
+   },
+   {
+    "name": "Rayan Cherki",
+    "team": "Man City",
+    "opp": "Paris SG",
+    "ha": "H",
+    "fpos": "MID",
+    "price": 7.0,
+    "xp": 3.3
+   },
+   {
+    "name": "Vinicius Junior",
+    "team": "Real Madrid",
+    "opp": "Roma",
+    "ha": "A",
+    "fpos": "MID",
+    "price": 9.5,
+    "xp": 3.3
+   },
+   {
+    "name": "Alessandro Bastoni",
+    "team": "Inter",
+    "opp": "Club Brugge",
+    "ha": "H",
+    "fpos": "DEF",
+    "price": 5.0,
+    "xp": 3.2
+   },
+   {
+    "name": "Alisson",
+    "team": "Liverpool",
+    "opp": "LASK",
+    "ha": "A",
+    "fpos": "GK",
+    "price": 6.0,
+    "xp": 3.1
+   },
+   {
+    "name": "Jonathan Tah",
+    "team": "Bayern",
+    "opp": "Viking",
+    "ha": "A",
+    "fpos": "DEF",
+    "price": 5.0,
+    "xp": 3.1
+   },
+   {
+    "name": "Ousmane Dembele",
+    "team": "Paris SG",
+    "opp": "Man City",
+    "ha": "A",
+    "fpos": "FWD",
+    "price": 10.0,
+    "xp": 3.0
+   },
+   {
+    "name": "Khvicha Kvaratskhelia",
+    "team": "Paris SG",
+    "opp": "Man City",
+    "ha": "A",
+    "fpos": "MID",
+    "price": 10.0,
+    "xp": 2.9
+   },
+   {
+    "name": "Kevin De Bruyne",
+    "team": "Napoli",
+    "opp": "Villarreal",
+    "ha": "A",
+    "fpos": "MID",
+    "price": 7.0,
+    "xp": 2.9
+   },
+   {
+    "name": "Josep Martinez",
+    "team": "Inter",
+    "opp": "Club Brugge",
+    "ha": "H",
+    "fpos": "GK",
+    "price": 4.5,
+    "xp": 2.8
+   },
+   {
+    "name": "Maximilian Mittelstadt",
+    "team": "Stuttgart",
+    "opp": "Slovan Bratislava",
+    "ha": "A",
+    "fpos": "DEF",
+    "price": 4.5,
+    "xp": 2.7
+   },
+   {
+    "name": "Dean Huijsen",
+    "team": "Real Madrid",
+    "opp": "Roma",
+    "ha": "A",
+    "fpos": "DEF",
+    "price": 4.5,
+    "xp": 2.7
+   },
+   {
+    "name": "Marc Cucurella",
+    "team": "Real Madrid",
+    "opp": "Roma",
+    "ha": "A",
+    "fpos": "DEF",
+    "price": 6.0,
+    "xp": 2.6
+   },
+   {
+    "name": "Zion Suzuki",
+    "team": "Aston Villa",
+    "opp": "Fenerbahce",
+    "ha": "H",
+    "fpos": "GK",
+    "price": 4.0,
+    "xp": 2.6
+   },
+   {
+    "name": "Jan Oblak",
+    "team": "Atletico",
+    "opp": "Man United",
+    "ha": "H",
+    "fpos": "GK",
+    "price": 5.5,
+    "xp": 2.6
+   },
+   {
+    "name": "Thibaut Courtois",
+    "team": "Real Madrid",
+    "opp": "Roma",
+    "ha": "A",
+    "fpos": "GK",
+    "price": 6.0,
+    "xp": 2.5
+   },
+   {
+    "name": "Nuno Mendes",
+    "team": "Paris SG",
+    "opp": "Man City",
+    "ha": "A",
+    "fpos": "DEF",
+    "price": 6.0,
+    "xp": 2.5
+   },
+   {
+    "name": "Josko Gvardiol",
+    "team": "Man City",
+    "opp": "Paris SG",
+    "ha": "H",
+    "fpos": "DEF",
+    "price": 5.5,
+    "xp": 2.5
+   }
+  ]
+ }
 }

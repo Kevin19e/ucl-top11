@@ -183,6 +183,7 @@ def prob(lam):
 
 rows = []
 RATES, FORM = {}, {}   # per-90 rates and this season's league form, for the page's radar and scatter
+LAMS = {}              # expected goals and assists in this match, P(start): inputs for Fantasy points
 for (name, team, pos, ps, pen, m1, g1, a1, xg1, xa1, np1, m0, g0, a0, xg0, xa0, np0) in P:
     opp, ha, mxg, txg1, tg1, txg0, tg0 = TEAMS[team]
     base = (txg1 + PREV_W * txg0) / (tg1 + PREV_W * tg0)   # team league xG per game
@@ -204,6 +205,7 @@ for (name, team, pos, ps, pen, m1, g1, a1, xg1, xa1, np1, m0, g0, a0, xg0, xa0, 
     lam_g = r_np * f_g * mult * share + PEN_PER_XG * mxg * PEN_CONV * pen * share
     lam_a = r_xa * f_a * mult * share
     lam = lam_g + lam_a
+    LAMS[name] = (lam_g, lam_a, ps)
     band = WIDE_BAND if name in WIDE else BAND
     rows.append((prob(lam), name, team, opp, ha, pos, ps, mins, prob(lam_g), prob(lam_a),
                  prob(lam * (1 - band)), prob(lam * (1 + band)), w, lam, r_np + r_xa, mult))
@@ -297,6 +299,102 @@ for c in xi1 + xi2:
     page["players"][c["name"]] = {
         "xg90": None if r is None else round(r[0], 2), "xa90": None if r is None else round(r[1], 2),
         "form": None if form is None else round(form, 2), "oppXg": XGA[c["team"]], "teamXg": TEAMS[c["team"]][2]}
+
+# ---------------------------------------------------------------- best Fantasy lineup
+# UEFA Champions League Fantasy. Only players whose Fantasy position and price could be verified from
+# published sources (1 Sep - 13 Oct 2026) are eligible: name -> (position, price in EUR m).
+FANTASY = {
+    "David Raya": ("GK", 6.0), "Alisson": ("GK", 6.0), "Thibaut Courtois": ("GK", 6.0), "Jan Oblak": ("GK", 5.5),
+    "Josep Martinez": ("GK", 4.5), "Zion Suzuki": ("GK", 4.0),
+    "Gabriel": ("DEF", 6.0), "Virgil van Dijk": ("DEF", 6.0), "Riccardo Calafiori": ("DEF", 4.5),
+    "Federico Dimarco": ("DEF", 5.0), "Alphonso Davies": ("DEF", 5.0), "Dayot Upamecano": ("DEF", 5.5),
+    "Alex Grimaldo": ("DEF", 6.0), "Marc Cucurella": ("DEF", 6.0), "Nuno Mendes": ("DEF", 6.0),
+    "Alessandro Bastoni": ("DEF", 5.0), "Jonathan Tah": ("DEF", 5.0), "Josha Vagnoman": ("DEF", 4.0),
+    "Josko Gvardiol": ("DEF", 5.5), "Dean Huijsen": ("DEF", 4.5), "Maximilian Mittelstadt": ("DEF", 4.5),
+    "Lamine Yamal": ("MID", 10.0), "Michael Olise": ("MID", 9.0), "Bukayo Saka": ("MID", 8.5),
+    "Luis Diaz": ("MID", 8.0), "Florian Wirtz": ("MID", 8.5), "Rayan Cherki": ("MID", 7.0),
+    "Nico Paz": ("MID", 7.0), "Ismael Saibari": ("MID", 6.5), "Kevin De Bruyne": ("MID", 7.0),
+    "Bruno Fernandes": ("MID", 9.0), "Vinicius Junior": ("MID", 9.5), "Khvicha Kvaratskhelia": ("MID", 10.0),
+    "Florian Thauvin": ("MID", 6.5),
+    "Harry Kane": ("FWD", 11.0), "Erling Haaland": ("FWD", 11.0), "Kylian Mbappe": ("FWD", 11.0),
+    "Lautaro Martinez": ("FWD", 9.5), "Deniz Undav": ("FWD", 7.0), "Serhou Guirassy": ("FWD", 8.5),
+    "Ousmane Dembele": ("FWD", 10.0),
+}
+GOAL_PTS = {"GK": 6, "DEF": 6, "MID": 5, "FWD": 4}
+CS_PTS = {"GK": 4, "DEF": 4, "MID": 1, "FWD": 0}
+XI_BUDGET = 83.0          # of the 100m squad budget, leaving 17m for the four bench players (assumption)
+FORMATIONS = [(3, 4, 3), (3, 5, 2), (4, 3, 3), (4, 4, 2), (4, 5, 1), (5, 3, 2), (5, 4, 1)]
+CLUB_MAX = 3
+
+
+def conceded_penalty(mu):
+    """Expected value of floor(goals conceded / 2) for Poisson(mu): -1 point per two conceded."""
+    return sum((k // 2) * math.exp(-mu) * mu ** k / math.factorial(k) for k in range(12))
+
+
+GK_START = {n: p for n, _, p in GKS}
+GK_TEAM = {n: t for n, t, _ in GKS}
+TEAM_OF = {r[1]: r[2] for r in rows}
+TEAM_OF.update(GK_TEAM)
+fan = []
+for name, (fpos, price) in FANTASY.items():
+    team = TEAM_OF[name]
+    lam_g, lam_a, ps = LAMS.get(name, (0.0, 0.0, GK_START.get(name, 0.0)))
+    p_play, p60 = ps + (1 - ps) * 0.7, ps * 0.85
+    xp = p_play + p60 + GOAL_PTS[fpos] * lam_g + 3 * lam_a + CS_PTS[fpos] * math.exp(-XGA[team]) * p60
+    if fpos in ("GK", "DEF"):
+        xp -= conceded_penalty(XGA[team]) * ps
+    fan.append(dict(name=name, team=team, opp=TEAMS[team][0], ha=TEAMS[team][1], fpos=fpos, price=price, xp=xp))
+
+
+def best_xi(pool):
+    """Exact search: knapsack over price for each formation, then branch if a club has more than CLUB_MAX."""
+    best = None
+    for d, m, f in FORMATIONS:
+        need = {"GK": 1, "DEF": d, "MID": m, "FWD": f}
+        states = {(0, 0, 0, 0, 0): (0.0, ())}           # (cost in half-millions, gk, def, mid, fwd) -> (points, picks)
+        for i, p in enumerate(pool):
+            cost, idx = int(round(p["price"] * 2)), "GK DEF MID FWD".split().index(p["fpos"])
+            for key, (pts, picks) in list(states.items()):
+                cnt = list(key[1:])
+                if cnt[idx] >= need[p["fpos"]] or key[0] + cost > XI_BUDGET * 2:
+                    continue
+                cnt[idx] += 1
+                nk = (key[0] + cost, *cnt)
+                if nk not in states or states[nk][0] < pts + p["xp"]:
+                    states[nk] = (pts + p["xp"], picks + (i,))
+        for key, (pts, picks) in states.items():
+            if key[1:] == (1, d, m, f) and (best is None or pts > best[0]):
+                best = (pts, picks, (d, m, f))
+    if best is None:
+        return None
+    pts, picks, form = best
+    clubs = {}
+    for i in picks:
+        clubs.setdefault(pool[i]["team"], []).append(i)
+    over = [v for v in clubs.values() if len(v) > CLUB_MAX]
+    if not over:
+        return pts, [pool[i] for i in picks], form
+    options = [best_xi([q for j, q in enumerate(pool) if j != i]) for i in over[0]]
+    options = [o for o in options if o]
+    return max(options, key=lambda o: o[0]) if options else None
+
+
+fan.sort(key=lambda p: -p["xp"])
+fx_pts, fx_team, fx_form = best_xi(fan)
+captain = max(fx_team, key=lambda p: p["xp"])
+print("\nBEST FANTASY XI  %d-%d-%d  from %d priced players" % (*fx_form, len(fan)))
+for p in sorted(fx_team, key=lambda p: ("GK DEF MID FWD".split().index(p["fpos"]), -p["xp"])):
+    print(f"  {p['fpos']:3} {p['name']:22} {p['team']:12} {p['ha']} {p['opp']:18} EUR {p['price']:4.1f}m  xPts {p['xp']:.2f}"
+          + ("  (captain)" if p is captain else ""))
+fx_cost = sum(p["price"] for p in fx_team)
+print(f"  cost {fx_cost:.1f}m of {XI_BUDGET:.0f}m, expected points {fx_pts:.1f}, with captain doubled {fx_pts + captain['xp']:.1f}")
+print("  all priced players:", "; ".join(f"{p['name']} {p['xp']:.1f}" for p in fan))
+page["fantasy"] = {"formation": "%d-%d-%d" % fx_form, "points": round(fx_pts, 1), "withCaptain": round(fx_pts + captain["xp"], 1),
+                   "cost": fx_cost, "budget": XI_BUDGET, "eligible": len(fan), "captain": captain["name"],
+                   "players": [dict(p, xp=round(p["xp"], 1)) for p in fx_team],
+                   "all": [dict(p, xp=round(p["xp"], 1)) for p in fan]}
+
 with open("ucl_md2_page_data.json", "w", encoding="utf-8") as fh:
     json.dump(page, fh, ensure_ascii=False, indent=1)
 print("\nwrote ucl_md2_page_data.json:", len(page["pool"]), "outfield players in the pool")
