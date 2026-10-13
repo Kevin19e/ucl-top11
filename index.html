@@ -151,6 +151,10 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
   .anim-in .nxc:nth-child(2){animation-delay:.08s} .anim-in .nxc:nth-child(3){animation-delay:.16s}
   .cb i{animation:growx .6s ease-out backwards}
   .cb.a i{transform-origin:right center} .cb.b i{transform-origin:left center}
+  .pizza .sl{animation:radar .5s cubic-bezier(.3,1.3,.5,1) backwards;transform-origin:150px 128px}
+  .pizza .sl:nth-of-type(2){animation-delay:.06s} .pizza .sl:nth-of-type(3){animation-delay:.12s} .pizza .sl:nth-of-type(4){animation-delay:.18s}
+  .pizza .sl:nth-of-type(5){animation-delay:.24s} .pizza .sl:nth-of-type(6){animation-delay:.3s}
+  .anim-in .tkc{animation:fadein .5s backwards}
   .radar .ra,.radar .rb{animation:radar .6s cubic-bezier(.3,1.3,.5,1) backwards;transform-origin:190px 158px}
   .radar .rb{animation-delay:.12s}
   .bigpct b{animation:numpop .45s ease-out backwards;display:inline-block}
@@ -272,7 +276,7 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
 .badge.miss{background:#FFFFFF;color:#C8303B}
 .pitch-foot{align-self:center;font-family:var(--hand);font-size:.92rem;text-align:center;padding:2px 12px 0;background:var(--tape);color:var(--tape-ink);border-radius:3px 6px 4px 7px/6px 3px 7px 4px;transform:rotate(-.6deg);max-width:calc(100% - 20px)}
 
-.card{background:var(--surface);border-radius:var(--wob-lg);padding:20px 18px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px)}
+.card{background:var(--surface);border-radius:var(--wob-lg);padding:20px 18px 18px;box-shadow:var(--shadow);position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px)}
 .card-top{display:flex;gap:14px;align-items:center}
 .card-top svg{width:86px;height:auto;flex:none;transform:rotate(-4deg)}
 .card-top h3{font-size:2.3rem;line-height:.95}
@@ -345,6 +349,28 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
 .cmp-foot{color:var(--muted);font-size:.84rem;margin-top:8px}
 .cmp-notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:16px}
 .cmp-notes h4{margin:0 0 4px;font-family:var(--marker);font-weight:400;font-size:1.4rem;line-height:1}
+
+/* card: pizza chart */
+.pizza-h{font-family:var(--hand);font-size:.84rem;color:var(--muted)}
+.pizza{width:100%;max-width:300px;height:auto;display:block;margin:2px auto 0}
+.pizza .rg{fill:none;stroke:var(--line);stroke-width:1.2}
+.pizza .sl{fill:var(--accent);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+.pizza text{font-family:var(--hand);font-weight:700;font-size:13px;fill:var(--ink)}
+.pizza text tspan{font-family:var(--marker);font-weight:400;font-size:15px}
+.card-in{display:flex;flex-direction:column;gap:14px}
+
+/* fantasy corner: fixture ticker */
+#ticker{scroll-margin-top:84px}
+.tk{font-size:.9rem;min-width:420px}
+.tk th,.tk td{padding:4px 5px;border-bottom:0;white-space:normal;vertical-align:middle}
+.tk th:first-child,.tk td:first-child{white-space:nowrap}
+.tk td:first-child{font-family:var(--hand);font-weight:700;font-size:1rem}
+.tk tr.mine td:first-child{background:var(--hl);border-radius:.6em .2em .5em .25em/.3em .5em .25em .6em}
+.tkc{display:block;padding:4px 8px 3px;border:2px dashed var(--muted);border-radius:10px 4px 9px 5px;line-height:1.2;background:color-mix(in srgb,var(--muted) 12%,var(--surface))}
+.tkc i{font-style:normal;font-size:.72rem;margin-right:4px;color:var(--muted)}
+.tkc small{color:var(--muted)}
+.tkc.hard{border:2px solid var(--bad);background:color-mix(in srgb,var(--bad) 16%,var(--surface))} .tkc.hard i{color:var(--bad)}
+.tkc.easy{border:2px solid var(--good);background:color-mix(in srgb,var(--good) 16%,var(--surface))} .tkc.easy i{color:var(--good)}
 
 /* card: next three games and fantasy value */
 .nx-h{font-family:var(--hand);font-size:.84rem;color:var(--muted)}
@@ -489,6 +515,9 @@ td.r,th.r{text-align:right}
 .past-empty{font-family:var(--hand);font-size:1.02rem;max-width:60ch;margin-top:10px}
 footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68ch}
 
+@media (min-width:861px){
+  .card-in{max-height:calc(100vh - 130px);overflow-y:auto;scrollbar-width:thin;padding-right:6px}
+}
 @media (max-width:860px){
   .hero-top,.stage,.duo,.past,.cmp-radar,.signup-grid,.fx-grid{grid-template-columns:minmax(0,1fr)}
   .steps{grid-template-columns:minmax(0,1fr);gap:20px}
@@ -585,7 +614,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
         <div class="pitch-foot" id="foot1"></div>
       </div>
     </div>
-    <article class="card sk" id="card" aria-live="polite"></article>
+    <article class="card sk"><div class="card-in" id="card" aria-live="polite"></div></article>
     <div class="pitch p2 sk">
       <svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         <g fill="none" stroke="var(--chalk-soft)" stroke-width="2" stroke-linecap="round">
@@ -725,6 +754,21 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
     <div id="lineupBody" style="margin-top:14px"></div>
   </section>
 
+  <section class="panel sk" id="ticker">
+    <div class="panel-head">
+      <div>
+        <h2>Fixture ticker</h2>
+        <p class="sub">Every club's next three games, kindest run at the top. Colour and symbol follow the opponent's seeding pot in the draw, which is a rough guide.</p>
+      </div>
+      <div class="seg" role="group" aria-label="Clubs shown">
+        <button type="button" id="tkall" data-tk="all" aria-pressed="true">All 36 clubs</button>
+        <button type="button" id="tkxi" data-tk="xi" aria-pressed="false">Clubs in the elevens</button>
+      </div>
+    </div>
+    <div class="scroll" id="tickerBody"></div>
+    <div class="legend"><span><span class="tkc easy" style="display:inline-block"><i>▼</i>easier</span></span><span><span class="tkc" style="display:inline-block"><i>●</i>medium</span></span><span><span class="tkc hard" style="display:inline-block"><i>▲</i>hard</span></span><span>highlighted clubs have a player in this week's elevens</span></div>
+  </section>
+
   <section class="panel sk" id="compare">
     <h2>Head to head</h2>
     <p class="sub">Pick any two players from the two elevens and see them side by side: rates, minutes, fixtures and Fantasy value.</p>
@@ -798,101 +842,140 @@ window.UCL_ROUNDS = [
         { name: "Alisson", short: "Alisson", team: "Liverpool", opp: "LASK", ha: "A", fpos: "GK", price: 6.0, xp: 3.1, kit: ["#1B1F2B", "#C8102E", "#FFFFFF"] }
       ]
     },
+    /* Fixture ticker: every club's next three games as [opponent, H/A, opponent's seeding pot], kindest run first. */
+    ticker: { labels: ["MD2", "MD3", "MD4"], rows: [
+      ["Sporting CP", [["Lens", "A", 4], ["LASK", "H", 4], ["Shakhtar", "A", 3]]],
+      ["Liverpool", [["LASK", "A", 4], ["Villarreal", "H", 3], ["Fenerbahçe", "A", 3]]],
+      ["Sabah", [["Slavia Praha", "H", 4], ["Dortmund", "H", 2], ["Viking", "A", 4]]],
+      ["Slovan Bratislava", [["Stuttgart", "H", 4], ["Roma", "A", 2], ["LASK", "A", 4]]],
+      ["Como", [["Feyenoord", "A", 3], ["Man United", "H", 2], ["Lens", "A", 4]]],
+      ["Dortmund", [["Bodø/Glimt", "A", 3], ["Sabah", "A", 4], ["Real Betis", "H", 2]]],
+      ["Real Madrid", [["Roma", "A", 2], ["Leipzig", "H", 3], ["AEK Athens", "A", 4]]],
+      ["Arsenal", [["Lille", "H", 3], ["Bayern", "A", 1], ["Slavia Praha", "A", 4]]],
+      ["Aston Villa", [["Fenerbahçe", "H", 3], ["Viking", "H", 4], ["Barcelona", "A", 1]]],
+      ["Bodø/Glimt", [["Dortmund", "H", 2], ["Napoli", "A", 3], ["Lille", "H", 3]]],
+      ["Galatasaray", [["Barcelona", "H", 1], ["Lille", "A", 3], ["Stuttgart", "H", 4]]],
+      ["Inter", [["Club Brugge", "H", 2], ["Shakhtar", "H", 3], ["Feyenoord", "A", 3]]],
+      ["Lens", [["Sporting CP", "H", 2], ["Club Brugge", "A", 2], ["Como", "H", 4]]],
+      ["Man City", [["Paris SG", "H", 1], ["AEK Athens", "H", 4], ["Leipzig", "A", 3]]],
+      ["Napoli", [["Villarreal", "A", 3], ["Bodø/Glimt", "H", 3], ["Porto", "A", 2]]],
+      ["Slavia Praha", [["Sabah", "A", 4], ["Fenerbahçe", "A", 3], ["Arsenal", "H", 1]]],
+      ["Stuttgart", [["Slovan Bratislava", "A", 4], ["Atlético", "H", 1], ["Galatasaray", "A", 3]]],
+      ["Atlético", [["Man United", "H", 2], ["Stuttgart", "A", 4], ["Bayern", "H", 1]]],
+      ["Club Brugge", [["Inter", "A", 1], ["Lens", "H", 4], ["PSV", "A", 2]]],
+      ["Fenerbahçe", [["Aston Villa", "A", 2], ["Slavia Praha", "H", 4], ["Liverpool", "H", 1]]],
+      ["Feyenoord", [["Como", "H", 4], ["Real Betis", "A", 2], ["Inter", "H", 1]]],
+      ["LASK", [["Liverpool", "H", 1], ["Sporting CP", "A", 2], ["Slovan Bratislava", "H", 4]]],
+      ["Lille", [["Arsenal", "A", 1], ["Galatasaray", "H", 3], ["Bodø/Glimt", "A", 3]]],
+      ["Man United", [["Atlético", "A", 1], ["Como", "A", 4], ["Roma", "H", 2]]],
+      ["PSV", [["Leipzig", "A", 3], ["Porto", "A", 2], ["Club Brugge", "H", 2]]],
+      ["Porto", [["Real Betis", "A", 2], ["PSV", "H", 2], ["Napoli", "H", 3]]],
+      ["Real Betis", [["Porto", "H", 2], ["Feyenoord", "H", 3], ["Dortmund", "A", 2]]],
+      ["Roma", [["Real Madrid", "H", 1], ["Slovan Bratislava", "H", 4], ["Man United", "A", 2]]],
+      ["Shakhtar", [["AEK Athens", "H", 4], ["Inter", "A", 1], ["Sporting CP", "H", 2]]],
+      ["Viking", [["Bayern", "H", 1], ["Aston Villa", "A", 2], ["Sabah", "H", 4]]],
+      ["Barcelona", [["Galatasaray", "A", 3], ["Paris SG", "A", 1], ["Aston Villa", "H", 2]]],
+      ["Bayern", [["Viking", "A", 4], ["Arsenal", "H", 1], ["Atlético", "A", 1]]],
+      ["AEK Athens", [["Shakhtar", "A", 3], ["Man City", "A", 1], ["Real Madrid", "H", 1]]],
+      ["Paris SG", [["Man City", "A", 1], ["Barcelona", "H", 1], ["Villarreal", "A", 3]]],
+      ["Villarreal", [["Napoli", "H", 3], ["Liverpool", "A", 1], ["Paris SG", "H", 1]]],
+      ["Leipzig", [["PSV", "H", 2], ["Real Madrid", "A", 1], ["Man City", "H", 1]]]
+    ] },
     priceNote: "Fantasy prices are UEFA Champions League Fantasy prices as published between 1 September and 13 October 2026. They can change during the season.",
-    /* Every modelled outfield player: [name, team, line, xG per 90 (no penalties), xA per 90, chance %, 1 = First XI / 2 = Second XI / 0 = neither, id or 0, form]. */
+    /* Every modelled outfield player: [name, team, line, xG per 90 (no penalties), xA per 90, chance %, 1 = First XI / 2 = Second XI / 0 = neither, id or 0, form, expected minutes, opponent's expected goals]. */
     pool: [
-      ["Gabriel", "Arsenal", "DEF", 0.12, 0.05, 60, 1, "gabriel", 0.0],
-      ["Riccardo Calafiori", "Arsenal", "DEF", 0.14, 0.1, 57, 1, "calafiori", 0.53],
-      ["Federico Dimarco", "Inter", "DEF", 0.18, 0.38, 56, 1, "dimarco", 0.23],
-      ["Harry Kane", "Bayern", "FWD", 0.66, 0.25, 56, 1, "kane", 1.4],
-      ["Jurriën Timber", "Arsenal", "DEF", 0.1, 0.09, 55, 2, "timber", null],
-      ["Lamine Yamal", "Barcelona", "FWD", 0.44, 0.44, 50, 1, "yamal", 1.58],
-      ["Ezri Konsa", "Arsenal", "DEF", 0.04, 0.02, 50, 2, "konsa", 0.0],
-      ["Alphonso Davies", "Bayern", "DEF", 0.04, 0.21, 49, 2, "davies", 0.5],
-      ["Konrad Laimer", "Bayern", "DEF", 0.1, 0.16, 49, 0, 0, null],
-      ["Virgil van Dijk", "Liverpool", "DEF", 0.09, 0.01, 48, 1, "vandijk", 0.0],
-      ["Erling Haaland", "Man City", "FWD", 0.68, 0.14, 48, 1, "haaland", 1.02],
-      ["Lautaro Martínez", "Inter", "FWD", 0.68, 0.2, 48, 2, "lautaro", 1.02],
-      ["Michael Olise", "Bayern", "FWD", 0.39, 0.45, 46, 2, "olise", 1.15],
-      ["Andy Diouf", "Inter", "DEF", 0.06, 0.22, 46, 0, 0, 0.64],
-      ["Dayot Upamecano", "Bayern", "DEF", 0.08, 0.04, 46, 2, "upamecano", 0.22],
-      ["Jeremie Frimpong", "Liverpool", "DEF", 0.04, 0.16, 46, 0, 0, null],
-      ["Josha Vagnoman", "Stuttgart", "DEF", 0.13, 0.11, 45, 0, 0, 0.61],
-      ["Álex Grimaldo", "Atletico", "DEF", 0.11, 0.21, 45, 0, 0, 0.58],
-      ["Deniz Undav", "Stuttgart", "MID", 0.46, 0.22, 45, 1, "undav", 0.0],
-      ["Kylian Mbappé", "Real Madrid", "FWD", 0.65, 0.2, 44, 2, "mbappe", 1.12],
-      ["Ermedin Demirović", "Stuttgart", "FWD", 0.49, 0.12, 43, 0, 0, 0.32],
-      ["Jules Koundé", "Barcelona", "DEF", 0.09, 0.13, 42, 0, 0, 0.36],
-      ["Alessandro Bastoni", "Inter", "DEF", 0.06, 0.09, 42, 0, 0, 0.0],
-      ["Marcus Thuram", "Inter", "FWD", 0.57, 0.19, 42, 0, 0, 1.57],
-      ["Jonathan Tah", "Bayern", "DEF", 0.06, 0.02, 42, 0, 0, 0.0],
-      ["Manuel Akanji", "Inter", "DEF", 0.09, 0.04, 41, 0, 0, 0.22],
-      ["Bukayo Saka", "Arsenal", "FWD", 0.37, 0.24, 41, 0, 0, 0.53],
-      ["João Cancelo", "Barcelona", "DEF", 0.06, 0.16, 40, 0, 0, null],
-      ["Kostas Tsimikas", "Liverpool", "DEF", 0.05, 0.07, 40, 0, 0, null],
-      ["Yann Bisseck", "Inter", "DEF", 0.1, 0.03, 39, 0, 0, 0.25],
-      ["Matty Cash", "Aston Villa", "DEF", 0.03, 0.08, 39, 0, 0, 0.0],
-      ["Luis Díaz", "Bayern", "FWD", 0.46, 0.31, 38, 0, 0, 0.25],
-      ["Christopher Nkunku", "Leipzig", "FWD", 0.52, 0.14, 38, 0, 0, 1.4],
-      ["Serhou Guirassy", "Dortmund", "FWD", 0.55, 0.14, 38, 0, 0, 0.83],
-      ["David Raum", "Leipzig", "DEF", 0.04, 0.28, 38, 0, 0, 0.0],
-      ["Finn Jeltsch", "Stuttgart", "DEF", 0.06, 0.03, 37, 0, 0, 0.24],
-      ["Joe Gomez", "Liverpool", "DEF", 0.05, 0.02, 37, 0, 0, null],
-      ["Pau Cubarsí", "Barcelona", "DEF", 0.03, 0.01, 37, 0, 0, 0.0],
-      ["Marcos Llorente", "Atletico", "DEF", 0.06, 0.12, 37, 0, 0, 0.16],
-      ["Nicolas Jackson", "Aston Villa", "FWD", 0.43, 0.13, 37, 0, 0, 0.46],
-      ["Yan Couto", "Como", "DEF", 0.06, 0.16, 37, 0, 0, 0.18],
-      ["Héctor Bellerín", "Real Betis", "DEF", 0.04, 0.14, 36, 0, 0, 0.15],
-      ["Donyell Malen", "Roma", "FWD", 0.79, 0.12, 36, 0, 0, 1.33],
-      ["Maximilian Mittelstädt", "Stuttgart", "DEF", 0.07, 0.22, 35, 0, 0, 0.41],
-      ["Jonathan David", "Atletico", "FWD", 0.55, 0.2, 34, 0, 0, null],
-      ["David Hancko", "Atletico", "DEF", 0.06, 0.06, 34, 0, 0, 0.32],
-      ["Florian Wirtz", "Liverpool", "MID", 0.26, 0.19, 34, 1, "wirtz", 0.19],
-      ["Pau Torres", "Aston Villa", "DEF", 0.06, 0.01, 34, 0, 0, null],
-      ["Trent Alexander-Arnold", "Real Madrid", "DEF", 0.04, 0.15, 34, 0, 0, 0.35],
-      ["Gerard Martín", "Barcelona", "DEF", 0.03, 0.03, 34, 0, 0, 0.0],
-      ["Marc Cucurella", "Real Madrid", "DEF", 0.05, 0.13, 33, 0, 0, 0.0],
-      ["Rayan Cherki", "Man City", "MID", 0.28, 0.38, 33, 1, "cherki", 1.34],
-      ["Tasos Douvikas", "Como", "FWD", 0.55, 0.1, 33, 0, 0, 0.44],
-      ["Nico Paz", "Como", "MID", 0.27, 0.22, 32, 2, "paz", 0.35],
-      ["Dean Huijsen", "Real Madrid", "DEF", 0.08, 0.03, 32, 0, 0, 0.0],
-      ["Ismael Saibari", "Bayern", "MID", 0.36, 0.28, 32, 2, "saibari", 1.42],
-      ["Martin Ødegaard", "Arsenal", "MID", 0.21, 0.28, 32, 2, "odegaard", 0.37],
-      ["Nuno Mendes", "Paris SG", "DEF", 0.11, 0.3, 31, 0, 0, null],
-      ["Chris Führich", "Stuttgart", "FWD", 0.22, 0.31, 31, 0, 0, 0.31],
-      ["Ousmane Dembélé", "Paris SG", "FWD", 0.44, 0.25, 31, 0, 0, null],
-      ["Georges Mikautadze", "Villarreal", "FWD", 0.55, 0.17, 30, 0, 0, 0.58],
-      ["Isco", "Real Betis", "MID", 0.34, 0.19, 30, 0, 0, 0.44],
-      ["Florian Thauvin", "Lens", "FWD", 0.3, 0.31, 30, 0, 0, 1.17],
-      ["Marc Bartra", "Real Betis", "DEF", 0.05, 0.01, 30, 0, 0, 0.27],
-      ["Dani Olmo", "Barcelona", "MID", 0.33, 0.34, 30, 0, 0, 0.89],
-      ["Abde Ezzalzouli", "Real Betis", "FWD", 0.34, 0.24, 30, 0, 0, 0.54],
-      ["Joško Gvardiol", "Man City", "DEF", 0.08, 0.12, 29, 0, 0, 0.78],
-      ["Bruno Fernandes", "Man United", "MID", 0.26, 0.36, 29, 0, 0, 0.67],
-      ["Antonio Nusa", "Leipzig", "FWD", 0.22, 0.29, 29, 0, 0, 1.31],
-      ["Vinícius Júnior", "Real Madrid", "FWD", 0.35, 0.25, 28, 0, 0, 0.61],
-      ["Kai Havertz", "Arsenal", "FWD", 0.43, 0.12, 28, 0, 0, 0.35],
-      ["Anthony Gordon", "Barcelona", "FWD", 0.37, 0.24, 28, 0, 0, 0.91],
-      ["Julian Chabot", "Stuttgart", "DEF", 0.08, 0.01, 27, 0, 0, 0.22],
-      ["Hakan Çalhanoğlu", "Inter", "MID", 0.08, 0.17, 27, 0, 0, null],
-      ["Gerard Moreno", "Villarreal", "FWD", 0.38, 0.2, 26, 0, 0, 0.46],
-      ["Maximilian Beier", "Dortmund", "FWD", 0.37, 0.21, 26, 0, 0, 0.5],
-      ["Álex Baena", "Atletico", "MID", 0.2, 0.3, 26, 0, 0, 1.09],
-      ["Arda Güler", "Real Madrid", "MID", 0.26, 0.39, 26, 0, 0, 0.62],
-      ["Jude Bellingham", "Real Madrid", "MID", 0.29, 0.23, 26, 0, 0, 0.72],
-      ["Paulo Dybala", "Roma", "FWD", 0.33, 0.41, 26, 0, 0, 0.72],
-      ["Khvicha Kvaratskhelia", "Paris SG", "FWD", 0.36, 0.29, 25, 0, 0, 0.66],
-      ["Phil Foden", "Man City", "MID", 0.31, 0.26, 25, 0, 0, null],
-      ["Antoine Semenyo", "Man City", "FWD", 0.27, 0.18, 25, 0, 0, 0.83],
-      ["Rasmus Højlund", "Napoli", "FWD", 0.4, 0.13, 25, 0, 0, 0.41],
-      ["Kevin De Bruyne", "Napoli", "MID", 0.22, 0.27, 25, 0, 0, 1.04],
-      ["Alberto Moleiro", "Villarreal", "FWD", 0.25, 0.25, 23, 0, 0, 0.78],
-      ["Karim Adeyemi", "Barcelona", "FWD", 0.53, 0.3, 22, 0, 0, null],
-      ["Désiré Doué", "Paris SG", "FWD", 0.34, 0.25, 22, 0, 0, null],
-      ["Bryan Mbeumo", "Man United", "FWD", 0.4, 0.19, 22, 0, 0, 0.5],
-      ["Fermín López", "Barcelona", "MID", 0.36, 0.31, 20, 0, 0, 1.13],
-      ["Matheus Cunha", "Man United", "FWD", 0.28, 0.17, 18, 0, 0, 0.53],
-      ["Ferran Torres", "Paris SG", "FWD", 0.51, 0.11, 14, 0, 0, 0.61]
+      ["Gabriel", "Arsenal", "DEF", 0.12, 0.05, 60, 1, "gabriel", 0.0, 81, 0.53],
+      ["Riccardo Calafiori", "Arsenal", "DEF", 0.14, 0.1, 57, 1, "calafiori", 0.53, 70, 0.53],
+      ["Federico Dimarco", "Inter", "DEF", 0.18, 0.38, 56, 1, "dimarco", 0.23, 70, 0.9],
+      ["Harry Kane", "Bayern", "FWD", 0.66, 0.25, 56, 1, "kane", 1.4, 67, 0.75],
+      ["Jurriën Timber", "Arsenal", "DEF", 0.1, 0.09, 55, 2, "timber", null, 70, 0.53],
+      ["Lamine Yamal", "Barcelona", "FWD", 0.44, 0.44, 50, 1, "yamal", 1.58, 68, 0.95],
+      ["Ezri Konsa", "Arsenal", "DEF", 0.04, 0.02, 50, 2, "konsa", 0.0, 73, 0.53],
+      ["Alphonso Davies", "Bayern", "DEF", 0.04, 0.21, 49, 2, "davies", 0.5, 70, 0.75],
+      ["Konrad Laimer", "Bayern", "DEF", 0.1, 0.16, 49, 0, 0, null, 70, 0.75],
+      ["Virgil van Dijk", "Liverpool", "DEF", 0.09, 0.01, 48, 1, "vandijk", 0.0, 81, 0.75],
+      ["Erling Haaland", "Man City", "FWD", 0.68, 0.14, 48, 1, "haaland", 1.02, 73, 1.55],
+      ["Lautaro Martínez", "Inter", "FWD", 0.68, 0.2, 48, 2, "lautaro", 1.02, 67, 0.9],
+      ["Michael Olise", "Bayern", "FWD", 0.39, 0.45, 46, 2, "olise", 1.15, 65, 0.75],
+      ["Andy Diouf", "Inter", "DEF", 0.06, 0.22, 46, 0, 0, 0.64, 70, 0.9],
+      ["Dayot Upamecano", "Bayern", "DEF", 0.08, 0.04, 46, 2, "upamecano", 0.22, 77, 0.75],
+      ["Jeremie Frimpong", "Liverpool", "DEF", 0.04, 0.16, 46, 0, 0, null, 66, 0.75],
+      ["Josha Vagnoman", "Stuttgart", "DEF", 0.13, 0.11, 45, 0, 0, 0.61, 73, 1.0],
+      ["Álex Grimaldo", "Atletico", "DEF", 0.11, 0.21, 45, 0, 0, 0.58, 70, 1.1],
+      ["Deniz Undav", "Stuttgart", "MID", 0.46, 0.22, 45, 1, "undav", 0.0, 65, 1.0],
+      ["Kylian Mbappé", "Real Madrid", "FWD", 0.65, 0.2, 44, 2, "mbappe", 1.12, 70, 1.15],
+      ["Ermedin Demirović", "Stuttgart", "FWD", 0.49, 0.12, 43, 0, 0, 0.32, 67, 1.0],
+      ["Jules Koundé", "Barcelona", "DEF", 0.09, 0.13, 42, 0, 0, 0.36, 73, 0.95],
+      ["Alessandro Bastoni", "Inter", "DEF", 0.06, 0.09, 42, 0, 0, 0.0, 77, 0.9],
+      ["Marcus Thuram", "Inter", "FWD", 0.57, 0.19, 42, 0, 0, 1.57, 64, 0.9],
+      ["Jonathan Tah", "Bayern", "DEF", 0.06, 0.02, 42, 0, 0, 0.0, 73, 0.75],
+      ["Manuel Akanji", "Inter", "DEF", 0.09, 0.04, 41, 0, 0, 0.22, 77, 0.9],
+      ["Bukayo Saka", "Arsenal", "FWD", 0.37, 0.24, 41, 0, 0, 0.53, 65, 0.53],
+      ["João Cancelo", "Barcelona", "DEF", 0.06, 0.16, 40, 0, 0, null, 70, 0.95],
+      ["Kostas Tsimikas", "Liverpool", "DEF", 0.05, 0.07, 40, 0, 0, null, 63, 0.75],
+      ["Yann Bisseck", "Inter", "DEF", 0.1, 0.03, 39, 0, 0, 0.25, 73, 0.9],
+      ["Matty Cash", "Aston Villa", "DEF", 0.03, 0.08, 39, 0, 0, 0.0, 73, 1.0],
+      ["Luis Díaz", "Bayern", "FWD", 0.46, 0.31, 38, 0, 0, 0.25, 62, 0.75],
+      ["Christopher Nkunku", "Leipzig", "FWD", 0.52, 0.14, 38, 0, 0, 1.4, 64, 1.4],
+      ["Serhou Guirassy", "Dortmund", "FWD", 0.55, 0.14, 38, 0, 0, 0.83, 70, 1.3],
+      ["David Raum", "Leipzig", "DEF", 0.04, 0.28, 38, 0, 0, 0.0, 77, 1.4],
+      ["Finn Jeltsch", "Stuttgart", "DEF", 0.06, 0.03, 37, 0, 0, 0.24, 77, 1.0],
+      ["Joe Gomez", "Liverpool", "DEF", 0.05, 0.02, 37, 0, 0, null, 66, 0.75],
+      ["Pau Cubarsí", "Barcelona", "DEF", 0.03, 0.01, 37, 0, 0, 0.0, 81, 0.95],
+      ["Marcos Llorente", "Atletico", "DEF", 0.06, 0.12, 37, 0, 0, 0.16, 73, 1.1],
+      ["Nicolas Jackson", "Aston Villa", "FWD", 0.43, 0.13, 37, 0, 0, 0.46, 64, 1.0],
+      ["Yan Couto", "Como", "DEF", 0.06, 0.16, 37, 0, 0, 0.18, 73, 1.2],
+      ["Héctor Bellerín", "Real Betis", "DEF", 0.04, 0.14, 36, 0, 0, 0.15, 73, 1.15],
+      ["Donyell Malen", "Roma", "FWD", 0.79, 0.12, 36, 0, 0, 1.33, 70, 1.8],
+      ["Maximilian Mittelstädt", "Stuttgart", "DEF", 0.07, 0.22, 35, 0, 0, 0.41, 52, 1.0],
+      ["Jonathan David", "Atletico", "FWD", 0.55, 0.2, 34, 0, 0, null, 60, 1.1],
+      ["David Hancko", "Atletico", "DEF", 0.06, 0.06, 34, 0, 0, 0.32, 77, 1.1],
+      ["Florian Wirtz", "Liverpool", "MID", 0.26, 0.19, 34, 1, "wirtz", 0.19, 68, 0.75],
+      ["Pau Torres", "Aston Villa", "DEF", 0.06, 0.01, 34, 0, 0, null, 73, 1.0],
+      ["Trent Alexander-Arnold", "Real Madrid", "DEF", 0.04, 0.15, 34, 0, 0, 0.35, 70, 1.15],
+      ["Gerard Martín", "Barcelona", "DEF", 0.03, 0.03, 34, 0, 0, 0.0, 73, 0.95],
+      ["Marc Cucurella", "Real Madrid", "DEF", 0.05, 0.13, 33, 0, 0, 0.0, 70, 1.15],
+      ["Rayan Cherki", "Man City", "MID", 0.28, 0.38, 33, 1, "cherki", 1.34, 62, 1.55],
+      ["Tasos Douvikas", "Como", "FWD", 0.55, 0.1, 33, 0, 0, 0.44, 64, 1.2],
+      ["Nico Paz", "Como", "MID", 0.27, 0.22, 32, 2, "paz", 0.35, 68, 1.2],
+      ["Dean Huijsen", "Real Madrid", "DEF", 0.08, 0.03, 32, 0, 0, 0.0, 77, 1.15],
+      ["Ismael Saibari", "Bayern", "MID", 0.36, 0.28, 32, 2, "saibari", 1.42, 56, 0.75],
+      ["Martin Ødegaard", "Arsenal", "MID", 0.21, 0.28, 32, 2, "odegaard", 0.37, 62, 0.53],
+      ["Nuno Mendes", "Paris SG", "DEF", 0.11, 0.3, 31, 0, 0, null, 73, 1.75],
+      ["Chris Führich", "Stuttgart", "FWD", 0.22, 0.31, 31, 0, 0, 0.31, 56, 1.0],
+      ["Ousmane Dembélé", "Paris SG", "FWD", 0.44, 0.25, 31, 0, 0, null, 64, 1.75],
+      ["Georges Mikautadze", "Villarreal", "FWD", 0.55, 0.17, 30, 0, 0, 0.58, 60, 1.2],
+      ["Isco", "Real Betis", "MID", 0.34, 0.19, 30, 0, 0, 0.44, 62, 1.15],
+      ["Florian Thauvin", "Lens", "FWD", 0.3, 0.31, 30, 0, 0, 1.17, 68, 1.4],
+      ["Marc Bartra", "Real Betis", "DEF", 0.05, 0.01, 30, 0, 0, 0.27, 77, 1.15],
+      ["Dani Olmo", "Barcelona", "MID", 0.33, 0.34, 30, 0, 0, 0.89, 56, 0.95],
+      ["Abde Ezzalzouli", "Real Betis", "FWD", 0.34, 0.24, 30, 0, 0, 0.54, 62, 1.15],
+      ["Joško Gvardiol", "Man City", "DEF", 0.08, 0.12, 29, 0, 0, 0.78, 73, 1.55],
+      ["Bruno Fernandes", "Man United", "MID", 0.26, 0.36, 29, 0, 0, 0.67, 71, 1.6],
+      ["Antonio Nusa", "Leipzig", "FWD", 0.22, 0.29, 29, 0, 0, 1.31, 65, 1.4],
+      ["Vinícius Júnior", "Real Madrid", "FWD", 0.35, 0.25, 28, 0, 0, 0.61, 65, 1.15],
+      ["Kai Havertz", "Arsenal", "FWD", 0.43, 0.12, 28, 0, 0, 0.35, 51, 0.53],
+      ["Anthony Gordon", "Barcelona", "FWD", 0.37, 0.24, 28, 0, 0, 0.91, 59, 0.95],
+      ["Julian Chabot", "Stuttgart", "DEF", 0.08, 0.01, 27, 0, 0, 0.22, 58, 1.0],
+      ["Hakan Çalhanoğlu", "Inter", "MID", 0.08, 0.17, 27, 0, 0, null, 67, 0.9],
+      ["Gerard Moreno", "Villarreal", "FWD", 0.38, 0.2, 26, 0, 0, 0.46, 57, 1.2],
+      ["Maximilian Beier", "Dortmund", "FWD", 0.37, 0.21, 26, 0, 0, 0.5, 62, 1.3],
+      ["Álex Baena", "Atletico", "MID", 0.2, 0.3, 26, 0, 0, 1.09, 62, 1.1],
+      ["Arda Güler", "Real Madrid", "MID", 0.26, 0.39, 26, 0, 0, 0.62, 56, 1.15],
+      ["Jude Bellingham", "Real Madrid", "MID", 0.29, 0.23, 26, 0, 0, 0.72, 65, 1.15],
+      ["Paulo Dybala", "Roma", "FWD", 0.33, 0.41, 26, 0, 0, 0.72, 62, 1.8],
+      ["Khvicha Kvaratskhelia", "Paris SG", "FWD", 0.36, 0.29, 25, 0, 0, 0.66, 62, 1.75],
+      ["Phil Foden", "Man City", "MID", 0.31, 0.26, 25, 0, 0, null, 56, 1.55],
+      ["Antoine Semenyo", "Man City", "FWD", 0.27, 0.18, 25, 0, 0, 0.83, 62, 1.55],
+      ["Rasmus Højlund", "Napoli", "FWD", 0.4, 0.13, 25, 0, 0, 0.41, 67, 1.5],
+      ["Kevin De Bruyne", "Napoli", "MID", 0.22, 0.27, 25, 0, 0, 1.04, 59, 1.5],
+      ["Alberto Moleiro", "Villarreal", "FWD", 0.25, 0.25, 23, 0, 0, 0.78, 62, 1.2],
+      ["Karim Adeyemi", "Barcelona", "FWD", 0.53, 0.3, 22, 0, 0, null, 32, 0.95],
+      ["Désiré Doué", "Paris SG", "FWD", 0.34, 0.25, 22, 0, 0, null, 56, 1.75],
+      ["Bryan Mbeumo", "Man United", "FWD", 0.4, 0.19, 22, 0, 0, 0.5, 68, 1.6],
+      ["Fermín López", "Barcelona", "MID", 0.36, 0.31, 20, 0, 0, 1.13, 35, 0.95],
+      ["Matheus Cunha", "Man United", "FWD", 0.28, 0.17, 18, 0, 0, 0.53, 67, 1.6],
+      ["Ferran Torres", "Paris SG", "FWD", 0.51, 0.11, 14, 0, 0, 0.61, 33, 1.75]
     ],
     xi1: [
       { id: "haaland", xg90: 0.68, xa90: 0.14, form: 1.02, oppXg: 1.55, price: 11.0, name: "Erling Haaland", short: "Haaland", team: "Man City", opp: "Paris SG", ha: "H", line: "FWD", pos: "ST",
@@ -1148,7 +1231,7 @@ window.UCL_BEFORE = [
   /* Address of the newsletter, e.g. "https://yourname.substack.com". While it is empty the sign-up form says so
      and saves nothing. */
   var SUBSTACK_URL = "";
-  var state = { round: null, sel: null, line: "FWD", cmpA: null, cmpB: null, view: "main" };
+  var state = { round: null, sel: null, line: "FWD", cmpA: null, cmpB: null, view: "main", tk: "all" };
 
   function store(k, v){ try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k, v); }catch(e){} return null; }
   function cur(){ for(var i=0;i<ROUNDS.length;i++) if(ROUNDS[i].id===state.round) return ROUNDS[i]; return ROUNDS[0]; }
@@ -1260,6 +1343,51 @@ window.UCL_BEFORE = [
     return '<div class="val-row"><span>Fantasy price <b>€'+p.price.toFixed(1)+'m</b></span><span>value <b>'+(p.shine/p.price).toFixed(1)+'</b></span><small>chance ÷ price; compare within a position</small></div>';
   }
 
+  /* Pizza chart: where one player ranks among the players in his own line. Bigger slice = higher rank. */
+  function pizzaHtml(r, p){
+    var pool = r.pool || [], me = pool.filter(function(x){ return x[7] === p.id; })[0];
+    if(!me || me.length < 11) return "";
+    var peers = pool.filter(function(x){ return x[2] === me[2]; });
+    var rank = function(i, lowIsGood){
+      var v = me[i]; if(v == null) return null;
+      var vals = peers.map(function(x){ return x[i]; }).filter(function(x){ return x != null; });
+      var worse = vals.filter(function(x){ return lowIsGood ? x > v : x < v; }).length, same = vals.filter(function(x){ return x === v; }).length;
+      return Math.round((worse + same/2) / vals.length * 100);
+    };
+    var slices = [["xG", rank(3)], ["xA", rank(4)], ["minutes", rank(9)], ["fixture", rank(10, true)], ["form", rank(8)], ["chance", rank(5)]];
+    var cx = 150, cy = 128, R = 84, r0 = 14, n = slices.length, step = 360/n;
+    var P = function(rad, deg){ var a = deg*Math.PI/180; return (cx + rad*Math.cos(a)).toFixed(1)+" "+(cy + rad*Math.sin(a)).toFixed(1); };
+    var s = '<svg class="pizza" viewBox="0 0 300 256" role="img" aria-label="Pizza chart of '+esc(p.name)+' ranked against '+peers.length+' '+LINE_NAME[me[2]]+'">';
+    s += '<g filter="url(#rough)">' + [0.25,0.5,0.75,1].map(function(f){ return '<circle class="rg" cx="'+cx+'" cy="'+cy+'" r="'+(r0 + (R-r0)*f).toFixed(1)+'"/>'; }).join("") + '</g>';
+    slices.forEach(function(sl, i){
+      if(sl[1] == null) return;
+      var a0 = -90 + i*step + 3, a1 = a0 + step - 6, rad = r0 + (R - r0) * Math.max(4, sl[1]) / 100;
+      s += '<path class="sl" d="M'+P(r0,a0)+' L'+P(rad,a0)+' A'+rad.toFixed(1)+' '+rad.toFixed(1)+' 0 0 1 '+P(rad,a1)+' L'+P(r0,a1)+' A'+r0+' '+r0+' 0 0 0 '+P(r0,a0)+'Z"/>';
+    });
+    slices.forEach(function(sl, i){
+      var mid = (-90 + i*step + step/2) * Math.PI/180, x = cx + (R + 12)*Math.cos(mid), y = cy + (R + 12)*Math.sin(mid) + 4;
+      var anchor = Math.abs(x - cx) < 10 ? "middle" : x > cx ? "start" : "end";
+      s += '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" text-anchor="'+anchor+'">'+sl[0]+' <tspan>'+(sl[1] == null ? "–" : sl[1])+'</tspan></text>';
+    });
+    return '<div><div class="pizza-h">how he ranks among the '+peers.length+' '+LINE_NAME[me[2]]+' the model looked at (100 = best)</div>' + s + '</svg></div>';
+  }
+  /* Fantasy corner: every club's next three games in one grid. */
+  function renderTicker(){
+    var r = cur(), tk = r.ticker, sec = $("ticker");
+    if(!tk){ sec.hidden = true; return; }
+    sec.hidden = false;
+    var mine = {}; all(r).forEach(function(p){ mine[p.team] = 1; });
+    var rows = tk.rows.filter(function(x){ return state.tk === "all" || mine[x[0]]; });
+    var cell = function(g){
+      var d = g[2] === 1 ? "hard" : g[2] === 4 ? "easy" : "mid", sym = { hard: "▲", mid: "●", easy: "▼" }[d], word = { hard: "hard", mid: "medium", easy: "easier" }[d];
+      return '<td><span class="tkc '+(d === "mid" ? "" : d)+'" title="'+word+'"><i aria-hidden="true">'+sym+'</i>'+esc(g[0])+' <small>('+g[1]+')</small><span class="vh"> '+word+'</span></span></td>';
+    };
+    $("tickerBody").innerHTML = '<table class="tk"><thead><tr><th>Club</th>'+tk.labels.map(function(l){ return '<th>'+esc(l)+'</th>'; }).join("")+'</tr></thead><tbody>'
+      + rows.map(function(x){ return '<tr'+(mine[x[0]] ? ' class="mine"' : '')+'><td>'+esc(x[0])+'</td>'+x[1].map(cell).join("")+'</tr>'; }).join("") + '</tbody></table>';
+    $("tkall").setAttribute("aria-pressed", String(state.tk === "all"));
+    $("tkxi").setAttribute("aria-pressed", String(state.tk === "xi"));
+  }
+
   function renderCard(){
     var r = cur(), p = find(r, state.sel) || r.xi1[0];
     var cap = captain(r), hv = hit(p), isCap = cap === p.id, which = r.xi1.indexOf(p) >= 0 ? "First XI" : "Second XI";
@@ -1285,7 +1413,7 @@ window.UCL_BEFORE = [
       + '<dl class="facts">'
       + '<div><dt>expected minutes</dt><dd class="num">'+p.mins+'</dd></div>'
       + '<div><dt>status</dt><dd>'+esc(p.start)+'</dd></div></dl>'
-      + nextGamesHtml(r, p) + valueHtml(p)
+      + nextGamesHtml(r, p) + valueHtml(p) + pizzaHtml(r, p)
       + '<div class="tags">'+p.reasons.map(function(t){ return '<span class="tag">'+esc(t)+'</span>'; }).join("")+'</div>'
       + '<div class="ud"><p class="up"><b>+ biggest upside</b>'+esc(p.upside)+'</p><p class="dn"><b>! biggest risk</b>'+esc(p.risk)+'</p></div>'
       + '<div class="card-actions">'+action+'<button type="button" class="btn on" id="cmpBtn">Compare him</button>'+verdict+'</div>'
@@ -1544,7 +1672,7 @@ window.UCL_BEFORE = [
     $("past").innerHTML = '<div class="past">'+html+'</div>';
   }
 
-  function renderAll(){ renderTabs(); renderHero(); tick(); renderPitches(); renderCard(); renderComparePick(); renderCompare(); renderLineup(); renderRows(); renderLower(); renderPast(); kick(); }
+  function renderAll(){ renderTabs(); renderHero(); tick(); renderPitches(); renderCard(); renderComparePick(); renderCompare(); renderLineup(); renderTicker(); renderRows(); renderLower(); renderPast(); kick(); }
   /* Fantasy corner: the lineup with the most expected points. Shown only when the round carries it. */
   function renderLineup(){
     var r = cur(), fx = r.fantasyXI, el = $("lineupBody");
@@ -1609,7 +1737,7 @@ window.UCL_BEFORE = [
   }
 
   function select(id, fromRow){
-    state.sel = id; renderPitches(); renderCard(); renderRows(); kick($("card"));
+    state.sel = id; renderPitches(); renderCard(); renderRows(); kick($("card")); $("card").scrollTop = 0;
     if(window.matchMedia("(max-width:860px)").matches || fromRow) $("card").scrollIntoView({ block: "nearest", behavior: "smooth" });
   }
 
@@ -1627,7 +1755,9 @@ window.UCL_BEFORE = [
     var row = e.target.closest("button.rrow");
     if(row){ select(row.dataset.id, true); return; }
     var l = e.target.closest("[data-line]");
-    if(l){ state.line = l.dataset.line; renderRows(); kick($("rows")); kick($("scatter")); }
+    if(l){ state.line = l.dataset.line; renderRows(); kick($("rows")); kick($("scatter")); return; }
+    var k = e.target.closest("[data-tk]");
+    if(k){ state.tk = k.dataset.tk; renderTicker(); kick($("tickerBody")); }
   });
 
   var tip = $("tip");

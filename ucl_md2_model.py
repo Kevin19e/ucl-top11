@@ -292,7 +292,7 @@ for c in cands:
     tag = 1 if c in xi1 else 2 if c in xi2 else 0
     form = FORM[c["name"]]
     page["pool"].append([c["name"], c["team"], c["line"], round(xg90, 2), round(xa90, 2), pct(c["shine"]), tag,
-                         None if form is None else round(form, 2)])
+                         None if form is None else round(form, 2), round(c["mins"]), XGA[c["team"]]])
 for c in xi1 + xi2:
     r = RATES.get(c["name"])
     form = FORM.get(c["name"])
