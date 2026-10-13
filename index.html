@@ -151,7 +151,8 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
   .anim-in .nxc:nth-child(2){animation-delay:.08s} .anim-in .nxc:nth-child(3){animation-delay:.16s}
   .cb i{animation:growx .6s ease-out backwards}
   .cb.a i{transform-origin:right center} .cb.b i{transform-origin:left center}
-  .pizza .sl{animation:radar .5s cubic-bezier(.3,1.3,.5,1) backwards;transform-origin:150px 128px}
+  .pizza .sl{animation:radar .55s cubic-bezier(.3,1.3,.5,1) backwards;transform-origin:160px 146px}
+  .pizza .bd{animation:fadein .35s .55s backwards}
   .pizza .sl:nth-of-type(2){animation-delay:.06s} .pizza .sl:nth-of-type(3){animation-delay:.12s} .pizza .sl:nth-of-type(4){animation-delay:.18s}
   .pizza .sl:nth-of-type(5){animation-delay:.24s} .pizza .sl:nth-of-type(6){animation-delay:.3s}
   .anim-in .tkc{animation:fadein .5s backwards}
@@ -352,11 +353,23 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
 
 /* card: pizza chart */
 .pizza-h{font-family:var(--hand);font-size:.84rem;color:var(--muted)}
-.pizza{width:100%;max-width:300px;height:auto;display:block;margin:2px auto 0}
-.pizza .rg{fill:none;stroke:var(--line);stroke-width:1.2}
-.pizza .sl{fill:var(--accent);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
-.pizza text{font-family:var(--hand);font-weight:700;font-size:13px;fill:var(--ink)}
-.pizza text tspan{font-family:var(--marker);font-weight:400;font-size:15px}
+.pizza{width:100%;max-width:330px;height:auto;display:block;margin:4px auto 0}
+.pizza .trs path{fill:var(--surface-2);stroke:var(--line);stroke-width:1.3}
+.pizza .gu circle{fill:none;stroke:var(--line);stroke-width:1;stroke-dasharray:2 4}
+.pizza .sl{stroke:var(--ink);stroke-width:1.7;stroke-linejoin:round}
+.pizza .sl.hi{fill:var(--accent)}
+.pizza .sl.md{fill:color-mix(in srgb,var(--accent) 68%,var(--surface))}
+.pizza .sl.lo{fill:color-mix(in srgb,var(--accent) 38%,var(--surface))}
+.pizza .go circle{fill:none;stroke:var(--ink);stroke-width:1;opacity:.28}
+.pizza .bd circle{fill:var(--surface);stroke:var(--ink);stroke-width:1.7}
+.pizza .bd text{font-family:var(--marker);font-size:14px;fill:var(--ink)}
+.pizza .lb{font-family:var(--hand);font-weight:700;font-size:14px;fill:var(--ink)}
+.pizza .hub{fill:var(--surface);stroke:var(--ink);stroke-width:1.7}
+.pizza .hubt{font-family:var(--hand);font-weight:700;font-size:11px;fill:var(--muted)}
+.pizza-sum{font-family:var(--hand);font-size:.98rem;text-align:center;margin-top:2px}
+.pizza-key{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-family:var(--hand);font-size:.84rem;color:var(--muted);margin-top:4px}
+.pizza-key i{display:inline-block;width:14px;height:10px;border:1.5px solid var(--ink);border-radius:3px;vertical-align:middle;margin-right:5px}
+.pizza-key .hi{background:var(--accent)} .pizza-key .md{background:color-mix(in srgb,var(--accent) 68%,var(--surface))} .pizza-key .lo{background:color-mix(in srgb,var(--accent) 38%,var(--surface))}
 .card-in{display:flex;flex-direction:column;gap:14px}
 
 /* fantasy corner: fixture ticker */
@@ -1355,21 +1368,34 @@ window.UCL_BEFORE = [
       return Math.round((worse + same/2) / vals.length * 100);
     };
     var slices = [["xG", rank(3)], ["xA", rank(4)], ["minutes", rank(9)], ["fixture", rank(10, true)], ["form", rank(8)], ["chance", rank(5)]];
-    var cx = 150, cy = 128, R = 84, r0 = 14, n = slices.length, step = 360/n;
+    var cx = 160, cy = 146, R = 98, r0 = 24, n = slices.length, step = 360/n, gap = 5;
     var P = function(rad, deg){ var a = deg*Math.PI/180; return (cx + rad*Math.cos(a)).toFixed(1)+" "+(cy + rad*Math.sin(a)).toFixed(1); };
-    var s = '<svg class="pizza" viewBox="0 0 300 256" role="img" aria-label="Pizza chart of '+esc(p.name)+' ranked against '+peers.length+' '+LINE_NAME[me[2]]+'">';
-    s += '<g filter="url(#rough)">' + [0.25,0.5,0.75,1].map(function(f){ return '<circle class="rg" cx="'+cx+'" cy="'+cy+'" r="'+(r0 + (R-r0)*f).toFixed(1)+'"/>'; }).join("") + '</g>';
+    var sector = function(i, rad){
+      var a0 = -90 + i*step + gap/2, a1 = a0 + step - gap;
+      return 'M'+P(r0,a0)+' L'+P(rad,a0)+' A'+rad.toFixed(1)+' '+rad.toFixed(1)+' 0 0 1 '+P(rad,a1)+' L'+P(r0,a1)+' A'+r0+' '+r0+' 0 0 0 '+P(r0,a0)+'Z';
+    };
+    var len = function(v){ return r0 + (R - r0) * Math.max(4, v) / 100; };
+    var rings = function(cls){ return '<g class="'+cls+'">' + [25,50,75].map(function(f){ return '<circle cx="'+cx+'" cy="'+cy+'" r="'+(r0 + (R-r0)*f/100).toFixed(1)+'"/>'; }).join("") + '</g>'; };
+    var s = '<svg class="pizza" viewBox="0 0 320 296" role="img" aria-label="Pizza chart of '+esc(p.name)+' ranked against '+peers.length+' '+LINE_NAME[me[2]]+'">';
+    /* empty tracks first, so the unfilled part of every slice stays visible */
+    s += '<g class="trs" filter="url(#rough)">' + slices.map(function(sl, i){ return '<path d="'+sector(i, R)+'"/>'; }).join("") + '</g>' + rings("gu");
+    s += '<g class="sls">' + slices.map(function(sl, i){
+      if(sl[1] == null) return '';
+      return '<path class="sl '+(sl[1] >= 75 ? "hi" : sl[1] >= 40 ? "md" : "lo")+'" d="'+sector(i, len(sl[1]))+'"/>';
+    }).join("") + '</g>' + rings("go");
     slices.forEach(function(sl, i){
-      if(sl[1] == null) return;
-      var a0 = -90 + i*step + 3, a1 = a0 + step - 6, rad = r0 + (R - r0) * Math.max(4, sl[1]) / 100;
-      s += '<path class="sl" d="M'+P(r0,a0)+' L'+P(rad,a0)+' A'+rad.toFixed(1)+' '+rad.toFixed(1)+' 0 0 1 '+P(rad,a1)+' L'+P(r0,a1)+' A'+r0+' '+r0+' 0 0 0 '+P(r0,a0)+'Z"/>';
+      var mid = (-90 + i*step + step/2) * Math.PI/180, v = sl[1];
+      var lx = cx + (R + 15)*Math.cos(mid), ly = cy + (R + 15)*Math.sin(mid) + 4.5;
+      var anchor = Math.abs(lx - cx) < 12 ? "middle" : lx > cx ? "start" : "end";
+      s += '<text class="lb" x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" text-anchor="'+anchor+'">'+sl[0]+'</text>';
+      var br = v == null ? r0 + 22 : (v >= 34 ? len(v) - 15 : len(v) + 15), bx = cx + br*Math.cos(mid), by = cy + br*Math.sin(mid);
+      s += '<g class="bd"><circle cx="'+bx.toFixed(1)+'" cy="'+by.toFixed(1)+'" r="12"/><text x="'+bx.toFixed(1)+'" y="'+(by + 4.5).toFixed(1)+'" text-anchor="middle">'+(v == null ? "–" : v)+'</text></g>';
     });
-    slices.forEach(function(sl, i){
-      var mid = (-90 + i*step + step/2) * Math.PI/180, x = cx + (R + 12)*Math.cos(mid), y = cy + (R + 12)*Math.sin(mid) + 4;
-      var anchor = Math.abs(x - cx) < 10 ? "middle" : x > cx ? "start" : "end";
-      s += '<text x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" text-anchor="'+anchor+'">'+sl[0]+' <tspan>'+(sl[1] == null ? "–" : sl[1])+'</tspan></text>';
-    });
-    return '<div><div class="pizza-h">how he ranks among the '+peers.length+' '+LINE_NAME[me[2]]+' the model looked at (100 = best)</div>' + s + '</svg></div>';
+    s += '<circle class="hub" cx="'+cx+'" cy="'+cy+'" r="'+(r0 - 4)+'"/><text class="hubt" x="'+cx+'" y="'+(cy + 4)+'" text-anchor="middle">'+esc(p.pos)+'</text></svg>';
+    var known = slices.filter(function(sl){ return sl[1] != null; }).sort(function(a, b){ return b[1] - a[1]; });
+    var sum = known.length > 1 ? '<p class="pizza-sum">Strongest: <b>'+known[0][0]+'</b> ('+known[0][1]+'). Weakest: <b>'+known[known.length-1][0]+'</b> ('+known[known.length-1][1]+').</p>' : '';
+    var key = '<div class="pizza-key"><span><i class="hi"></i>top quarter</span><span><i class="md"></i>middle</span><span><i class="lo"></i>bottom 40%</span></div>';
+    return '<div><div class="pizza-h">how he ranks among the '+peers.length+' '+LINE_NAME[me[2]]+' the model looked at. 0 is the worst, 100 the best, and each ring is a quarter.</div>' + s + key + sum + '</div>';
   }
   /* Fantasy corner: every club's next three games in one grid. */
   function renderTicker(){
