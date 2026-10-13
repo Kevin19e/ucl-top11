@@ -93,6 +93,40 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
 .tab[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
 .tab.soon{border-style:dashed;border-color:var(--muted);background:transparent;color:var(--muted);cursor:default}
 
+/* three-lines menu and the two pages */
+.bar-in{position:relative}
+.burger{width:42px;height:38px;display:grid;place-content:center;gap:5px;border:2px solid var(--ink);border-radius:var(--wob);background:var(--surface);padding:0;flex:none}
+.burger span{display:block;width:20px;height:2.5px;background:var(--ink);border-radius:2px}
+.burger span:nth-child(2){width:17px;transform:rotate(-3deg)}
+.burger[aria-expanded="true"]{background:var(--accent)}
+.burger[aria-expanded="true"] span{background:var(--on-accent)}
+.menu{position:absolute;left:16px;top:calc(100% + 10px);z-index:30;background:var(--surface);border:2px solid var(--ink);border-radius:var(--wob-lg);box-shadow:var(--shadow);padding:8px;display:grid;gap:4px;width:min(340px,calc(100vw - 32px))}
+.menu button{text-align:left;background:none;border:0;padding:8px 12px 6px;border-radius:10px;font-family:var(--marker);font-size:1.5rem;line-height:1.1}
+.menu button small{display:block;font-family:var(--body);font-size:.84rem;line-height:1.3;color:var(--muted);margin-top:2px}
+.menu button:hover{background:var(--surface-2)}
+.menu button[aria-current="page"]{background:var(--accent);color:var(--on-accent)}
+.menu button[aria-current="page"] small{color:var(--on-accent)}
+.view{display:flex;flex-direction:column;gap:32px}
+.linkbtn{background:none;border:0;padding:0;font:inherit;color:var(--data);text-decoration:underline;text-underline-offset:3px}
+.promo{font-family:var(--hand);font-size:1.05rem;line-height:1.4;background:var(--n3);color:var(--note-ink);padding:12px 16px 9px;border-radius:3px 3px 16px 3px/3px 3px 24px 3px;box-shadow:var(--shadow);transform:rotate(-.4deg);max-width:62ch}
+.promo .linkbtn{color:inherit;font-weight:700}
+
+/* fantasy corner: sign-up */
+.signup-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px 28px;align-items:start}
+.ticks{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:5px;font-family:var(--hand);font-size:1.02rem}
+.ticks li{display:grid;grid-template-columns:1.4rem minmax(0,1fr);gap:4px}
+.ticks li::before{content:"✓";font-family:var(--marker);color:var(--good)}
+.signup-form{display:flex;flex-direction:column;gap:12px;background:var(--n1);color:var(--note-ink);padding:18px 16px 16px;border-radius:3px 3px 16px 3px/3px 3px 24px 3px;box-shadow:var(--shadow);transform:rotate(.5deg)}
+.signup-form h3{font-size:1.6rem;line-height:1}
+.check{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;font-size:.95rem;line-height:1.4;cursor:pointer}
+.check input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--data)}
+.signup-form .linkbtn{color:inherit}
+.signup-form .hint{color:inherit;font-family:var(--hand);font-weight:700;font-size:.98rem;min-height:1.3em}
+.signup-form .btn{align-self:flex-start}
+.signup-box{background:var(--surface);color:var(--ink);border:2px solid var(--ink);border-radius:var(--wob-lg);padding:10px}
+.signup-box iframe{width:100%;height:320px;border:0;display:block;background:#FFFFFF;border-radius:8px}
+.cmp-fdr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 22px;margin-top:18px}
+
 /* opening */
 .hero{display:flex;flex-direction:column;gap:22px;padding-top:30px}
 .hero-top{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:end}
@@ -195,7 +229,7 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
 .seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
 
 /* head to head */
-#compare{scroll-margin-top:84px}
+#compare,#privacy,#signup{scroll-margin-top:84px}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 .cmp-pick{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:center;margin-top:14px}
 .cmp-pick select{width:100%;min-width:0;font-family:var(--hand);font-weight:700;font-size:1rem;line-height:1.2;padding:8px 10px 5px;border:2px solid var(--ink);border-radius:var(--wob);background:var(--surface);color:var(--ink)}
@@ -372,7 +406,7 @@ td.r,th.r{text-align:right}
 footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68ch}
 
 @media (max-width:860px){
-  .hero-top,.stage,.duo,.past,.cmp-radar{grid-template-columns:minmax(0,1fr)}
+  .hero-top,.stage,.duo,.past,.cmp-radar,.signup-grid{grid-template-columns:minmax(0,1fr)}
   .steps{grid-template-columns:minmax(0,1fr);gap:20px}
   .stage .p1,.stage .p2,.stage .card{grid-column:1;grid-row:auto}
   .card{position:relative;top:auto}
@@ -386,7 +420,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
   .axis{grid-template-rows:0 auto}
   .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
   .bigpct b{font-size:2.7rem}
-  .cmp-notes{grid-template-columns:minmax(0,1fr)}
+  .cmp-notes,.cmp-fdr{grid-template-columns:minmax(0,1fr)}
   .cmp-bars{grid-template-columns:3.4rem minmax(0,1fr) minmax(0,1fr) 3.4rem}
   .cv{font-size:1.35rem}
   .badge{right:calc(50% - 36px)}
@@ -405,6 +439,11 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
 
 <header class="bar">
   <div class="bar-in">
+    <button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span><span></span></button>
+    <nav class="menu" id="menu" aria-label="Pages" hidden>
+      <button type="button" data-view="main" aria-current="page">This week's elevens<small>The two best elevens, the pecking order and earlier matchdays</small></button>
+      <button type="button" data-view="fantasy">Fantasy corner<small>Compare two players and get the free weekly Fantasy brief</small></button>
+    </nav>
     <div class="brand"><svg viewBox="0 0 32 36" aria-hidden="true">
       <path class="cup-ear" d="M9.5 7C2.5 5.5 1 14.5 6.5 18.5c2 1.4 4 .6 5-1"/><path class="cup-ear-in" d="M9.5 7C2.5 5.5 1 14.5 6.5 18.5c2 1.4 4 .6 5-1"/>
       <path class="cup-ear" d="M22.5 7c7-1.5 8.500 7.500 3 11.500-2 1.400-4 .600-5-1"/><path class="cup-ear-in" d="M22.5 7c7-1.500 8.500 7.500 3 11.500-2 1.400-4 .600-5-1"/>
@@ -419,6 +458,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
 </header>
 
 <main class="wrap">
+<div class="view" id="viewMain">
   <section class="hero">
     <div class="hero-top">
       <div>
@@ -435,7 +475,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
     <ol class="steps">
       <li class="step"><span class="n">1</span><div><h3>Two teams</h3><p>The First XI is the best pick in every position. The Second XI is who comes next.</p></div></li>
       <li class="step"><span class="n">2</span><div><h3>The shirt number is his chance</h3><p>A <b class="exn">56</b> means a <span class="exn">56</span>% chance to shine. For forwards and midfielders that is a goal or an assist. For defenders a clean sheet counts too. For the keeper, only the clean sheet.</p></div><span class="ex" id="exShirt" aria-hidden="true"></span></li>
-      <li class="step"><span class="n">3</span><div><h3>Tap a shirt</h3><p>See why he is in and what could go wrong, pick your captain, or put two players head to head. After full time every shirt gets a ✓ or a ✕.</p></div></li>
+      <li class="step"><span class="n">3</span><div><h3>Tap a shirt</h3><p>See why he is in and what could go wrong, pick your captain, or compare him with another player in the Fantasy corner. After full time every shirt gets a ✓ or a ✕.</p></div></li>
     </ol>
     <p class="doodle" aria-hidden="true">here they are <svg viewBox="0 0 54 36"><path d="M4 6C20 1 40 8 43 30"/><path d="M34 23l9 8 7-11"/></svg></p>
   </section>
@@ -476,16 +516,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
     </div>
   </section>
 
-  <section class="panel sk" id="compare">
-    <h2>Head to head</h2>
-    <p class="sub">Pick any two players from the two elevens and see them side by side.</p>
-    <div class="cmp-pick">
-      <label class="vh" for="cmpA">First player</label><select id="cmpA"></select>
-      <span class="vs" aria-hidden="true">v</span>
-      <label class="vh" for="cmpB">Second player</label><select id="cmpB"></select>
-    </div>
-    <div id="cmp" aria-live="polite"></div>
-  </section>
+  <p class="promo">Playing Champions League Fantasy? <button type="button" class="linkbtn" data-view="fantasy">Open the Fantasy corner</button> to put two players side by side and get the free weekly brief.</p>
 
   <section class="panel sk">
     <div class="panel-head">
@@ -564,6 +595,59 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
     <p class="past-key">A number on the shirt is the model's chance before the games, marked ✓ or ✕ afterwards. A star means he was named in the team of the week after the games.</p>
     <div id="past"></div>
   </section>
+
+</div>
+
+<div class="view" id="viewFantasy" hidden>
+  <section class="hero">
+    <div>
+      <p class="eyebrow" id="fanEyebrow"></p>
+      <h1>Fantasy <mark>corner</mark></h1>
+      <p class="lede">For Champions League Fantasy managers. Put any two of this week's picks side by side, and get a short brief in your inbox before every matchday. It is free while the model earns its record.</p>
+    </div>
+  </section>
+
+  <section class="panel sk" id="signup">
+    <div class="signup-grid">
+      <div>
+        <h2>Get the Fantasy brief</h2>
+        <p class="sub">One short email before each matchday, built from the same numbers as this site.</p>
+        <ul class="ticks">
+          <li>Captain and vice-captain picks</li>
+          <li>Best value in each position, by chance per €1m</li>
+          <li>Clubs with kind fixtures over the next three games</li>
+          <li>Who is injured, suspended or likely to be rotated</li>
+        </ul>
+      </div>
+      <form class="signup-form" id="signupForm" novalidate>
+        <h3>Free for now</h3>
+        <label class="check" for="consent"><input type="checkbox" id="consent"><span>I agree to receive the weekly Fantasy brief by email and accept the <button type="button" class="linkbtn" data-jump="privacy">privacy note</button>.</span></label>
+        <button type="submit" class="btn" id="signupBtn">Continue to sign up</button>
+        <p class="hint" id="signupMsg" role="status"></p>
+        <div class="signup-box" id="signupBox" hidden></div>
+        <p style="font-size:.9rem">No email needed for the tools. <button type="button" class="linkbtn" data-jump="compare">Skip to the comparison</button>.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="panel sk" id="compare">
+    <h2>Head to head</h2>
+    <p class="sub">Pick any two players from the two elevens and see them side by side: rates, minutes, fixtures and Fantasy value.</p>
+    <div class="cmp-pick">
+      <label class="vh" for="cmpA">First player</label><select id="cmpA"></select>
+      <span class="vs" aria-hidden="true">v</span>
+      <label class="vh" for="cmpB">Second player</label><select id="cmpB"></select>
+    </div>
+    <div id="cmp" aria-live="polite"></div>
+  </section>
+
+  <section class="panel sk prose" id="privacy">
+    <h2>Privacy note</h2>
+    <p>This site does not collect or store your email address. When you sign up, you type it into a form run by Substack, the newsletter service, which stores it and sends the emails. Substack's own <a href="https://substack.com/privacy" target="_blank" rel="noopener">privacy policy</a> applies to that form.</p>
+    <p>Your address is used for one thing: sending you the weekly Fantasy brief. It is not sold or passed on. Every email has an unsubscribe link, and unsubscribing removes you from the list.</p>
+    <p>The site itself keeps one thing in your own browser: the captain you pick. It never leaves your device. The site uses no tracking cookies. Fonts are loaded from Google Fonts.</p>
+  </section>
+</div>
 
   <footer id="foot"></footer>
 </main>
@@ -948,7 +1032,10 @@ window.UCL_BEFORE = [
   var esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); };
   var MAX = 75, LINES = ["FWD","MID","DEF","GK"];
   var LINE_NAME = { FWD: "forwards", MID: "midfielders", DEF: "defenders", GK: "keepers" };
-  var state = { round: null, sel: null, line: "FWD", cmpA: null, cmpB: null };
+  /* Address of the newsletter, e.g. "https://yourname.substack.com". While it is empty the sign-up form says so
+     and saves nothing. */
+  var SUBSTACK_URL = "";
+  var state = { round: null, sel: null, line: "FWD", cmpA: null, cmpB: null, view: "main" };
 
   function store(k, v){ try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k, v); }catch(e){} return null; }
   function cur(){ for(var i=0;i<ROUNDS.length;i++) if(ROUNDS[i].id===state.round) return ROUNDS[i]; return ROUNDS[0]; }
@@ -994,6 +1081,7 @@ window.UCL_BEFORE = [
   function renderHero(){
     var r = cur();
     $("heroEyebrow").textContent = "Champions League · " + r.label + " · " + r.dates;
+    $("fanEyebrow").textContent = "Champions League Fantasy · " + r.label + " · " + r.dates;
     $("heroChips").innerHTML =
       '<span class="chip '+(r.lineups==="confirmed"?"":"warn")+'">lineups: '+esc(r.lineups)+'</span>'
       + '<span class="chip">data from '+esc(r.collected)+'</span>'
@@ -1096,7 +1184,7 @@ window.UCL_BEFORE = [
       if(state.cmpB === p.id) state.cmpB = state.cmpA;
       state.cmpA = p.id;
       renderComparePick(); renderCompare();
-      $("compare").scrollIntoView({ block: "start", behavior: "smooth" });
+      setView("fantasy", "compare");
     };
   }
 
@@ -1110,7 +1198,8 @@ window.UCL_BEFORE = [
       goal: isAtt(p) ? statOf(p, "Goal") : null,
       assist: isAtt(p) ? statOf(p, "Assist") : null,
       cs: p.line==="GK" ? p.shine : (p.line==="DEF" ? statOf(p, "Clean sheet") : null),
-      mins: p.mins
+      mins: p.mins,
+      value: p.price ? Math.round(p.shine / p.price * 10) / 10 : null
     };
   }
   /* Radar: takes two player objects. Five spokes, each scaled from the centre (0) to the edge (1). */
@@ -1226,8 +1315,8 @@ window.UCL_BEFORE = [
   }
   function renderCompare(){
     var r = cur(), A = find(r, state.cmpA), B = find(r, state.cmpB), ma = metrics(A), mb = metrics(B), dash = false;
-    var defs = [["shine","chance to shine",MAX,"%"],["ga","goal or assist",MAX,"%"],["goal","goal",MAX,"%"],["assist","assist",MAX,"%"],["cs","clean sheet",MAX,"%"],["mins","expected minutes",90,""]];
-    var side = function(p, k){ return '<div class="cmp-side '+k+'">'+jersey(p.kit, p.shine)+'<h3>'+esc(p.name)+'</h3><p>'+esc(p.pos)+' · '+vs(p)+'</p><span class="key" aria-hidden="true"></span></div>'; };
+    var defs = [["shine","chance to shine",MAX,"%"],["ga","goal or assist",MAX,"%"],["goal","goal",MAX,"%"],["assist","assist",MAX,"%"],["cs","clean sheet",MAX,"%"],["mins","expected minutes",90,""],["value","Fantasy value (chance ÷ price)",14,""]];
+    var side = function(p, k){ return '<div class="cmp-side '+k+'">'+jersey(p.kit, p.shine)+'<h3>'+esc(p.name)+'</h3><p>'+esc(p.pos)+' · '+vs(p)+(p.price ? ' · €'+p.price.toFixed(1)+'m' : '')+'</p><span class="key" aria-hidden="true"></span></div>'; };
     var rows = defs.filter(function(d){ return !(ma[d[0]]==null && mb[d[0]]==null) && !(d[0]==="ga" && isAtt(A) && isAtt(B)); }).map(function(d){
       var a = ma[d[0]], b = mb[d[0]], both = a!=null && b!=null;
       if(a==null || b==null) dash = true;
@@ -1239,6 +1328,7 @@ window.UCL_BEFORE = [
     var note = function(p){ return '<div class="ud"><h4>'+esc(p.short)+'</h4><p class="up"><b>+ biggest upside</b>'+esc(p.upside)+'</p><p class="dn"><b>! biggest risk</b>'+esc(p.risk)+'</p></div>'; };
     $("cmp").innerHTML = '<div class="cmp-top">'+side(A,"a")+'<span class="cmp-vs" aria-hidden="true">v</span>'+side(B,"b")+'</div>'
       + radarBlock(r, A, B)
+      + (r.nextGames ? '<div class="cmp-fdr"><div>'+nextGamesHtml(r, A)+'</div><div>'+nextGamesHtml(r, B)+'</div></div>' : '')
       + '<div class="cmp-rows">'+rows+'</div>'
       + '<p class="cmp-verdict">'+esc(cmpVerdict(A, B))+'</p>'
       + (dash ? '<p class="cmp-foot">A dash means that number is not part of how he is judged, or is not published for his position.</p>' : '')
@@ -1342,14 +1432,47 @@ window.UCL_BEFORE = [
   }
 
   function renderAll(){ renderTabs(); renderHero(); tick(); renderPitches(); renderCard(); renderComparePick(); renderCompare(); renderRows(); renderLower(); renderPast(); }
+  /* Two pages in one file: the elevens and the Fantasy corner. The three-lines menu switches between them. */
+  function setView(v, jump){
+    state.view = v === "fantasy" ? "fantasy" : "main";
+    $("viewMain").hidden = state.view !== "main";
+    $("viewFantasy").hidden = state.view !== "fantasy";
+    Array.prototype.forEach.call(document.querySelectorAll("#menu [data-view]"), function(b){
+      if(b.dataset.view === state.view) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+    });
+    closeMenu();
+    try{ history.replaceState(null, "", "#" + (state.view === "fantasy" ? "fantasy" : state.round)); }catch(x){}
+    if(state.view === "main") renderScatter();
+    var target = jump && $(jump);
+    if(target) target.scrollIntoView({ block: "start" }); else window.scrollTo(0, 0);
+  }
+  function closeMenu(){ $("menu").hidden = true; $("burger").setAttribute("aria-expanded", "false"); }
+  function signupSubmit(){
+    var msg = $("signupMsg"), box = $("signupBox");
+    if(!$("consent").checked){ msg.textContent = "Tick the box first, so it is clear you want the emails."; return; }
+    if(!SUBSTACK_URL){ msg.textContent = "Sign-ups open soon. The newsletter is still being set up, so nothing has been saved."; return; }
+    var base = SUBSTACK_URL.replace(/\/+$/, ""), host = location.hostname;
+    var canEmbed = /github\.io$/.test(host) || host === "localhost" || host === "127.0.0.1";
+    msg.textContent = "Last step: enter your email in the box below. Substack will send you a confirmation.";
+    box.innerHTML = (canEmbed ? '<iframe src="'+esc(base)+'/embed" title="Sign up for the Fantasy brief" loading="lazy"></iframe>' : '')
+      + '<p style="margin:8px 4px 2px"><a href="'+esc(base)+'/subscribe" target="_blank" rel="noopener">'+(canEmbed ? "Or open the sign-up page in a new tab" : "Open the sign-up page")+'</a></p>';
+    box.hidden = false;
+  }
+
   function select(id, fromRow){
     state.sel = id; renderPitches(); renderCard(); renderRows();
     if(window.matchMedia("(max-width:860px)").matches || fromRow) $("card").scrollIntoView({ block: "nearest", behavior: "smooth" });
   }
 
   document.addEventListener("click", function(e){
+    if(e.target.closest("#burger")){ var open = $("menu").hidden; $("menu").hidden = !open; $("burger").setAttribute("aria-expanded", String(open)); return; }
+    var v = e.target.closest("[data-view]");
+    if(v){ setView(v.dataset.view); return; }
+    if(!e.target.closest("#menu")) closeMenu();
+    var j = e.target.closest("[data-jump]");
+    if(j){ var el = $(j.dataset.jump); if(el) el.scrollIntoView({ block: "start", behavior: "smooth" }); return; }
     var t = e.target.closest("[data-round]");
-    if(t){ state.round = t.dataset.round; state.cmpA = state.cmpB = null; state.sel = cur().xi1.filter(function(p){ return p.line==="FWD"; })[0].id; try{ history.replaceState(null,"","#"+state.round); }catch(x){} renderAll(); if(t.dataset.top) window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+    if(t){ state.round = t.dataset.round; state.cmpA = state.cmpB = null; state.sel = cur().xi1.filter(function(p){ return p.line==="FWD"; })[0].id; try{ history.replaceState(null,"","#"+(state.view==="fantasy" ? "fantasy" : state.round)); }catch(x){} renderAll(); if(t.dataset.top) window.scrollTo({ top: 0, behavior: "smooth" }); return; }
     var s = e.target.closest(".shirt");
     if(s){ select(s.dataset.id, false); return; }
     var row = e.target.closest("button.rrow");
@@ -1391,6 +1514,8 @@ window.UCL_BEFORE = [
   document.addEventListener("click", function(){ if(document.querySelector("#scatter .pt.on")){ scClear(); tip.hidden = true; } });
   window.addEventListener("scroll", function(){ if(!tip.hidden){ tip.hidden = true; scClear(); } }, { passive: true });
   var rsz; window.addEventListener("resize", function(){ clearTimeout(rsz); rsz = setTimeout(renderScatter, 160); });
+  $("signupForm").addEventListener("submit", function(e){ e.preventDefault(); signupSubmit(); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeMenu(); });
   ["cmpA","cmpB"].forEach(function(id){
     $(id).addEventListener("change", function(){
       var other = id==="cmpA" ? "cmpB" : "cmpA", old = state[id];
@@ -1406,6 +1531,7 @@ window.UCL_BEFORE = [
   state.sel = "kane";
   if(!find(cur(), state.sel)) state.sel = cur().xi1[0].id;
   renderAll();
+  if(h === "fantasy") setView("fantasy");
   setInterval(tick, 1000);
 })();
 </script>
