@@ -182,6 +182,7 @@ def prob(lam):
 
 
 rows = []
+RATES, FORM = {}, {}   # per-90 rates and this season's league form, for the page's radar and scatter
 for (name, team, pos, ps, pen, m1, g1, a1, xg1, xa1, np1, m0, g0, a0, xg0, xa0, np0) in P:
     opp, ha, mxg, txg1, tg1, txg0, tg0 = TEAMS[team]
     base = (txg1 + PREV_W * txg0) / (tg1 + PREV_W * tg0)   # team league xG per game
@@ -194,6 +195,8 @@ for (name, team, pos, ps, pen, m1, g1, a1, xg1, xa1, np1, m0, g0, a0, xg0, xa0, 
     pr_g, pr_a = PRIOR[pos]
     r_np = (np1 + PREV_W * np0 + pr_g * K_MIN / 90) / ((eff + K_MIN) / 90)
     r_xa = (xa1 + PREV_W * xa0 + pr_a * K_MIN / 90) / ((eff + K_MIN) / 90)
+    RATES[name] = (r_np, r_xa)
+    FORM[name] = (g1 + a1) / m1 * 90 if m1 >= 250 else None   # goals + assists per 90, league, this season
     f_g = (g1 + PREV_W * g0 + FINISH_C) / (xg1 + PREV_W * xg0 + FINISH_C)
     f_a = (a1 + PREV_W * a0 + FINISH_C) / (xa1 + PREV_W * xa0 + FINISH_C)
     mins = ps * MIN_IF_START[pos] + (1 - ps) * SUB_MIN
@@ -272,3 +275,28 @@ print("\nNEXT UP BY LINE")
 for line in ("GK", "DEF", "MID", "FWD"):
     rest = [c for c in cands if c["line"] == line and c["name"] not in used][:5]
     print(" ", line, "; ".join(f"{c['name']} ({c['team']}, {c['role']}) {pct(c['shine'])}% [{pct(c['lo'])}-{pct(c['hi'])}] CS {pct(c['cs'])} GA {pct(c['pGA'])}" for c in rest))
+
+
+# ---------------------------------------------------------------- numbers the web page needs
+# Written to ucl_md2_page_data.json: per-90 rates, form and opponent xG for the 22 picked players (radar),
+# and every modelled outfield player for the scatter plot.
+import json
+
+page = {"players": {}, "pool": []}
+for c in cands:
+    if c["line"] == "GK":
+        continue
+    xg90, xa90 = RATES[c["name"]]
+    tag = 1 if c in xi1 else 2 if c in xi2 else 0
+    form = FORM[c["name"]]
+    page["pool"].append([c["name"], c["team"], c["line"], round(xg90, 2), round(xa90, 2), pct(c["shine"]), tag,
+                         None if form is None else round(form, 2)])
+for c in xi1 + xi2:
+    r = RATES.get(c["name"])
+    form = FORM.get(c["name"])
+    page["players"][c["name"]] = {
+        "xg90": None if r is None else round(r[0], 2), "xa90": None if r is None else round(r[1], 2),
+        "form": None if form is None else round(form, 2), "oppXg": XGA[c["team"]], "teamXg": TEAMS[c["team"]][2]}
+with open("ucl_md2_page_data.json", "w", encoding="utf-8") as fh:
+    json.dump(page, fh, ensure_ascii=False, indent=1)
+print("\nwrote ucl_md2_page_data.json:", len(page["pool"]), "outfield players in the pool")

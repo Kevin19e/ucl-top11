@@ -7,7 +7,7 @@
   --bg:#F3F5F9; --grid:rgba(39,71,214,.075);
   --surface:#FFFFFF; --surface-2:#F0F3FA; --ink:#17224D; --muted:#56628C; --line:#C6CFE6;
   --accent:#FFE24A; --on-accent:#17224D; --hl:rgba(255,226,74,.85);
-  --data:#2747D6; --good:#157A4B; --bad:#C8303B; --cmp-b:#7C93EA;
+  --data:#2747D6; --good:#157A4B; --bad:#C8303B; --cmp-b:#7C93EA; --radar-a:#B88A00;
   --pitch:#2E8B57; --pitch-2:#23744A; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.68);
   --tape:#FBF6E4; --tape-ink:#17224D;
   --n1:#FFF4A8; --n2:#FFDCD3; --n3:#D5E8FF; --note-ink:#17224D;
@@ -25,7 +25,7 @@
     --bg:#161A26; --grid:rgba(255,255,255,.035);
     --surface:#1F2432; --surface-2:#2A3042; --ink:#F2F0E6; --muted:#A9AFC4; --line:#414860;
     --accent:#FFD95A; --on-accent:#1B1E12; --hl:rgba(255,217,90,.3);
-    --data:#9DB8FF; --good:#8FE3A8; --bad:#FF9A9A; --cmp-b:#7F98EE;
+    --data:#9DB8FF; --good:#8FE3A8; --bad:#FF9A9A; --cmp-b:#7F98EE; --radar-a:#FFD95A;
     --pitch:#1F6A45; --pitch-2:#18563A; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.6);
     --tape:#EDE7D2; --tape-ink:#1B2140;
     --n1:#3B3619; --n2:#40292A; --n3:#1D3148; --note-ink:#F2F0E6;
@@ -38,7 +38,7 @@
   --bg:#161A26; --grid:rgba(255,255,255,.035);
   --surface:#1F2432; --surface-2:#2A3042; --ink:#F2F0E6; --muted:#A9AFC4; --line:#414860;
   --accent:#FFD95A; --on-accent:#1B1E12; --hl:rgba(255,217,90,.3);
-  --data:#9DB8FF; --good:#8FE3A8; --bad:#FF9A9A; --cmp-b:#7F98EE;
+  --data:#9DB8FF; --good:#8FE3A8; --bad:#FF9A9A; --cmp-b:#7F98EE; --radar-a:#FFD95A;
   --pitch:#1F6A45; --pitch-2:#18563A; --chalk:#FFFFFF; --chalk-soft:rgba(255,255,255,.6);
   --tape:#EDE7D2; --tape-ink:#1B2140;
   --n1:#3B3619; --n2:#40292A; --n3:#1D3148; --note-ink:#F2F0E6;
@@ -218,6 +218,58 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
 .cmp-notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:16px}
 .cmp-notes h4{margin:0 0 4px;font-family:var(--marker);font-weight:400;font-size:1.4rem;line-height:1}
 
+/* card: next three games and fantasy value */
+.nx-h{font-family:var(--hand);font-size:.84rem;color:var(--muted)}
+.nx-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:3px}
+.nxc{display:flex;flex-direction:column;min-width:0;padding:5px 8px 3px;border:2px solid var(--muted);border-radius:var(--wob-lg);font-size:.86rem;line-height:1.25;background:color-mix(in srgb,var(--muted) 14%,var(--surface))}
+.nxc b{font-family:var(--hand);font-weight:700}
+.nxc span{overflow-wrap:anywhere}
+.nxc i{font-style:normal;font-family:var(--hand);font-weight:700;font-size:.82rem;color:var(--muted)}
+.nxc.hard{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 16%,var(--surface))} .nxc.hard i{color:var(--bad)}
+.nxc.easy{border-color:var(--good);background:color-mix(in srgb,var(--good) 16%,var(--surface))} .nxc.easy i{color:var(--good)}
+.val-row{display:flex;flex-wrap:wrap;gap:2px 18px;align-items:baseline;font-family:var(--hand)}
+.val-row b{font-family:var(--marker);font-weight:400;font-size:1.5rem;line-height:1.1}
+.val-row small{color:var(--muted);font-size:.82rem}
+
+/* head to head: radar */
+.cmp-radar{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:8px 22px;align-items:center;margin-top:18px}
+.radar{width:100%;max-width:390px;height:auto;display:block;margin-inline:auto}
+.radar .rg polygon,.radar .rg line{fill:none;stroke:var(--line);stroke-width:1.5}
+.radar .ra{fill:var(--accent);fill-opacity:.32;stroke:var(--radar-a);stroke-width:2.5;stroke-linejoin:round}
+.radar .rb{fill:var(--cmp-b);fill-opacity:.3;stroke:var(--data);stroke-width:2.5;stroke-linejoin:round}
+.radar .da{fill:var(--radar-a);stroke:var(--surface);stroke-width:2}
+.radar .db{fill:var(--data);stroke:var(--surface);stroke-width:2}
+.radar text{font-family:var(--hand);font-weight:700;font-size:14px;fill:var(--ink)}
+.rtable{font-size:.92rem}
+.rtable th,.rtable td{padding:6px 8px;white-space:normal;vertical-align:top}
+.rtable td small{color:var(--muted)}
+.rtable td.r,.rtable th.r{white-space:nowrap}
+.rtable td.r{font-family:var(--marker);font-size:1.25rem}
+.rkey{display:inline-block;width:22px;height:9px;border:1.5px solid var(--ink);vertical-align:middle;margin-right:5px;border-radius:3px}
+.rkey.a{background:var(--accent)} .rkey.b{background:var(--cmp-b)}
+
+/* pecking order: scatter */
+.sc-wrap{margin-top:26px;border-top:1.5px dashed var(--line);padding-top:18px}
+.sc-wrap h3{font-size:1.75rem;line-height:1}
+.scatter{width:100%;height:auto;display:block;margin-top:10px;touch-action:manipulation}
+.scatter .gr{stroke:var(--line);stroke-width:1;stroke-dasharray:3 5}
+.scatter .ax{stroke:var(--ink);stroke-width:2;stroke-linecap:round}
+.scatter .tk{font-family:var(--hand);font-size:12px;fill:var(--muted)}
+.scatter .at{font-family:var(--hand);font-weight:700;font-size:13px;fill:var(--ink)}
+.scatter .lb{font-family:var(--hand);font-weight:700;font-size:13px;fill:var(--ink);paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round;pointer-events:none}
+.scatter .hit{fill:transparent}
+.scatter .pt{cursor:pointer}
+.scatter .dot{stroke-width:1.5}
+.scatter .t0 .dot{fill:var(--muted);fill-opacity:.6;stroke:var(--surface)}
+.scatter .t1 .dot{fill:var(--accent);stroke:var(--ink)}
+.scatter .t2 .dot{fill:var(--cmp-b);stroke:var(--ink)}
+.scatter .pt.dim{opacity:.32}
+.scatter .pt:hover .dot,.scatter .pt.on .dot{stroke:var(--data);stroke-width:3;fill-opacity:1}
+.sc-table{max-height:320px;overflow:auto}
+.legend .l0,.legend .l1,.legend .l2{width:13px;height:13px;border-radius:50%;border:1.5px solid var(--ink)}
+.legend .l1{background:var(--accent)} .legend .l2{background:var(--cmp-b)}
+.legend .l0{background:var(--muted);opacity:.65;border-color:var(--surface)}
+
 /* pecking order chart */
 .rows{display:flex;flex-direction:column}
 .rrow,.axis{display:grid;grid-template-columns:26px minmax(0,14rem) minmax(0,1fr) 3.8rem;gap:10px;align-items:center}
@@ -310,7 +362,7 @@ td.r,th.r{text-align:right}
 footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68ch}
 
 @media (max-width:860px){
-  .hero-top,.stage,.duo,.past{grid-template-columns:minmax(0,1fr)}
+  .hero-top,.stage,.duo,.past,.cmp-radar{grid-template-columns:minmax(0,1fr)}
   .steps{grid-template-columns:minmax(0,1fr);gap:20px}
   .stage .p1,.stage .p2,.stage .card{grid-column:1;grid-row:auto}
   .card{position:relative;top:auto}
@@ -445,6 +497,16 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
       <summary>Show both elevens as a table</summary>
       <div class="scroll" id="table"></div>
     </details>
+    <div class="sc-wrap" id="scatterWrap">
+      <h3>Scorers and creators</h3>
+      <p class="sub">Every outfield player the model looked at this week. Further right means more expected goals per 90 minutes, higher up means more expected assists. Hover over a dot, or tap it, for his name and chance to shine.</p>
+      <div id="scatter"></div>
+      <div class="legend"><span><i class="l1"></i>First XI</span><span><i class="l2"></i>Second XI</span><span><i class="l0"></i>everyone else</span><span id="scDim"></span></div>
+      <details class="tbl">
+        <summary>Show these numbers as a table</summary>
+        <div class="scroll sc-table" id="scTable"></div>
+      </details>
+    </div>
   </section>
 
   <section class="duo">
@@ -517,68 +579,176 @@ window.UCL_ROUNDS = [
     lineups: "predicted",
     status: "upcoming",
     next: { label: "Matchday 3", dates: "20–21 October" },
+    /* Next three league-phase games per club: [matchday, opponent, H/A, opponent's seeding pot in the draw]. */
+    nextGames: {
+      "Bayern": [["MD2", "Viking", "A", 4], ["MD3", "Arsenal", "H", 1], ["MD4", "Atlético", "A", 1]],
+      "Barcelona": [["MD2", "Galatasaray", "A", 3], ["MD3", "Paris SG", "A", 1], ["MD4", "Aston Villa", "H", 2]],
+      "Arsenal": [["MD2", "Lille", "H", 3], ["MD3", "Bayern", "A", 1], ["MD4", "Slavia Praha", "A", 4]],
+      "Inter": [["MD2", "Club Brugge", "H", 2], ["MD3", "Shakhtar", "H", 3], ["MD4", "Feyenoord", "A", 3]],
+      "Liverpool": [["MD2", "LASK", "A", 4], ["MD3", "Villarreal", "H", 3], ["MD4", "Fenerbahçe", "A", 3]],
+      "Real Madrid": [["MD2", "Roma", "A", 2], ["MD3", "Leipzig", "H", 3], ["MD4", "AEK Athens", "A", 4]],
+      "Man City": [["MD2", "Paris SG", "H", 1], ["MD3", "AEK Athens", "H", 4], ["MD4", "Leipzig", "A", 3]],
+      "Stuttgart": [["MD2", "Slovan Bratislava", "A", 4], ["MD3", "Atlético", "H", 1], ["MD4", "Galatasaray", "A", 3]],
+      "Como": [["MD2", "Feyenoord", "A", 3], ["MD3", "Man United", "H", 2], ["MD4", "Lens", "A", 4]]
+    },
+    priceNote: "Fantasy prices are UEFA Champions League Fantasy prices as published between 1 September and 13 October 2026. They can change during the season.",
+    /* Every modelled outfield player: [name, team, line, xG per 90 (no penalties), xA per 90, chance %, 1 = First XI / 2 = Second XI / 0 = neither, id or 0, form]. */
+    pool: [
+      ["Gabriel", "Arsenal", "DEF", 0.12, 0.05, 60, 1, "gabriel", 0.0],
+      ["Riccardo Calafiori", "Arsenal", "DEF", 0.14, 0.1, 57, 1, "calafiori", 0.53],
+      ["Federico Dimarco", "Inter", "DEF", 0.18, 0.38, 56, 1, "dimarco", 0.23],
+      ["Harry Kane", "Bayern", "FWD", 0.66, 0.25, 56, 1, "kane", 1.4],
+      ["Jurriën Timber", "Arsenal", "DEF", 0.1, 0.09, 55, 2, "timber", null],
+      ["Lamine Yamal", "Barcelona", "FWD", 0.44, 0.44, 50, 1, "yamal", 1.58],
+      ["Ezri Konsa", "Arsenal", "DEF", 0.04, 0.02, 50, 2, "konsa", 0.0],
+      ["Alphonso Davies", "Bayern", "DEF", 0.04, 0.21, 49, 2, "davies", 0.5],
+      ["Konrad Laimer", "Bayern", "DEF", 0.1, 0.16, 49, 0, 0, null],
+      ["Virgil van Dijk", "Liverpool", "DEF", 0.09, 0.01, 48, 1, "vandijk", 0.0],
+      ["Erling Haaland", "Man City", "FWD", 0.68, 0.14, 48, 1, "haaland", 1.02],
+      ["Lautaro Martínez", "Inter", "FWD", 0.68, 0.2, 48, 2, "lautaro", 1.02],
+      ["Michael Olise", "Bayern", "FWD", 0.39, 0.45, 46, 2, "olise", 1.15],
+      ["Andy Diouf", "Inter", "DEF", 0.06, 0.22, 46, 0, 0, 0.64],
+      ["Dayot Upamecano", "Bayern", "DEF", 0.08, 0.04, 46, 2, "upamecano", 0.22],
+      ["Jeremie Frimpong", "Liverpool", "DEF", 0.04, 0.16, 46, 0, 0, null],
+      ["Josha Vagnoman", "Stuttgart", "DEF", 0.13, 0.11, 45, 0, 0, 0.61],
+      ["Álex Grimaldo", "Atletico", "DEF", 0.11, 0.21, 45, 0, 0, 0.58],
+      ["Deniz Undav", "Stuttgart", "MID", 0.46, 0.22, 45, 1, "undav", 0.0],
+      ["Kylian Mbappé", "Real Madrid", "FWD", 0.65, 0.2, 44, 2, "mbappe", 1.12],
+      ["Ermedin Demirović", "Stuttgart", "FWD", 0.49, 0.12, 43, 0, 0, 0.32],
+      ["Jules Koundé", "Barcelona", "DEF", 0.09, 0.13, 42, 0, 0, 0.36],
+      ["Alessandro Bastoni", "Inter", "DEF", 0.06, 0.09, 42, 0, 0, 0.0],
+      ["Marcus Thuram", "Inter", "FWD", 0.57, 0.19, 42, 0, 0, 1.57],
+      ["Jonathan Tah", "Bayern", "DEF", 0.06, 0.02, 42, 0, 0, 0.0],
+      ["Manuel Akanji", "Inter", "DEF", 0.09, 0.04, 41, 0, 0, 0.22],
+      ["Bukayo Saka", "Arsenal", "FWD", 0.37, 0.24, 41, 0, 0, 0.53],
+      ["João Cancelo", "Barcelona", "DEF", 0.06, 0.16, 40, 0, 0, null],
+      ["Kostas Tsimikas", "Liverpool", "DEF", 0.05, 0.07, 40, 0, 0, null],
+      ["Yann Bisseck", "Inter", "DEF", 0.1, 0.03, 39, 0, 0, 0.25],
+      ["Matty Cash", "Aston Villa", "DEF", 0.03, 0.08, 39, 0, 0, 0.0],
+      ["Luis Díaz", "Bayern", "FWD", 0.46, 0.31, 38, 0, 0, 0.25],
+      ["Christopher Nkunku", "Leipzig", "FWD", 0.52, 0.14, 38, 0, 0, 1.4],
+      ["Serhou Guirassy", "Dortmund", "FWD", 0.55, 0.14, 38, 0, 0, 0.83],
+      ["David Raum", "Leipzig", "DEF", 0.04, 0.28, 38, 0, 0, 0.0],
+      ["Finn Jeltsch", "Stuttgart", "DEF", 0.06, 0.03, 37, 0, 0, 0.24],
+      ["Joe Gomez", "Liverpool", "DEF", 0.05, 0.02, 37, 0, 0, null],
+      ["Pau Cubarsí", "Barcelona", "DEF", 0.03, 0.01, 37, 0, 0, 0.0],
+      ["Marcos Llorente", "Atletico", "DEF", 0.06, 0.12, 37, 0, 0, 0.16],
+      ["Nicolas Jackson", "Aston Villa", "FWD", 0.43, 0.13, 37, 0, 0, 0.46],
+      ["Yan Couto", "Como", "DEF", 0.06, 0.16, 37, 0, 0, 0.18],
+      ["Héctor Bellerín", "Real Betis", "DEF", 0.04, 0.14, 36, 0, 0, 0.15],
+      ["Donyell Malen", "Roma", "FWD", 0.79, 0.12, 36, 0, 0, 1.33],
+      ["Maximilian Mittelstädt", "Stuttgart", "DEF", 0.07, 0.22, 35, 0, 0, 0.41],
+      ["Jonathan David", "Atletico", "FWD", 0.55, 0.2, 34, 0, 0, null],
+      ["David Hancko", "Atletico", "DEF", 0.06, 0.06, 34, 0, 0, 0.32],
+      ["Florian Wirtz", "Liverpool", "MID", 0.26, 0.19, 34, 1, "wirtz", 0.19],
+      ["Pau Torres", "Aston Villa", "DEF", 0.06, 0.01, 34, 0, 0, null],
+      ["Trent Alexander-Arnold", "Real Madrid", "DEF", 0.04, 0.15, 34, 0, 0, 0.35],
+      ["Gerard Martín", "Barcelona", "DEF", 0.03, 0.03, 34, 0, 0, 0.0],
+      ["Marc Cucurella", "Real Madrid", "DEF", 0.05, 0.13, 33, 0, 0, 0.0],
+      ["Rayan Cherki", "Man City", "MID", 0.28, 0.38, 33, 1, "cherki", 1.34],
+      ["Tasos Douvikas", "Como", "FWD", 0.55, 0.1, 33, 0, 0, 0.44],
+      ["Nico Paz", "Como", "MID", 0.27, 0.22, 32, 2, "paz", 0.35],
+      ["Dean Huijsen", "Real Madrid", "DEF", 0.08, 0.03, 32, 0, 0, 0.0],
+      ["Ismael Saibari", "Bayern", "MID", 0.36, 0.28, 32, 2, "saibari", 1.42],
+      ["Martin Ødegaard", "Arsenal", "MID", 0.21, 0.28, 32, 2, "odegaard", 0.37],
+      ["Nuno Mendes", "Paris SG", "DEF", 0.11, 0.3, 31, 0, 0, null],
+      ["Chris Führich", "Stuttgart", "FWD", 0.22, 0.31, 31, 0, 0, 0.31],
+      ["Ousmane Dembélé", "Paris SG", "FWD", 0.44, 0.25, 31, 0, 0, null],
+      ["Georges Mikautadze", "Villarreal", "FWD", 0.55, 0.17, 30, 0, 0, 0.58],
+      ["Isco", "Real Betis", "MID", 0.34, 0.19, 30, 0, 0, 0.44],
+      ["Florian Thauvin", "Lens", "FWD", 0.3, 0.31, 30, 0, 0, 1.17],
+      ["Marc Bartra", "Real Betis", "DEF", 0.05, 0.01, 30, 0, 0, 0.27],
+      ["Dani Olmo", "Barcelona", "MID", 0.33, 0.34, 30, 0, 0, 0.89],
+      ["Abde Ezzalzouli", "Real Betis", "FWD", 0.34, 0.24, 30, 0, 0, 0.54],
+      ["Joško Gvardiol", "Man City", "DEF", 0.08, 0.12, 29, 0, 0, 0.78],
+      ["Bruno Fernandes", "Man United", "MID", 0.26, 0.36, 29, 0, 0, 0.67],
+      ["Antonio Nusa", "Leipzig", "FWD", 0.22, 0.29, 29, 0, 0, 1.31],
+      ["Vinícius Júnior", "Real Madrid", "FWD", 0.35, 0.25, 28, 0, 0, 0.61],
+      ["Kai Havertz", "Arsenal", "FWD", 0.43, 0.12, 28, 0, 0, 0.35],
+      ["Anthony Gordon", "Barcelona", "FWD", 0.37, 0.24, 28, 0, 0, 0.91],
+      ["Julian Chabot", "Stuttgart", "DEF", 0.08, 0.01, 27, 0, 0, 0.22],
+      ["Hakan Çalhanoğlu", "Inter", "MID", 0.08, 0.17, 27, 0, 0, null],
+      ["Gerard Moreno", "Villarreal", "FWD", 0.38, 0.2, 26, 0, 0, 0.46],
+      ["Maximilian Beier", "Dortmund", "FWD", 0.37, 0.21, 26, 0, 0, 0.5],
+      ["Álex Baena", "Atletico", "MID", 0.2, 0.3, 26, 0, 0, 1.09],
+      ["Arda Güler", "Real Madrid", "MID", 0.26, 0.39, 26, 0, 0, 0.62],
+      ["Jude Bellingham", "Real Madrid", "MID", 0.29, 0.23, 26, 0, 0, 0.72],
+      ["Paulo Dybala", "Roma", "FWD", 0.33, 0.41, 26, 0, 0, 0.72],
+      ["Khvicha Kvaratskhelia", "Paris SG", "FWD", 0.36, 0.29, 25, 0, 0, 0.66],
+      ["Phil Foden", "Man City", "MID", 0.31, 0.26, 25, 0, 0, null],
+      ["Antoine Semenyo", "Man City", "FWD", 0.27, 0.18, 25, 0, 0, 0.83],
+      ["Rasmus Højlund", "Napoli", "FWD", 0.4, 0.13, 25, 0, 0, 0.41],
+      ["Kevin De Bruyne", "Napoli", "MID", 0.22, 0.27, 25, 0, 0, 1.04],
+      ["Alberto Moleiro", "Villarreal", "FWD", 0.25, 0.25, 23, 0, 0, 0.78],
+      ["Karim Adeyemi", "Barcelona", "FWD", 0.53, 0.3, 22, 0, 0, null],
+      ["Désiré Doué", "Paris SG", "FWD", 0.34, 0.25, 22, 0, 0, null],
+      ["Bryan Mbeumo", "Man United", "FWD", 0.4, 0.19, 22, 0, 0, 0.5],
+      ["Fermín López", "Barcelona", "MID", 0.36, 0.31, 20, 0, 0, 1.13],
+      ["Matheus Cunha", "Man United", "FWD", 0.28, 0.17, 18, 0, 0, 0.53],
+      ["Ferran Torres", "Paris SG", "FWD", 0.51, 0.11, 14, 0, 0, 0.61]
+    ],
     xi1: [
-      { id: "haaland", name: "Erling Haaland", short: "Haaland", team: "Man City", opp: "Paris SG", ha: "H", line: "FWD", pos: "ST",
+      { id: "haaland", xg90: 0.68, xa90: 0.14, form: 1.02, oppXg: 1.55, price: 11.0, name: "Erling Haaland", short: "Haaland", team: "Man City", opp: "Paris SG", ha: "H", line: "FWD", pos: "ST",
         start: "Predicted starter", mins: 73, shine: 48, lo: 41, hi: 54, metric: "Goal or assist", stats: [["Goal", "43%"], ["Assist", "9%"]],
         kit: ["#6CABDD", "#1C2C5B", "#1C2C5B"],
         reasons: ["6 league goals from 5.1 xG", "Near-certain starter", "Toughest opponent here"],
         upside: "He almost always starts and takes the penalties.",
         risk: "City v Paris is priced close to even, so City's expected goals are modest.", result: null },
-      { id: "kane", name: "Harry Kane", short: "Kane", team: "Bayern", opp: "Viking", ha: "A", line: "FWD", pos: "ST",
+      { id: "kane", xg90: 0.66, xa90: 0.25, form: 1.4, oppXg: 0.75, price: 11.0, name: "Harry Kane", short: "Kane", team: "Bayern", opp: "Viking", ha: "A", line: "FWD", pos: "ST",
         start: "Predicted starter", mins: 67, shine: 56, lo: 48, hi: 62, metric: "Goal or assist", stats: [["Goal", "47%"], ["Assist", "16%"]],
         kit: ["#DC052D", "#FFFFFF", "#FFFFFF"],
         reasons: ["Penalty taker", "Bayern heavy favourites", "Rotation risk"],
         upside: "Penalties plus the most lopsided fixture of the round.",
         risk: "Rotation three days after a league game, and Viking's artificial pitch and strong home record.", result: null },
-      { id: "yamal", name: "Lamine Yamal", short: "Yamal", team: "Barcelona", opp: "Galatasaray", ha: "A", line: "FWD", pos: "RW",
+      { id: "yamal", xg90: 0.44, xa90: 0.44, form: 1.58, oppXg: 0.95, price: 10.0, name: "Lamine Yamal", short: "Yamal", team: "Barcelona", opp: "Galatasaray", ha: "A", line: "FWD", pos: "RW",
         start: "Predicted starter", mins: 68, shine: 50, lo: 43, hi: 56, metric: "Goal or assist", stats: [["Goal", "34%"], ["Assist", "24%"]],
         kit: ["#A50044", "#004D98", "#FFD21F"],
         reasons: ["Top xG+xA volume in La Liga", "Likely on penalties", "Minutes managed"],
         upside: "Leads Barcelona in both shots (44) and key passes (30), and should take penalties with Raphinha out.",
         risk: "Flick has said he is managing his minutes.", result: null },
-      { id: "wirtz", name: "Florian Wirtz", short: "Wirtz", team: "Liverpool", opp: "LASK", ha: "A", line: "MID", pos: "AM",
+      { id: "wirtz", xg90: 0.26, xa90: 0.19, form: 0.19, oppXg: 0.75, price: 8.5, name: "Florian Wirtz", short: "Wirtz", team: "Liverpool", opp: "LASK", ha: "A", line: "MID", pos: "AM",
         start: "Predicted starter", mins: 68, shine: 34, lo: 25, hi: 42, metric: "Goal or assist", stats: [["Goal", "22%"], ["Assist", "15%"]],
         kit: ["#C8102E", "#F6EB61", "#FFFFFF"],
         reasons: ["Liverpool's main creator this week", "Weak opponent", "Quiet league start"],
         upside: "With Isak, Gakpo and Szoboszlai unlikely to play, the attack runs through him.",
         risk: "No goals and one assist in 472 league minutes, and he may be asked to play as a false nine.", result: null },
-      { id: "undav", name: "Deniz Undav", short: "Undav", team: "Stuttgart", opp: "Slovan Bratislava", ha: "A", line: "MID", pos: "AM",
+      { id: "undav", xg90: 0.46, xa90: 0.22, form: 0.0, oppXg: 1.0, price: 7.0, name: "Deniz Undav", short: "Undav", team: "Stuttgart", opp: "Slovan Bratislava", ha: "A", line: "MID", pos: "AM",
         start: "Predicted starter", mins: 65, shine: 45, lo: 34, hi: 54, metric: "Goal or assist", stats: [["Goal", "34%"], ["Assist", "16%"]],
         kit: ["#FFFFFF", "#E32219", "#E32219"],
         reasons: ["19 league goals last season", "Slovan lost 6-1 on Matchday 1", "Deeper role this season"],
         upside: "Two assists on Matchday 1, now against the weakest defence Stuttgart will face.",
         risk: "The widest range on the page. No league goals or assists yet this season, so the estimate leans on last year.", result: null },
-      { id: "cherki", name: "Rayan Cherki", short: "Cherki", team: "Man City", opp: "Paris SG", ha: "H", line: "MID", pos: "AM",
+      { id: "cherki", xg90: 0.28, xa90: 0.38, form: 1.34, oppXg: 1.55, price: 7.0, name: "Rayan Cherki", short: "Cherki", team: "Man City", opp: "Paris SG", ha: "H", line: "MID", pos: "AM",
         start: "Predicted starter", mins: 62, shine: 33, lo: 27, hi: 38, metric: "Goal or assist", stats: [["Goal", "16%"], ["Assist", "20%"]],
         kit: ["#6CABDD", "#1C2C5B", "#1C2C5B"],
         reasons: ["4 goals, 2 assists in 403 league minutes", "12 league assists last season", "Tight game"],
         upside: "City's most productive creator so far this season.",
         risk: "A close game against Paris, and Foden competes for the same minutes.", result: null },
-      { id: "calafiori", name: "Riccardo Calafiori", short: "Calafiori", team: "Arsenal", opp: "Lille", ha: "H", line: "DEF", pos: "LB",
+      { id: "calafiori", xg90: 0.14, xa90: 0.1, form: 0.53, oppXg: 0.53, price: 4.5, name: "Riccardo Calafiori", short: "Calafiori", team: "Arsenal", opp: "Lille", ha: "H", line: "DEF", pos: "LB",
         start: "Predicted starter", mins: 70, shine: 57, lo: 51, hi: 63, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "47%"], ["Goal or assist", "18%"]],
         kit: ["#EF0107", "#FFFFFF", "#FFFFFF"],
         reasons: ["Best clean sheet odds of the round", "1 goal, 2 assists in 6 league games", "Start not certain"],
         upside: "An attacking full-back in the side most likely to keep a clean sheet.",
         risk: "Lewis-Skelly is an alternative at left-back, so his start is less secure than Gabriel's.", result: null },
-      { id: "gabriel", name: "Gabriel", short: "Gabriel", team: "Arsenal", opp: "Lille", ha: "H", line: "DEF", pos: "CB",
+      { id: "gabriel", xg90: 0.12, xa90: 0.05, form: 0.0, oppXg: 0.53, price: 6.0, name: "Gabriel", short: "Gabriel", team: "Arsenal", opp: "Lille", ha: "H", line: "DEF", pos: "CB",
         start: "Predicted starter", mins: 81, shine: 60, lo: 54, hi: 66, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "53%"], ["Goal or assist", "15%"]],
         kit: ["#EF0107", "#FFFFFF", "#FFFFFF"],
         reasons: ["Best clean sheet odds of the round", "Set-piece threat", "Has played every league minute"],
         upside: "1.0 xG from set pieces in six league games without a goal yet, on top of the clean sheet.",
         risk: "Saliba is out and the back line around him is reshuffled.", result: null },
-      { id: "vandijk", name: "Virgil van Dijk", short: "Van Dijk", team: "Liverpool", opp: "LASK", ha: "A", line: "DEF", pos: "CB",
+      { id: "vandijk", xg90: 0.09, xa90: 0.01, form: 0.0, oppXg: 0.75, price: 6.0, name: "Virgil van Dijk", short: "Van Dijk", team: "Liverpool", opp: "LASK", ha: "A", line: "DEF", pos: "CB",
         start: "Predicted starter", mins: 81, shine: 48, lo: 42, hi: 56, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "43%"], ["Goal or assist", "10%"]],
         kit: ["#C8102E", "#F6EB61", "#FFFFFF"],
         reasons: ["Has played every league minute", "6 league goals last season", "Rotated defence around him"],
         upside: "LASK are expected to score less than a goal, and he is a threat at corners.",
         risk: "Liverpool have conceded 7 in 6 league games and are expected to rotate the rest of the back four.", result: null },
-      { id: "dimarco", name: "Federico Dimarco", short: "Dimarco", team: "Inter", opp: "Club Brugge", ha: "H", line: "DEF", pos: "LWB",
+      { id: "dimarco", xg90: 0.18, xa90: 0.38, form: 0.23, oppXg: 0.9, price: 5.0, name: "Federico Dimarco", short: "Dimarco", team: "Inter", opp: "Club Brugge", ha: "H", line: "DEF", pos: "LWB",
         start: "Predicted starter", mins: 70, shine: 56, lo: 48, hi: 63, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "33%"], ["Goal or assist", "34%"]],
         kit: ["#0B3D91", "#111111", "#FFFFFF"],
         reasons: ["16 league assists last season", "Set pieces", "Inter home favourites"],
         upside: "The most creative defender in the field: 2.0 expected assists in 397 league minutes this season.",
         risk: "He plays wing-back on the left for Inter, and Inter rotated at the weekend.", result: null },
-      { id: "raya", name: "David Raya", short: "Raya", team: "Arsenal", opp: "Lille", ha: "H", line: "GK", pos: "GK",
+      { id: "raya", xg90: null, xa90: null, form: null, oppXg: 0.53, price: 6.0, name: "David Raya", short: "Raya", team: "Arsenal", opp: "Lille", ha: "H", line: "GK", pos: "GK",
         start: "Predicted starter", mins: 87, shine: 57, lo: 51, hi: 63, metric: "Clean sheet", stats: [["Lille expected goals", "0.5"], ["Chance he starts", "97%"]],
         kit: ["#1B1F2B", "#EF0107", "#FFFFFF"],
         reasons: ["Arsenal strong home favourites", "5 conceded in 6 league games", "Lille missing two starters"],
@@ -586,67 +756,67 @@ window.UCL_ROUNDS = [
         risk: "Saliba is out and two more defenders are doubtful, so the back line is patched up.", result: null }
     ],
     xi2: [
-      { id: "mbappe", name: "Kylian Mbappé", short: "Mbappé", team: "Real Madrid", opp: "Roma", ha: "A", line: "FWD", pos: "ST",
+      { id: "mbappe", xg90: 0.65, xa90: 0.2, form: 1.12, oppXg: 1.15, price: 11.0, name: "Kylian Mbappé", short: "Mbappé", team: "Real Madrid", opp: "Roma", ha: "A", line: "FWD", pos: "ST",
         start: "Predicted starter", mins: 70, shine: 44, lo: 37, hi: 50, metric: "Goal or assist", stats: [["Goal", "37%"], ["Assist", "11%"]],
         kit: ["#FFFFFF", "#C9A227", "#1B1B3A"],
         reasons: ["9.2 xG in 8 league games", "Penalty taker", "Roma defend well"],
         upside: "The best raw xG rate in the whole dataset.",
         risk: "Away at a side that has conceded 3 in 6 league games, and Madrid are managing a knee knock.", result: null },
-      { id: "lautaro", name: "Lautaro Martínez", short: "Lautaro", team: "Inter", opp: "Club Brugge", ha: "H", line: "FWD", pos: "ST",
+      { id: "lautaro", xg90: 0.68, xa90: 0.2, form: 1.02, oppXg: 0.9, price: 9.5, name: "Lautaro Martínez", short: "Lautaro", team: "Inter", opp: "Club Brugge", ha: "H", line: "FWD", pos: "ST",
         start: "Predicted starter", mins: 67, shine: 48, lo: 40, hi: 54, metric: "Goal or assist", stats: [["Goal", "40%"], ["Assist", "14%"]],
         kit: ["#0B3D91", "#111111", "#FFFFFF"],
         reasons: ["1.37 xG per 90 this season", "Home favourite", "Not on penalties"],
         upside: "Elite shot volume in a home game Inter should control.",
         risk: "Çalhanoğlu takes Inter's penalties, and Inter rotated at the weekend so the XI is less predictable.", result: null },
-      { id: "olise", name: "Michael Olise", short: "Olise", team: "Bayern", opp: "Viking", ha: "A", line: "FWD", pos: "RW",
+      { id: "olise", xg90: 0.39, xa90: 0.45, form: 1.15, oppXg: 0.75, price: 9.0, name: "Michael Olise", short: "Olise", team: "Bayern", opp: "Viking", ha: "A", line: "FWD", pos: "RW",
         start: "Predicted starter", mins: 65, shine: 46, lo: 39, hi: 52, metric: "Goal or assist", stats: [["Goal", "26%"], ["Assist", "27%"]],
         kit: ["#DC052D", "#FFFFFF", "#FFFFFF"],
         reasons: ["Goal and assist threat", "Weak opponent", "Rotation risk"],
         upside: "Contributes both ways: 15 goals and 19 assists in last season's league.",
         risk: "Same rotation question as Kane.", result: null },
-      { id: "paz", name: "Nico Paz", short: "Nico Paz", team: "Como", opp: "Feyenoord", ha: "A", line: "MID", pos: "AM",
+      { id: "paz", xg90: 0.27, xa90: 0.22, form: 0.35, oppXg: 1.2, price: 7.0, name: "Nico Paz", short: "Nico Paz", team: "Como", opp: "Feyenoord", ha: "A", line: "MID", pos: "AM",
         start: "Predicted starter", mins: 68, shine: 32, lo: 27, hi: 37, metric: "Goal or assist", stats: [["Goal", "22%"], ["Assist", "13%"]],
         kit: ["#1D4E9E", "#FFFFFF", "#FFFFFF"],
         reasons: ["2 assists on Matchday 1", "31 shots in 6 league games", "Likely on penalties"],
         upside: "Como's whole attack goes through him, and Feyenoord are missing seven players.",
         risk: "Only one league goal from 2.3 xG so far.", result: null },
-      { id: "saibari", name: "Ismael Saibari", short: "Saibari", team: "Bayern", opp: "Viking", ha: "A", line: "MID", pos: "AM",
+      { id: "saibari", xg90: 0.36, xa90: 0.28, form: 1.42, oppXg: 0.75, price: 6.5, name: "Ismael Saibari", short: "Saibari", team: "Bayern", opp: "Viking", ha: "A", line: "MID", pos: "AM",
         start: "Predicted starter", mins: 56, shine: 32, lo: 23, hi: 39, metric: "Goal or assist", stats: [["Goal", "19%"], ["Assist", "15%"]],
         kit: ["#DC052D", "#FFFFFF", "#FFFFFF"],
         reasons: ["In for the injured Musiala", "2 goals, 2 assists in 253 league minutes", "Small sample"],
         upside: "The number ten in the round's biggest favourite.",
         risk: "Only 253 league minutes of data, and he is the likeliest attacker to be rotated.", result: null },
-      { id: "odegaard", name: "Martin Ødegaard", short: "Ødegaard", team: "Arsenal", opp: "Lille", ha: "H", line: "MID", pos: "AM",
+      { id: "odegaard", xg90: 0.21, xa90: 0.28, form: 0.37, oppXg: 0.53, price: null, name: "Martin Ødegaard", short: "Ødegaard", team: "Arsenal", opp: "Lille", ha: "H", line: "MID", pos: "AM",
         start: "Predicted starter", mins: 62, shine: 32, lo: 26, hi: 36, metric: "Goal or assist", stats: [["Goal", "16%"], ["Assist", "18%"]],
         kit: ["#EF0107", "#FFFFFF", "#FFFFFF"],
         reasons: ["2 league goals, 2.0 expected assists", "Arsenal strong favourites"],
         upside: "Creating plenty: his expected assists are well ahead of his zero league assists.",
         risk: "Saka appears to take the penalties.", result: null },
-      { id: "davies", name: "Alphonso Davies", short: "Davies", team: "Bayern", opp: "Viking", ha: "A", line: "DEF", pos: "LB",
+      { id: "davies", xg90: 0.04, xa90: 0.21, form: 0.5, oppXg: 0.75, price: 5.0, name: "Alphonso Davies", short: "Davies", team: "Bayern", opp: "Viking", ha: "A", line: "DEF", pos: "LB",
         start: "Predicted starter", mins: 70, shine: 49, lo: 42, hi: 55, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "38%"], ["Goal or assist", "18%"]],
         kit: ["#DC052D", "#FFFFFF", "#FFFFFF"],
         reasons: ["2 assists in 360 league minutes", "Bayern heavy favourites", "Rotation risk"],
         upside: "1.9 expected assists already this season from left-back.",
         risk: "Bayern conceded twice at the weekend, and full-backs are the first to be rotated.", result: null },
-      { id: "upamecano", name: "Dayot Upamecano", short: "Upamecano", team: "Bayern", opp: "Viking", ha: "A", line: "DEF", pos: "CB",
+      { id: "upamecano", xg90: 0.08, xa90: 0.04, form: 0.22, oppXg: 0.75, price: 5.5, name: "Dayot Upamecano", short: "Upamecano", team: "Bayern", opp: "Viking", ha: "A", line: "DEF", pos: "CB",
         start: "Predicted starter", mins: 77, shine: 46, lo: 39, hi: 52, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "40%"], ["Goal or assist", "9%"]],
         kit: ["#DC052D", "#FFFFFF", "#FFFFFF"],
         reasons: ["Bayern heavy favourites", "1 league goal from 1.0 xG"],
         upside: "Viking are expected to score less than a goal.",
         risk: "Viking have a strong home record on an artificial pitch.", result: null },
-      { id: "konsa", name: "Ezri Konsa", short: "Konsa", team: "Arsenal", opp: "Lille", ha: "H", line: "DEF", pos: "CB",
+      { id: "konsa", xg90: 0.04, xa90: 0.02, form: 0.0, oppXg: 0.53, price: null, name: "Ezri Konsa", short: "Konsa", team: "Arsenal", opp: "Lille", ha: "H", line: "DEF", pos: "CB",
         start: "Predicted starter", mins: 73, shine: 50, lo: 45, hi: 55, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "47%"], ["Goal or assist", "5%"]],
         kit: ["#EF0107", "#FFFFFF", "#FFFFFF"],
         reasons: ["Best clean sheet odds of the round", "Little goal threat"],
         upside: "Rides the same clean sheet chance as Gabriel.",
         risk: "Almost no attacking output, so it is clean sheet or nothing.", result: null },
-      { id: "timber", name: "Jurriën Timber", short: "Timber", team: "Arsenal", opp: "Lille", ha: "H", line: "DEF", pos: "RB",
+      { id: "timber", xg90: 0.1, xa90: 0.09, form: null, oppXg: 0.53, price: null, name: "Jurriën Timber", short: "Timber", team: "Arsenal", opp: "Lille", ha: "H", line: "DEF", pos: "RB",
         start: "Predicted starter", mins: 70, shine: 55, lo: 49, hi: 61, metric: "Clean sheet or goal/assist", stats: [["Clean sheet", "47%"], ["Goal or assist", "15%"]],
         kit: ["#EF0107", "#FFFFFF", "#FFFFFF"],
         reasons: ["Best clean sheet odds of the round", "3 goals, 5 assists last season", "Few minutes this season"],
         upside: "A full-back who gets into the box, in the best defence of the round.",
         risk: "Only 128 league minutes this season, so his numbers lean on last year.", result: null },
-      { id: "alisson", name: "Alisson", short: "Alisson", team: "Liverpool", opp: "LASK", ha: "A", line: "GK", pos: "GK",
+      { id: "alisson", xg90: null, xa90: null, form: null, oppXg: 0.75, price: 6.0, name: "Alisson", short: "Alisson", team: "Liverpool", opp: "LASK", ha: "A", line: "GK", pos: "GK",
         start: "Predicted starter", mins: 86, shine: 45, lo: 39, hi: 52, metric: "Clean sheet", stats: [["LASK expected goals", "0.75"], ["Chance he starts", "95%"]],
         kit: ["#1B1F2B", "#C8102E", "#FFFFFF"],
         reasons: ["Liverpool clear favourites", "Rotated defence in front of him"],
@@ -713,7 +883,11 @@ window.UCL_ROUNDS = [
       "Bayern's keeper is uncertain (Neuer is doubtful, Urbig is expected), which is why neither makes an eleven.",
       "Dimarco and Calafiori both play on the left for their clubs. They are simply the two highest-rated full-backs.",
       "Penalty duty is partly inferred, and is unknown for Liverpool and Stuttgart.",
-      "Many picks are too close to separate: Haaland and Lautaro, Olise and Undav, and the three second XI midfielders are all within a point or two."
+      "Many picks are too close to separate: Haaland and Lautaro, Olise and Undav, and the three second XI midfielders are all within a point or two.",
+      "Fixture colours on the player card use only the opponent's seeding pot from the draw (pot 1 hard, pots 2 and 3 medium, pot 4 easier). That is a rough guide: Stuttgart and Como were both in pot 4.",
+      "Fantasy prices could not be verified for Timber, Konsa and Ødegaard, so they have no value number. The value number flatters defenders, whose chance includes a clean sheet.",
+      "On the radar, form is goals plus assists per 90 league minutes this season. Players under 250 league minutes have no form number and are drawn at zero on that spoke.",
+      "xG per 90 and xA per 90 are the model's blended rates (this season plus last, pulled toward the position average), not raw season totals."
     ],
     sources: [
       ["UEFA.com fixtures", "https://www.uefa.com/uefachampionsleague/news/02a8-2174c9e9019d-f909a77bd77a-1000--2026-27-champions-league-all-the-league-phase-fixtures/"],
@@ -722,7 +896,13 @@ window.UCL_ROUNDS = [
       ["Understat (xG and xA)", "https://understat.com/"],
       ["RG.org odds round-up", "https://rg.org/en-ca/news/soccer/man-city-vs-psg-atletico-vs-man-utd-champions-league-matchday-2-odds"],
       ["ESPN on Raphinha", "https://www.espn.com/soccer/story/_/id/50139412/barcelona-hansi-flick-confirms-raphinha-oct-20-psg-champions-league"],
-      ["This Is Anfield on Liverpool injuries", "https://www.thisisanfield.com/2026/10/iraola-liverpool-injury-update-lask-isak-szoboszlai-gakpo/"]
+      ["This Is Anfield on Liverpool injuries", "https://www.thisisanfield.com/2026/10/iraola-liverpool-injury-update-lask-isak-szoboszlai-gakpo/"],
+      ["UEFA.com draw pots", "https://www.uefa.com/uefachampionsleague/news/02a8-21717d0c6cb5-03a9a5ff1552-1000--champions-league-league-phase-draw-pots-confirmed/"],
+      ["UEFA.com Fantasy: defenders for every budget", "https://www.uefa.com/uefachampionsleague/news/02a9-217d8bc17975-f8867a9b0711-1000--champions-league-fantasy-football-defenders-for-every-budget/"],
+      ["UEFA.com Fantasy: midfielders for every budget", "https://www.uefa.com/uefachampionsleague/news/02a9-217d95cda9ec-7fb0292e6890-1000--champions-league-fantasy-football-midfielders-for-every-b/"],
+      ["Fantasy Football Scout: premium players", "https://www.fantasyfootballscout.co.uk/2026/09/07/ucl-fantasy-2026-27-premium-players-to-buy"],
+      ["Fantasy Football Scout: Matchday 2 picks", "https://www.fantasyfootballscout.co.uk/2026/10/13/ucl-fantasy-2026-27-matchday-2-early-scout-picks"],
+      ["The Fantasy Tool price list", "https://thefantasytool.com/ucl-fantasy"]
     ]
   }
 ];
@@ -854,6 +1034,21 @@ window.UCL_BEFORE = [
     renderPitch("xi2", r.xi2, "foot2", "about " + expected(r.xi2).toFixed(1) + " of these 11 should shine");
   }
 
+  /* Card extras. Both read optional data, so a round without it simply shows nothing. */
+  function nextGamesHtml(r, p){
+    var games = (r.nextGames||{})[p.team];
+    if(!games) return "";
+    return '<div class="nx"><div class="nx-h">next three games (colour = how highly the opponent was seeded)</div><div class="nx-row">' + games.map(function(g){
+      var d = g[3]===1 ? "hard" : g[3]===4 ? "easy" : "mid", lab = { hard: "hard", mid: "medium", easy: "easier" }[d];
+      return '<span class="nxc '+d+'"><b>'+esc(g[0])+'</b><span>'+(g[2]==="H" ? "v" : "at")+' '+esc(g[1])+'</span><i>'+lab+'</i></span>';
+    }).join("") + '</div></div>';
+  }
+  function valueHtml(p){
+    if(p.price === undefined) return "";
+    if(p.price === null) return '<div class="val-row"><span>Fantasy price <b>unknown</b></span><small>could not be verified, so no value number</small></div>';
+    return '<div class="val-row"><span>Fantasy price <b>€'+p.price.toFixed(1)+'m</b></span><span>value <b>'+(p.shine/p.price).toFixed(1)+'</b></span><small>chance ÷ price; compare within a position</small></div>';
+  }
+
   function renderCard(){
     var r = cur(), p = find(r, state.sel) || r.xi1[0];
     var cap = captain(r), hv = hit(p), isCap = cap === p.id, which = r.xi1.indexOf(p) >= 0 ? "First XI" : "Second XI";
@@ -879,10 +1074,12 @@ window.UCL_BEFORE = [
       + '<dl class="facts">'
       + '<div><dt>expected minutes</dt><dd class="num">'+p.mins+'</dd></div>'
       + '<div><dt>status</dt><dd>'+esc(p.start)+'</dd></div></dl>'
+      + nextGamesHtml(r, p) + valueHtml(p)
       + '<div class="tags">'+p.reasons.map(function(t){ return '<span class="tag">'+esc(t)+'</span>'; }).join("")+'</div>'
       + '<div class="ud"><p class="up"><b>+ biggest upside</b>'+esc(p.upside)+'</p><p class="dn"><b>! biggest risk</b>'+esc(p.risk)+'</p></div>'
       + '<div class="card-actions">'+action+'<button type="button" class="btn on" id="cmpBtn">Compare him</button>'+verdict+'</div>'
-      + (isFinal(r) ? '' : '<p class="hint">Your captain is saved on this device and gets checked after the final whistle.</p>');
+      + (isFinal(r) ? '' : '<p class="hint">Your captain is saved on this device and gets checked after the final whistle.</p>')
+      + (r.priceNote && p.price !== undefined ? '<p class="hint">'+esc(r.priceNote)+'</p>' : '');
     var b = $("capBtn");
     if(b) b.onclick = function(){ store("ucl-captain-"+r.id, isCap ? null : p.id); renderPitches(); renderCard(); };
     $("cmpBtn").onclick = function(){
@@ -906,6 +1103,84 @@ window.UCL_BEFORE = [
       mins: p.mins
     };
   }
+  /* Radar: takes two player objects. Five spokes, each scaled from the centre (0) to the edge (1). */
+  var RADAR_AXES = ["xG per 90", "xA per 90", "minutes", "kind fixture", "form"];
+  function radarScales(r){
+    var pool = r.pool || [];
+    var top = function(i){ var m = pool.reduce(function(a,p){ return p[i]!=null && p[i]>a ? p[i] : a; }, 0); return Math.max(0.1, Math.ceil(m*10)/10); };
+    return { xg: top(3), xa: top(4), form: top(8) };
+  }
+  function radarVals(p, sc){
+    var cl = function(v){ return Math.max(0, Math.min(1, v)); };
+    return [cl(p.xg90/sc.xg), cl(p.xa90/sc.xa), cl(p.mins/90), cl((2 - p.oppXg)/1.5), p.form==null ? 0 : cl(p.form/sc.form)];
+  }
+  function radarChart(A, B, sc){
+    var cx = 190, cy = 158, R = 104;
+    var pt = function(i, v){ var a = (-90 + i*72) * Math.PI/180; return [cx + R*v*Math.cos(a), cy + R*v*Math.sin(a)]; };
+    var poly = function(vals){ return vals.map(function(v, i){ var q = pt(i, v); return q[0].toFixed(1)+","+q[1].toFixed(1); }).join(" "); };
+    var va = radarVals(A, sc), vb = radarVals(B, sc);
+    var s = '<svg class="radar" viewBox="0 0 380 318" role="img" aria-label="Radar chart comparing '+esc(A.name)+' and '+esc(B.name)+' on five measures">';
+    s += '<g class="rg" filter="url(#rough)">' + [0.25,0.5,0.75,1].map(function(f){ return '<polygon points="'+poly([f,f,f,f,f])+'"/>'; }).join("")
+      + [0,1,2,3,4].map(function(i){ var q = pt(i, 1); return '<line x1="'+cx+'" y1="'+cy+'" x2="'+q[0].toFixed(1)+'" y2="'+q[1].toFixed(1)+'"/>'; }).join("") + '</g>';
+    s += '<polygon class="ra" points="'+poly(va)+'"/><polygon class="rb" points="'+poly(vb)+'"/>';
+    [[va,"da"],[vb,"db"]].forEach(function(x){ x[0].forEach(function(v, i){ var q = pt(i, v); s += '<circle class="'+x[1]+'" cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="4.500"/>'; }); });
+    RADAR_AXES.forEach(function(label, i){
+      var q = pt(i, 1.17), anchor = Math.abs(q[0]-cx) < 8 ? "middle" : q[0] > cx ? "start" : "end";
+      s += '<text x="'+q[0].toFixed(1)+'" y="'+(q[1]+4).toFixed(1)+'" text-anchor="'+anchor+'">'+label+'</text>';
+    });
+    return s + '</svg>';
+  }
+  function radarBlock(r, A, B){
+    if(A.line==="GK" || B.line==="GK") return A.xg90 === undefined ? '' : '<p class="cmp-foot">The radar needs attacking numbers, so it is not drawn when a goalkeeper is involved.</p>';
+    if(A.xg90 == null || B.xg90 == null || !r.pool) return '';
+    var f2 = function(v){ return v==null ? "–" : v.toFixed(2); };
+    var rows = [["xG per 90", f2(A.xg90), f2(B.xg90), "expected goals, penalties left out"], ["xA per 90", f2(A.xa90), f2(B.xa90), "expected assists"],
+      ["minutes", A.mins, B.mins, "expected this week"], ["kind fixture", f2(A.oppXg), f2(B.oppXg), "goals the opponent is expected to score; lower is kinder"],
+      ["form", f2(A.form), f2(B.form), "goals plus assists per 90 in the league this season"]];
+    return '<div class="cmp-radar"><div>'+radarChart(A, B, radarScales(r))+'</div><div class="scroll"><table class="rtable"><thead><tr><th>the five spokes</th>'
+      + '<th class="r"><span class="rkey a"></span>'+esc(A.short)+'</th><th class="r"><span class="rkey b"></span>'+esc(B.short)+'</th></tr></thead><tbody>'
+      + rows.map(function(x){ return '<tr><td><b>'+x[0]+'</b><br><small>'+x[3]+'</small></td><td class="r">'+x[1]+'</td><td class="r">'+x[2]+'</td></tr>'; }).join("")
+      + '</tbody></table></div></div>';
+  }
+
+  /* Scatter for the pecking order: every modelled outfield player, xG per 90 against xA per 90. */
+  var LINE_ONE = { FWD: "forward", MID: "midfielder", DEF: "defender" };
+  function renderScatter(){
+    var r = cur(), pool = r.pool, wrap = $("scatterWrap");
+    if(!pool || !pool.length){ wrap.hidden = true; return; }
+    wrap.hidden = false;
+    var W = Math.max(300, Math.round($("scatter").clientWidth || 640)), H = Math.round(W < 520 ? W*0.92 : W*0.58);
+    var L = 40, Rm = 14, T = 26, B = 42, pw = W-L-Rm, ph = H-T-B;
+    var top = function(i, step){ var m = pool.reduce(function(a,p){ return Math.max(a, p[i]); }, 0), t = Math.ceil(m/step)*step; return t - m < step*0.25 ? t + step/2 : t; };
+    var xmax = top(3, 0.2), ymax = top(4, 0.1);
+    var X = function(v){ return L + v/xmax*pw; }, Y = function(v){ return T + ph - v/ymax*ph; };
+    var s = '<svg class="scatter" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Scatter plot: expected goals per 90 across, expected assists per 90 up, one dot per player">';
+    for(var x = 0; x <= xmax + 1e-9; x += 0.2){
+      s += '<line class="gr" x1="'+X(x).toFixed(1)+'" y1="'+T+'" x2="'+X(x).toFixed(1)+'" y2="'+(T+ph)+'"/><text class="tk" x="'+X(x).toFixed(1)+'" y="'+(T+ph+17)+'" text-anchor="middle">'+x.toFixed(1)+'</text>';
+    }
+    for(var y = 0; y <= ymax + 1e-9; y += 0.1){
+      s += '<line class="gr" x1="'+L+'" y1="'+Y(y).toFixed(1)+'" x2="'+(L+pw)+'" y2="'+Y(y).toFixed(1)+'"/><text class="tk" x="'+(L-7)+'" y="'+(Y(y)+4).toFixed(1)+'" text-anchor="end">'+y.toFixed(1)+'</text>';
+    }
+    s += '<g filter="url(#rough)"><line class="ax" x1="'+L+'" y1="'+(T+ph)+'" x2="'+(L+pw)+'" y2="'+(T+ph)+'"/><line class="ax" x1="'+L+'" y1="'+T+'" x2="'+L+'" y2="'+(T+ph)+'"/></g>';
+    s += '<text class="at" x="'+(L+pw)+'" y="'+(H-5)+'" text-anchor="end">expected goals per 90, no penalties →</text>';
+    s += '<text class="at" x="'+(L-30)+'" y="14">↑ expected assists per 90</text>';
+    var line = state.line, order = pool.map(function(p, i){ return i; }).sort(function(a, b){ var k = function(t){ return t===1 ? 2 : t===2 ? 1 : 0; }; return k(pool[a][6]) - k(pool[b][6]); });
+    var labels = "";
+    order.forEach(function(i){
+      var p = pool[i], cx = X(p[3]).toFixed(1), cy = Y(p[4]).toFixed(1), dim = LINE_ONE[line] && p[2] !== line;
+      s += '<g class="pt t'+p[6]+(dim ? ' dim' : '')+'" data-i="'+i+'"><circle class="hit" cx="'+cx+'" cy="'+cy+'" r="12"/><circle class="dot" cx="'+cx+'" cy="'+cy+'" r="5.500"/></g>';
+      if(p[6] === 1 && p[2] !== "DEF" && !dim){
+        var pl = p[7] && find(r, p[7]), right = X(p[3]) > L + pw*0.8;
+        labels += '<text class="lb" x="'+(X(p[3]) + (right ? -9 : 9)).toFixed(1)+'" y="'+(Y(p[4]) - 8).toFixed(1)+'" text-anchor="'+(right ? "end" : "start")+'">'+esc(pl ? pl.short : p[0])+'</text>';
+      }
+    });
+    $("scatter").innerHTML = s + labels + '</svg>';
+    $("scDim").textContent = LINE_ONE[line] ? "Faded dots are not "+LINE_NAME[line]+"." : "";
+    $("scTable").innerHTML = '<table><thead><tr><th>Player</th><th>Team</th><th>Position</th><th class="r">xG per 90</th><th class="r">xA per 90</th><th class="r">Chance to shine</th></tr></thead><tbody>'
+      + pool.slice().sort(function(a, b){ return b[5]-a[5]; }).map(function(p){ return '<tr><td>'+esc(p[0])+'</td><td>'+esc(p[1])+'</td><td>'+LINE_ONE[p[2]]+'</td><td class="r">'+p[3].toFixed(2)+'</td><td class="r">'+p[4].toFixed(2)+'</td><td class="r"><b>'+p[5]+'%</b></td></tr>'; }).join("")
+      + '</tbody></table>';
+  }
+
   function renderComparePick(){
     var r = cur();
     if(!find(r, state.cmpA) || !find(r, state.cmpB) || state.cmpA === state.cmpB){
@@ -953,6 +1228,7 @@ window.UCL_BEFORE = [
     }).join("");
     var note = function(p){ return '<div class="ud"><h4>'+esc(p.short)+'</h4><p class="up"><b>+ biggest upside</b>'+esc(p.upside)+'</p><p class="dn"><b>! biggest risk</b>'+esc(p.risk)+'</p></div>'; };
     $("cmp").innerHTML = '<div class="cmp-top">'+side(A,"a")+'<span class="cmp-vs" aria-hidden="true">v</span>'+side(B,"b")+'</div>'
+      + radarBlock(r, A, B)
       + '<div class="cmp-rows">'+rows+'</div>'
       + '<p class="cmp-verdict">'+esc(cmpVerdict(A, B))+'</p>'
       + (dash ? '<p class="cmp-foot">A dash means that number is not part of how he is judged, or is not published for his position.</p>' : '')
@@ -983,6 +1259,7 @@ window.UCL_BEFORE = [
     $("rankSub").textContent = "The top " + LINE_NAME[line] + " by " + what[line] + "."
       + (line==="DEF" ? " A back four needs two full-backs and two centre-backs, with at most two from one club, so a higher number can miss out." : "");
     LINES.forEach(function(l){ $("l"+l).setAttribute("aria-pressed", String(l===line)); });
+    renderScatter();
     var trow = function(p, xi){ return '<tr><td>'+xi+'</td><td>'+esc(p.pos)+'</td><td>'+esc(p.name)+'</td><td>'+esc(p.team)+'</td><td>'+esc(p.opp)+' ('+p.ha+')</td><td class="r">'+p.mins+'</td><td class="r"><b>'+p.shine+'%</b></td><td class="r">'+p.lo+'–'+p.hi+'%</td><td>'+esc(p.metric)+'</td><td>'+esc(p.stats.map(function(s){ return s[0]+' '+s[1]; }).join(", "))+'</td></tr>'; };
     $("table").innerHTML = '<table><thead><tr><th>XI</th><th>Pos</th><th>Player</th><th>Team</th><th>Opponent</th><th class="r">Min</th><th class="r">Chance</th><th class="r">Range</th><th>Counts as shining</th><th>Detail</th></tr></thead><tbody>'
       + r.xi1.slice().reverse().map(function(p){ return trow(p, "1st"); }).join("")
@@ -1084,6 +1361,26 @@ window.UCL_BEFORE = [
     tip.style.left = x + "px"; tip.style.top = y + "px";
   });
   $("rows").addEventListener("pointerleave", function(){ tip.hidden = true; });
+  function scTip(g){
+    var p = cur().pool[Number(g.dataset.i)], b = g.querySelector(".dot").getBoundingClientRect();
+    tip.innerHTML = '<b>'+esc(p[0])+'</b><br>'+esc(p[1])+' · '+LINE_ONE[p[2]]+'<br>Chance to shine <b>'+p[5]+'%</b><br>xG per 90: '+p[3].toFixed(2)+' · xA per 90: '+p[4].toFixed(2);
+    tip.hidden = false;
+    var x = Math.min(Math.max(8, b.left + b.width/2 - tip.offsetWidth/2), window.innerWidth - tip.offsetWidth - 8), y = b.top - tip.offsetHeight - 8;
+    if(y < 8) y = b.bottom + 8;
+    tip.style.left = x + "px"; tip.style.top = y + "px";
+  }
+  function scClear(){ Array.prototype.forEach.call(document.querySelectorAll("#scatter .pt.on"), function(el){ el.classList.remove("on"); }); }
+  $("scatter").addEventListener("pointerover", function(e){ var g = e.target.closest(".pt"); if(g && e.pointerType !== "touch") scTip(g); });
+  $("scatter").addEventListener("pointerout", function(e){ if(e.pointerType !== "touch" && !document.querySelector("#scatter .pt.on")) tip.hidden = true; });
+  $("scatter").addEventListener("click", function(e){
+    var g = e.target.closest(".pt");
+    scClear();
+    if(g){ g.classList.add("on"); scTip(g); } else tip.hidden = true;
+    e.stopPropagation();
+  });
+  document.addEventListener("click", function(){ if(document.querySelector("#scatter .pt.on")){ scClear(); tip.hidden = true; } });
+  window.addEventListener("scroll", function(){ if(!tip.hidden){ tip.hidden = true; scClear(); } }, { passive: true });
+  var rsz; window.addEventListener("resize", function(){ clearTimeout(rsz); rsz = setTimeout(renderScatter, 160); });
   ["cmpA","cmpB"].forEach(function(id){
     $(id).addEventListener("change", function(){
       var other = id==="cmpA" ? "cmpB" : "cmpA", old = state[id];
