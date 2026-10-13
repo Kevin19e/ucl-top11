@@ -145,6 +145,8 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
   .radar .rb{animation-delay:.12s}
   .bigpct b{animation:numpop .45s ease-out backwards;display:inline-block}
   .cv.win b{animation:numpop .4s .5s ease-out backwards}
+  @keyframes hop{0%{translate:0 0}50%{translate:0 -11px}100%{translate:0 -5px}}
+  .shirt:hover svg{animation:hop .4s ease-out}
   .shirt[aria-pressed="true"]::after{animation:ring .35s ease-out backwards}
   .badge.cap{animation:bob 2.2s ease-in-out infinite}
   .clock span:last-child b{animation:tick .35s ease-out;display:inline-block}
@@ -243,10 +245,13 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
 .rowsp{display:flex;flex-direction:column;gap:6px}
 .prow{display:flex;justify-content:space-evenly;gap:2px}
 .shirt{flex:0 1 120px;min-width:0;background:none;border:0;padding:6px 2px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--chalk);position:relative}
-.shirt svg{width:clamp(44px,12.5vw,66px);height:auto;transition:transform .18s ease;transform:rotate(-3deg)}
+.shirt svg{width:clamp(44px,12.5vw,66px);height:auto;transition:translate .18s ease,scale .18s ease,rotate .18s ease;transform:rotate(-3deg)}
 .prow .shirt:nth-child(even) svg{transform:rotate(2.5deg)}
 .p2 .shirt svg{width:clamp(40px,11vw,56px)}
-.shirt:hover svg{transform:rotate(4deg) translateY(-3px)}
+/* hover uses translate / scale / rotate so it adds to each shirt's own tilt and works on every shirt */
+.shirt:hover svg{translate:0 -5px;scale:1.1;rotate:5deg}
+.shirt .nm{transition:scale .18s ease}
+.shirt:hover .nm{scale:1.06}
 .shirt[aria-pressed="true"]::after{content:"";position:absolute;inset:0 6px 16px;border:3px solid var(--accent);border-radius:var(--blob);transform:rotate(-5deg);pointer-events:none}
 .shirt .nm{font-family:var(--hand);font-weight:700;font-size:clamp(.76rem,2.6vw,.95rem);line-height:1.25;background:var(--tape);color:var(--tape-ink);padding:1px 8px 0;border-radius:3px 6px 4px 7px/6px 3px 7px 4px;transform:rotate(-2deg);box-shadow:1px 1.5px 0 rgba(0,0,0,.28);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .prow .shirt:nth-child(even) .nm{transform:rotate(1.6deg)}
