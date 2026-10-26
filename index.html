@@ -88,6 +88,11 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
 .tab{font-family:var(--hand);font-weight:700;font-size:.95rem;line-height:1.2;padding:4px 14px 2px;border:2px solid var(--ink);border-radius:var(--wob);background:var(--surface)}
 .tab[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
 .tab.soon{border-style:dashed;border-color:var(--muted);background:transparent;color:var(--muted);cursor:default}
+.tabs{align-items:center}
+.tabs-lab{font-family:var(--hand);font-weight:700;font-size:.95rem;color:var(--muted);margin-right:2px}
+.tab.md{min-width:2.3em;padding:4px 9px 2px;text-align:center}
+.tab.totw{background:var(--surface-2);border-style:dotted}
+.tab.soon.nxt{color:var(--ink);border-color:var(--ink)}
 
 /* the "not available" box is the red one */
 .panel.na{background:color-mix(in srgb,var(--bad) 10%,var(--surface))}
@@ -545,7 +550,9 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
   .kick{transform:none}
 }
 @media (max-width:560px){
-  .tabs{margin-left:0}
+  .tabs{margin-left:0;gap:4px}
+  .tabs-lab{font-size:.85rem}
+  .tab.md{min-width:0;width:30px;padding:3px 0 1px;font-size:.9rem}
   .rrow,.axis{grid-template-columns:22px minmax(0,1fr) 3.4rem;row-gap:2px}
   .rrow .track,.axis .ticks{grid-column:1/-1;grid-row:2}
   .axis .lab{display:none}
@@ -1668,6 +1675,19 @@ window.UCL_BEFORE = [
       { name: "Thibaut Courtois", short: "Courtois", team: "Real Madrid", line: "GK", did: "7 saves", match: "Real Madrid 2-1 Inter", kit: ["#1B1F2B", "#C9A227", "#FFFFFF"] }
     ] }
 ];
+
+/* Every league-phase matchday, for the numbered boxes in the top bar (UEFA.com fixtures article). The `id` matches
+   the round in UCL_ROUNDS or UCL_BEFORE once it exists. */
+window.UCL_SCHEDULE = [
+  { id: "md1", label: "Matchday 1", dates: "8–10 September 2026" },
+  { id: "md2", label: "Matchday 2", dates: "13–14 October 2026" },
+  { id: "md3", label: "Matchday 3", dates: "20–21 October 2026" },
+  { id: "md4", label: "Matchday 4", dates: "3–4 November 2026" },
+  { id: "md5", label: "Matchday 5", dates: "24–25 November 2026" },
+  { id: "md6", label: "Matchday 6", dates: "8–9 December 2026" },
+  { id: "md7", label: "Matchday 7", dates: "19–20 January 2027" },
+  { id: "md8", label: "Matchday 8", dates: "27 January 2027" }
+];
 </script>
 <script>
 (function(){
@@ -1713,13 +1733,25 @@ window.UCL_BEFORE = [
       + '</svg>';
   }
 
+  /* One numbered box per league-phase matchday: a forecast opens that round, a UEFA Team of the Week jumps to its
+     pitch at the bottom, a matchday still to come is a dashed box with its dates. */
   function renderTabs(){
-    var h = ROUNDS.slice().reverse().map(function(r){
-      return '<button type="button" class="tab" data-round="'+esc(r.id)+'" aria-pressed="'+(r.id===state.round)+'">'+esc(r.label)+'</button>';
+    var sched = window.UCL_SCHEDULE || [], before = window.UCL_BEFORE || [];
+    var byId = function(list, id){ return list.filter(function(x){ return x.id === id; })[0]; };
+    if(!sched.length){
+      $("tabs").innerHTML = ROUNDS.slice().reverse().map(function(r){
+        return '<button type="button" class="tab" data-round="'+esc(r.id)+'" aria-pressed="'+(r.id===state.round)+'">'+esc(r.label)+'</button>';
+      }).join("");
+      return;
+    }
+    var nextShown = false;
+    $("tabs").innerHTML = '<span class="tabs-lab" aria-hidden="true">Matchday</span>' + sched.map(function(m){
+      var n = esc(m.label.replace(/\D+/g, "")), r = byId(ROUNDS, m.id), b = byId(before, m.id);
+      if(r) return '<button type="button" class="tab md" data-round="'+esc(r.id)+'" aria-pressed="'+(r.id===state.round)+'" aria-label="'+esc(r.label)+'" title="'+esc(r.label+' · '+r.dates)+'">'+n+'</button>';
+      if(b) return '<button type="button" class="tab md totw" data-past="'+esc(b.id)+'" aria-label="'+esc(b.label)+', UEFA Team of the Week" title="'+esc(b.label+' · '+b.dates+' · UEFA Team of the Week, no forecast')+'">'+n+'</button>';
+      var first = !nextShown; nextShown = true;
+      return '<span class="tab md soon'+(first ? ' nxt' : '')+'" aria-label="'+esc(m.label+', '+m.dates+', still to come')+'" title="'+esc(m.label+' · '+m.dates+' · still to come')+'">'+n+'</span>';
     }).join("");
-    var n = ROUNDS[0] && ROUNDS[0].next;
-    if(n) h += '<span class="tab soon" title="The forecast is published the day before">next: '+esc(n.dates)+'</span>';
-    $("tabs").innerHTML = h;
   }
 
   function renderHero(){
@@ -2126,7 +2158,7 @@ window.UCL_BEFORE = [
           }, "the model expected about "+expected(x.xi1).toFixed(1)+" of these 11 to shine")
         + '<div><button type="button" class="btn small" data-round="'+esc(x.id)+'" data-top="1">Open '+esc(x.label)+'</button></div></article>' };
     }).concat(before.map(function(x){
-      return { n: num(x), html: '<article class="sheet"><div class="sheet-head"><div><h3>'+esc(x.label)+'</h3><span class="when">'+esc(x.dates)+'</span></div>'
+      return { n: num(x), html: '<article class="sheet" id="past-'+esc(x.id)+'"><div class="sheet-head"><div><h3>'+esc(x.label)+'</h3><span class="when">'+esc(x.dates)+'</span></div>'
         + '<span class="score">'+esc(x.credit)+'</span></div>'
         + miniPitch(x.xi, function(p){
             return '<div class="shirt">'+jersey(p.kit, "*")+'<span class="nm">'+esc(p.short)+'</span><span class="rk">'+esc(p.did)+'</span><span class="rk tm">'+esc(p.team)+'</span></div>';
@@ -2215,6 +2247,8 @@ window.UCL_BEFORE = [
     if(!e.target.closest("#menu")) closeMenu();
     var j = e.target.closest("[data-jump]");
     if(j){ var el = $(j.dataset.jump); if(el) el.scrollIntoView({ block: "start", behavior: "smooth" }); return; }
+    var pm = e.target.closest("[data-past]");
+    if(pm){ setView("main", "past-" + pm.dataset.past); return; }
     var t = e.target.closest("[data-round]");
     if(t){ state.round = t.dataset.round; state.cmpA = state.cmpB = null; state.sel = cur().xi1.filter(function(p){ return p.line==="FWD"; })[0].id; try{ history.replaceState(null,"","#"+(state.view==="fantasy" ? "fantasy" : state.round)); }catch(x){} renderAll(); if(t.dataset.top) window.scrollTo({ top: 0, behavior: "smooth" }); return; }
     var s = e.target.closest(".shirt");
