@@ -97,7 +97,8 @@ The bottom of the site keeps the best eleven of every earlier matchday, drawn on
 | Round | Dates | Status |
 |---|---|---|
 | Matchday 1 | 8–10 September 2026 | Played before the first forecast. Shown as UEFA's Team of the Week, not a model pick. |
-| Matchday 2 | 13–14 October 2026 | Forecast published 12 October 2026 |
+| Matchday 2 | 13–14 October 2026 | Final: first XI 8/11, second XI 4/11 |
+| Matchday 3 | 20–21 October 2026 | Not forecast (no forecast was published before kick-off) |
 
 ## Files
 
