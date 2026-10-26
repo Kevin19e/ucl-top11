@@ -98,7 +98,8 @@ The bottom of the site keeps the best eleven of every earlier matchday, drawn on
 |---|---|---|
 | Matchday 1 | 8–10 September 2026 | Played before the first forecast. Shown as UEFA's Team of the Week, not a model pick. |
 | Matchday 2 | 13–14 October 2026 | Final: first XI 8/11, second XI 4/11 |
-| Matchday 3 | 20–21 October 2026 | Not forecast (no forecast was published before kick-off) |
+| Matchday 3 | 20–21 October 2026 | No forecast was published before kick-off. Shown as UEFA's Team of the Week, not a model pick. |
+| Matchday 4 | 3–4 November 2026 | Forecast published 26 October 2026 |
 
 ## Files
 
@@ -111,6 +112,7 @@ The bottom of the site keeps the best eleven of every earlier matchday, drawn on
 | `screenshots/` | The pictures used in this README. |
 | `ucl_md2_model.py` | The Matchday 2 model: inputs, method and XI picker. |
 | `ucl_md2_page_data.json` | Written by the model: per-90 rates, form and opponent xG for the radar, and every modelled player for the scatter plot. |
+| `ucl_md4_model.py`, `ucl_md4_page_data.json` | The same for Matchday 4: the Matchday 2 method and constants with new inputs. |
 
 ## Limits
 
