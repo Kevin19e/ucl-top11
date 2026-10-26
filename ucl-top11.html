@@ -320,6 +320,7 @@ h2::after{content:"";display:block;width:min(100%,4.6em);height:12px;margin-top:
 
 /* head to head */
 #compare,#privacy,#signup{scroll-margin-top:84px}
+#elevens,.sheet{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 104px)}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 .cmp-pick{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:center;margin-top:14px}
 .cmp-pick select{width:100%;min-width:0;font-family:var(--hand);font-weight:700;font-size:1rem;line-height:1.2;padding:8px 10px 5px;border:2px solid var(--ink);border-radius:var(--wob);background:var(--surface);color:var(--ink)}
@@ -473,7 +474,7 @@ button.rrow:hover,.rrow[aria-pressed="true"]{background:var(--surface-2)}
 .tip{position:fixed;z-index:40;pointer-events:none;background:var(--ink);color:var(--bg);padding:8px 10px;border-radius:10px 4px 9px 5px;font-size:.84rem;line-height:1.35;max-width:250px}
 details.tbl{margin-top:12px}
 details summary{cursor:pointer;font-family:var(--hand);font-weight:700}
-.scroll{overflow-x:auto;margin-top:10px}
+.scroll{overflow-x:auto;margin-top:10px;position:relative}
 table{border-collapse:collapse;width:100%;font-size:.9rem;font-variant-numeric:tabular-nums}
 th,td{padding:7px 10px;border-bottom:1.5px dashed var(--line);text-align:left;white-space:nowrap}
 th{font-family:var(--hand);font-weight:700;color:var(--muted)}
@@ -541,6 +542,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
 }
 @media (max-width:560px){
   .tabs{margin-left:0;gap:4px}
+  .pages{display:none}  /* the three-lines menu switches pages on a phone, so the bar stays two rows high */
   .tabs-lab{font-size:.85rem}
   .tab.md{min-width:0;width:30px;padding:3px 0 1px;font-size:.9rem}
   .rrow,.axis{grid-template-columns:22px minmax(0,1fr) 3.4rem;row-gap:2px}
@@ -572,7 +574,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
     <button type="button" class="burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span><span></span></button>
     <nav class="menu" id="menu" aria-label="Pages" hidden>
       <button type="button" data-view="main" aria-current="page">This week's elevens<small>The two best elevens, the pecking order and earlier matchdays</small></button>
-      <button type="button" data-view="fantasy">Fantasy corner<small>Compare two players and get the free weekly Fantasy brief</small></button>
+      <button type="button" data-view="fantasy">Fantasy corner<small>Compare two players and get the weekly Fantasy brief</small></button>
     </nav>
     <div class="brand"><span class="logo" aria-hidden="true"></span>UCL Top 11</div>
     <nav class="pages" aria-label="Sections">
@@ -608,7 +610,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
     <p class="doodle" aria-hidden="true">here they are <svg viewBox="0 0 54 36"><path d="M4 6C20 1 40 8 43 30"/><path d="M34 23l9 8 7-11"/></svg></p>
   </section>
 
-  <section class="stage" aria-label="The two elevens">
+  <section class="stage" id="elevens" aria-label="The two elevens">
     <div class="pitch p1 sk">
       <svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         <g fill="none" stroke="var(--chalk-soft)" stroke-width="2" stroke-linecap="round">
@@ -620,7 +622,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
         </g>
       </svg>
       <div class="pitch-in">
-        <div class="pitch-cap"><h2>First XI</h2><span>the number = his chance to shine, in %</span></div>
+        <div class="pitch-cap"><h2>First XI</h2><span id="cap1">the number = his chance to shine, in %</span></div>
         <div class="rowsp" id="xi1"></div>
         <div class="pitch-foot" id="foot1"></div>
       </div>
@@ -637,14 +639,14 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
         </g>
       </svg>
       <div class="pitch-in">
-        <div class="pitch-cap"><h2>Second XI</h2><span>next in line behind them</span></div>
+        <div class="pitch-cap"><h2>Second XI</h2><span id="cap2">next in line behind them</span></div>
         <div class="rowsp" id="xi2"></div>
         <div class="pitch-foot" id="foot2"></div>
       </div>
     </div>
   </section>
 
-  <p class="promo">Playing Champions League Fantasy? <button type="button" class="linkbtn" data-view="fantasy">Open the Fantasy corner</button> to put two players side by side and get the free weekly brief.</p>
+  <p class="promo">Playing Champions League Fantasy? <button type="button" class="linkbtn" data-view="fantasy">Open the Fantasy corner</button> to put two players side by side and get the weekly brief.</p>
 
   <section class="panel sk">
     <div class="panel-head">
@@ -731,7 +733,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
     <div>
       <p class="eyebrow" id="fanEyebrow"></p>
       <h1>Fantasy <mark>corner</mark></h1>
-      <p class="lede">For Champions League Fantasy managers. Put any two of this week's picks side by side, and get a short brief in your inbox before every matchday. It is free while the model earns its record.</p>
+      <p class="lede">For Champions League Fantasy managers. Put any two of this week's picks side by side, and get a short brief in your inbox before every matchday. The best lineup in it is for paying subscribers.</p>
     </div>
   </section>
 
@@ -749,7 +751,7 @@ footer{color:var(--muted);font-family:var(--hand);font-size:.92rem;max-width:68c
         </ul>
       </div>
       <form class="signup-form" id="signupForm" novalidate>
-        <h3>Free for now</h3>
+        <h3>Sign up</h3>
         <label class="check" for="consent"><input type="checkbox" id="consent"><span>I agree to receive the weekly Fantasy brief by email and accept the <button type="button" class="linkbtn" data-jump="privacy">privacy note</button>.</span></label>
         <button type="submit" class="btn" id="signupBtn">Continue to sign up</button>
         <p class="hint" id="signupMsg" role="status"></p>
@@ -1327,7 +1329,7 @@ window.UCL_ROUNDS = [
       ["Dayot Upamecano", "Bayern", "DEF", 0.08, 0.04, 46, 2, "upamecano", 0.22, 77, 0.75],
       ["Jeremie Frimpong", "Liverpool", "DEF", 0.04, 0.16, 46, 0, 0, null, 66, 0.75],
       ["Josha Vagnoman", "Stuttgart", "DEF", 0.13, 0.11, 45, 0, 0, 0.61, 73, 1.0],
-      ["Álex Grimaldo", "Atletico", "DEF", 0.11, 0.21, 45, 0, 0, 0.58, 70, 1.1],
+      ["Álex Grimaldo", "Atlético", "DEF", 0.11, 0.21, 45, 0, 0, 0.58, 70, 1.1],
       ["Deniz Undav", "Stuttgart", "MID", 0.46, 0.22, 45, 1, "undav", 0.0, 65, 1.0],
       ["Kylian Mbappé", "Real Madrid", "FWD", 0.65, 0.2, 44, 2, "mbappe", 1.12, 70, 1.15],
       ["Ermedin Demirović", "Stuttgart", "FWD", 0.49, 0.12, 43, 0, 0, 0.32, 67, 1.0],
@@ -1348,14 +1350,14 @@ window.UCL_ROUNDS = [
       ["Finn Jeltsch", "Stuttgart", "DEF", 0.06, 0.03, 37, 0, 0, 0.24, 77, 1.0],
       ["Joe Gomez", "Liverpool", "DEF", 0.05, 0.02, 37, 0, 0, null, 66, 0.75],
       ["Pau Cubarsí", "Barcelona", "DEF", 0.03, 0.01, 37, 0, 0, 0.0, 81, 0.95],
-      ["Marcos Llorente", "Atletico", "DEF", 0.06, 0.12, 37, 0, 0, 0.16, 73, 1.1],
+      ["Marcos Llorente", "Atlético", "DEF", 0.06, 0.12, 37, 0, 0, 0.16, 73, 1.1],
       ["Nicolas Jackson", "Aston Villa", "FWD", 0.43, 0.13, 37, 0, 0, 0.46, 64, 1.0],
       ["Yan Couto", "Como", "DEF", 0.06, 0.16, 37, 0, 0, 0.18, 73, 1.2],
       ["Héctor Bellerín", "Real Betis", "DEF", 0.04, 0.14, 36, 0, 0, 0.15, 73, 1.15],
       ["Donyell Malen", "Roma", "FWD", 0.79, 0.12, 36, 0, 0, 1.33, 70, 1.8],
       ["Maximilian Mittelstädt", "Stuttgart", "DEF", 0.07, 0.22, 35, 0, 0, 0.41, 52, 1.0],
-      ["Jonathan David", "Atletico", "FWD", 0.55, 0.2, 34, 0, 0, null, 60, 1.1],
-      ["David Hancko", "Atletico", "DEF", 0.06, 0.06, 34, 0, 0, 0.32, 77, 1.1],
+      ["Jonathan David", "Atlético", "FWD", 0.55, 0.2, 34, 0, 0, null, 60, 1.1],
+      ["David Hancko", "Atlético", "DEF", 0.06, 0.06, 34, 0, 0, 0.32, 77, 1.1],
       ["Florian Wirtz", "Liverpool", "MID", 0.26, 0.19, 34, 1, "wirtz", 0.19, 68, 0.75],
       ["Pau Torres", "Aston Villa", "DEF", 0.06, 0.01, 34, 0, 0, null, 73, 1.0],
       ["Trent Alexander-Arnold", "Real Madrid", "DEF", 0.04, 0.15, 34, 0, 0, 0.35, 70, 1.15],
@@ -1386,7 +1388,7 @@ window.UCL_ROUNDS = [
       ["Hakan Çalhanoğlu", "Inter", "MID", 0.08, 0.17, 27, 0, 0, null, 67, 0.9],
       ["Gerard Moreno", "Villarreal", "FWD", 0.38, 0.2, 26, 0, 0, 0.46, 57, 1.2],
       ["Maximilian Beier", "Dortmund", "FWD", 0.37, 0.21, 26, 0, 0, 0.5, 62, 1.3],
-      ["Álex Baena", "Atletico", "MID", 0.2, 0.3, 26, 0, 0, 1.09, 62, 1.1],
+      ["Álex Baena", "Atlético", "MID", 0.2, 0.3, 26, 0, 0, 1.09, 62, 1.1],
       ["Arda Güler", "Real Madrid", "MID", 0.26, 0.39, 26, 0, 0, 0.62, 56, 1.15],
       ["Jude Bellingham", "Real Madrid", "MID", 0.29, 0.23, 26, 0, 0, 0.72, 65, 1.15],
       ["Paulo Dybala", "Roma", "FWD", 0.33, 0.41, 26, 0, 0, 0.72, 62, 1.8],
@@ -1740,7 +1742,7 @@ window.UCL_SCHEDULE = [
       if(r) return '<button type="button" class="tab md" data-round="'+esc(r.id)+'" aria-pressed="'+(r.id===state.round)+'" aria-label="'+esc(r.label)+'" title="'+esc(r.label+' · '+r.dates)+'">'+n+'</button>';
       if(b) return '<button type="button" class="tab md totw" data-past="'+esc(b.id)+'" aria-label="'+esc(b.label)+', UEFA Team of the Week" title="'+esc(b.label+' · '+b.dates+' · UEFA Team of the Week, no forecast')+'">'+n+'</button>';
       var first = !nextShown; nextShown = true;
-      return '<span class="tab md soon'+(first ? ' nxt' : '')+'" aria-label="'+esc(m.label+', '+m.dates+', still to come')+'" title="'+esc(m.label+' · '+m.dates+' · still to come')+'">'+n+'</span>';
+      return '<span class="tab md soon'+(first ? ' nxt' : '')+'" title="'+esc(m.label+' · '+m.dates+' · still to come')+'"><span aria-hidden="true">'+n+'</span><span class="vh">'+esc(m.label+', '+m.dates+', still to come')+'</span></span>';
     }).join("");
   }
 
@@ -1794,8 +1796,16 @@ window.UCL_SCHEDULE = [
     $(elId).innerHTML = html;
     $(footId).textContent = isFinal(r) ? "✓ shone · ✕ blank" : footText;
   }
+  function openRound(id){
+    state.round = id; state.cmpA = state.cmpB = null;
+    state.sel = (cur().xi1.filter(function(p){ return p.line==="FWD"; })[0] || cur().xi1[0]).id;
+    try{ history.replaceState(null, "", "#"+(state.view==="fantasy" ? "fantasy" : state.round)); }catch(x){}
+    renderAll();
+  }
   function renderPitches(){
     var r = cur();
+    $("cap1").textContent = r.label + " · the number = his chance to shine, in %";
+    $("cap2").textContent = r.label + " · next in line behind them";
     renderPitch("xi1", r.xi1, "foot1", "about " + expected(r.xi1).toFixed(1) + " of these 11 should shine");
     renderPitch("xi2", r.xi2, "foot2", "about " + expected(r.xi2).toFixed(1) + " of these 11 should shine");
   }
@@ -2001,7 +2011,7 @@ window.UCL_SCHEDULE = [
       }
     });
     $("scatter").innerHTML = s + labels + '</svg>';
-    $("scDim").textContent = LINE_ONE[line] ? "Faded dots are not "+LINE_NAME[line]+"." : "";
+    $("scDim").textContent = LINE_ONE[line] ? "Faded dots are not "+LINE_NAME[line]+"." : "Keepers are not plotted here.";
     $("scTable").innerHTML = '<table><thead><tr><th>Player</th><th>Team</th><th>Position</th><th class="r">xG per 90</th><th class="r">xA per 90</th><th class="r">Chance to shine</th></tr></thead><tbody>'
       + pool.slice().sort(function(a, b){ return b[5]-a[5]; }).map(function(p){ return '<tr><td>'+esc(p[0])+'</td><td>'+esc(p[1])+'</td><td>'+LINE_ONE[p[2]]+'</td><td class="r">'+p[3].toFixed(2)+'</td><td class="r">'+p[4].toFixed(2)+'</td><td class="r"><b>'+p[5]+'%</b></td></tr>'; }).join("")
       + '</tbody></table>';
@@ -2240,7 +2250,13 @@ window.UCL_SCHEDULE = [
     var pm = e.target.closest("[data-past]");
     if(pm){ setView("main", "past-" + pm.dataset.past); return; }
     var t = e.target.closest("[data-round]");
-    if(t){ state.round = t.dataset.round; state.cmpA = state.cmpB = null; state.sel = cur().xi1.filter(function(p){ return p.line==="FWD"; })[0].id; try{ history.replaceState(null,"","#"+(state.view==="fantasy" ? "fantasy" : state.round)); }catch(x){} renderAll(); if(t.dataset.top) window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+    if(t){
+      openRound(t.dataset.round);
+      /* take the reader to that matchday: its two elevens on the main page, the top of the Fantasy corner there */
+      if(state.view === "main") $("elevens").scrollIntoView({ block: "start" });
+      else window.scrollTo(0, 0);
+      return;
+    }
     var s = e.target.closest(".shirt");
     if(s){ select(s.dataset.id, false); return; }
     var row = e.target.closest("button.rrow");
@@ -2287,8 +2303,9 @@ window.UCL_SCHEDULE = [
   $("signupForm").addEventListener("submit", function(e){ e.preventDefault(); signupSubmit(); });
   document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeMenu(); });
   window.addEventListener("hashchange", function(){
-    var want = (location.hash||"").slice(1) === "fantasy" ? "fantasy" : "main";
+    var h = (location.hash||"").slice(1), want = h === "fantasy" ? "fantasy" : "main";
     if(want !== state.view) setView(want);
+    if(want === "main" && h !== state.round && ROUNDS.some(function(r){ return r.id === h; })) openRound(h);
   });
   ["cmpA","cmpB"].forEach(function(id){
     $(id).addEventListener("change", function(){
